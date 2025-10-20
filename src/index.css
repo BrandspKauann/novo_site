@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design system for credit insurance premium website
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 215 25% 27%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 27%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 27%;
+
+    /* Premium blue corporate palette */
+    --primary: 213 94% 17%;
+    --primary-foreground: 0 0% 98%;
+    --primary-hover: 213 94% 23%;
+
+    /* Secondary gold accent */
+    --secondary: 45 100% 50%;
+    --secondary-foreground: 0 0% 0%;
+    --secondary-hover: 45 100% 55%;
+
+    /* Trust & reliability colors */
+    --trust-blue: 220 91% 48%;
+    --trust-blue-light: 220 91% 55%;
+    --corporate-gray: 215 16% 47%;
+    --corporate-gray-light: 215 16% 65%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(213 94% 17%), hsl(220 91% 48%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(220 13% 97%));
+    --gradient-cta: linear-gradient(135deg, hsl(45 93% 58%), hsl(45 93% 65%));
+
+    /* Shadows */
+    --shadow-premium: 0 10px 40px -10px hsl(213 94% 17% / 0.15);
+    --shadow-card: 0 4px 20px -4px hsl(215 25% 27% / 0.1);
+    --shadow-gold: 0 0 30px hsl(45 93% 58% / 0.3);
+
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --muted: 220 13% 97%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 220 91% 48%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 215 25% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 215 25% 15%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 215 25% 15%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 220 91% 55%;
+    --primary-foreground: 215 25% 11%;
+    --primary-hover: 220 91% 48%;
+
+    --secondary: 45 93% 65%;
+    --secondary-foreground: 215 25% 11%;
+    --secondary-hover: 45 93% 58%;
+
+    --muted: 215 25% 15%;
+    --muted-foreground: 215 16% 65%;
+
+    --accent: 220 91% 55%;
+    --accent-foreground: 215 25% 11%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Trust & reliability colors - dark mode */
+    --trust-blue: 220 91% 65%;
+    --trust-blue-light: 220 91% 70%;
+    --corporate-gray: 215 16% 65%;
+    --corporate-gray-light: 215 16% 75%;
+
+    /* Gradients - dark mode */
+    --gradient-hero: linear-gradient(135deg, hsl(220 91% 55%), hsl(220 91% 65%));
+    --gradient-card: linear-gradient(145deg, hsl(215 25% 15%), hsl(215 25% 18%));
+    --gradient-cta: linear-gradient(135deg, hsl(45 93% 65%), hsl(45 93% 70%));
+
+    /* Shadows - dark mode */
+    --shadow-premium: 0 10px 40px -10px hsl(220 91% 55% / 0.3);
+    --shadow-card: 0 4px 20px -4px hsl(210 40% 98% / 0.1);
+    --shadow-gold: 0 0 30px hsl(45 93% 65% / 0.4);
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
