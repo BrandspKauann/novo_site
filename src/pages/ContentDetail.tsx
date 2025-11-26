@@ -97,13 +97,14 @@ const ContentDetail = () => {
         {/* Background image com opacidade */}
         {article.image_url && (
           <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-35"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50"
             style={{ backgroundImage: `url(${article.image_url})` }}
           />
         )}
         
         {/* Overlay escuro para melhorar legibilidade do texto */}
-        <div className="absolute inset-0 bg-gradient-to-b from-trust-blue/95 via-trust-blue/90 to-trust-blue/95" />
+        <div className="absolute inset-0 bg-gradient-to-b from-trust-blue via-trust-blue to-trust-blue" />
+        <div className="absolute inset-0 bg-black/40" />
         
         {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden">
