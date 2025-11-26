@@ -17,8 +17,9 @@ export default async function handler(
   // Buscar artigos do Supabase
   let articles: any[] = [];
   try {
-    const supabaseUrl = process.env.VITE_SUPABASE_URL || '';
-    const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
+    // Na Vercel, as variáveis de ambiente podem ter prefixo VITE_ ou não
+    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || '';
+    const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || '';
     
     if (supabaseUrl && supabaseKey) {
       const supabase = createClient(supabaseUrl, supabaseKey);
@@ -31,7 +32,12 @@ export default async function handler(
 
       if (!error && data) {
         articles = data;
+        console.log(`Sitemap: ${articles.length} artigos encontrados`);
+      } else if (error) {
+        console.error("Erro ao buscar artigos:", error);
       }
+    } else {
+      console.error("Variáveis de ambiente do Supabase não configuradas");
     }
   } catch (error) {
     console.error("Erro ao buscar artigos:", error);
@@ -51,13 +57,14 @@ export default async function handler(
   const articleUrls = articles.map((article) => {
     const slug = article.slug || article.id;
     const url = `${baseUrl}/conteudo/${slug}`;
+    const lastmod = article.updated_at
+      ? new Date(article.updated_at).toISOString().split("T")[0]
+      : currentDate;
     return {
       url: escapeXml(url),
-      priority: "0.7",
+      priority: "0.6",
       changefreq: "monthly",
-      lastmod: article.updated_at
-        ? new Date(article.updated_at).toISOString().split("T")[0]
-        : currentDate,
+      lastmod: lastmod,
     };
   });
 
