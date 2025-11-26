@@ -94,6 +94,17 @@ const ContentDetail = () => {
       <Header />
       <article className="bg-background min-h-screen">
       <div className="bg-gradient-hero py-20 sm:py-24 md:py-28 relative overflow-hidden">
+        {/* Background image com opacidade */}
+        {article.image_url && (
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-35"
+            style={{ backgroundImage: `url(${article.image_url})` }}
+          />
+        )}
+        
+        {/* Overlay escuro para melhorar legibilidade do texto */}
+        <div className="absolute inset-0 bg-gradient-to-b from-trust-blue/95 via-trust-blue/90 to-trust-blue/95" />
+        
         {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
