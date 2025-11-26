@@ -6,7 +6,6 @@ import BenefitsSection from "@/components/BenefitsSection";
 import ServicesSection from "@/components/ServicesSection";
 import BlogSection from "@/components/BlogSection";
 import Footer from "@/components/Footer";
-import ScrollToTop from "@/components/ScrollToTop";
 
 const Index = () => {
   return (
@@ -19,7 +18,6 @@ const Index = () => {
       <ServicesSection />
       <BlogSection />
       <Footer />
-      <ScrollToTop />
     </div>
   );
 };
