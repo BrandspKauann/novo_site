@@ -154,7 +154,7 @@ const ServicesSection = () => {
                 variant="outline" 
                 size="lg" 
                 className="border-2 border-white/90 text-white hover:bg-white/10 backdrop-blur-sm bg-white/5 shadow-lg hover:shadow-xl transition-all"
-                onClick={() => window.open(whatsappLink, '_blank')}
+                onClick={() => window.open("https://www.coface.com.br/sobre-nos/coface-no-brasil", '_blank')}
               >
                 Mais sobre a Coface
                 <Globe className="ml-2 h-4 w-4" />
