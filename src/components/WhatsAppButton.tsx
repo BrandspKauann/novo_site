@@ -25,10 +25,10 @@ const WhatsAppButton = () => {
           <Button
             onClick={handleClick}
             size="lg"
-            className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white shadow-2xl hover:shadow-[#25D366]/50 transition-all duration-300 hover:scale-110 group"
+            className="fixed bottom-6 left-6 z-50 h-24 w-24 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white shadow-2xl hover:shadow-[#25D366]/50 transition-all duration-300 hover:scale-110 group"
             aria-label="Falar no WhatsApp"
           >
-            <MessageCircle className="h-7 w-7" />
+            <MessageCircle className="h-10 w-10" />
             <span className="sr-only">Falar no WhatsApp</span>
             
             {/* Efeito de pulso */}
