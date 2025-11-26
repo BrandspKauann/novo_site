@@ -102,9 +102,9 @@ const ContentDetail = () => {
           />
         )}
         
-        {/* Overlay escuro para melhorar legibilidade do texto */}
-        <div className="absolute inset-0 bg-gradient-to-b from-trust-blue via-trust-blue to-trust-blue" />
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Overlay escuro com degradê para melhorar legibilidade do texto */}
+        <div className="absolute inset-0 bg-gradient-to-br from-trust-blue via-blue-900/90 to-trust-blue" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/30 to-black/50" />
         
         {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden">
