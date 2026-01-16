@@ -18,6 +18,7 @@ export interface Article {
   published: boolean;
   featured: boolean;
   order_index: number;
+  site_id: string;
   created_at: string;
   updated_at: string;
 }
@@ -41,6 +42,7 @@ export interface ArticleInsert {
   published?: boolean;
   featured?: boolean;
   order_index?: number;
+  site_id?: string;
 }
 
 export interface ArticleUpdate {

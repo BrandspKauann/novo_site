@@ -98,6 +98,17 @@ const BlogSection = () => {
                 </AnimatedSection>
               ))}
             </div>
+            <div className="flex justify-center mt-8">
+              <Button
+                variant="hero"
+                size="lg"
+                onClick={() => navigate("/conteudo")}
+                className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
+              >
+                Ver mais artigos
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+            </div>
           </>
         )}
 

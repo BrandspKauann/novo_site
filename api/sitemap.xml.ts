@@ -1,6 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 
+const SITE_ID = 'hirayama';
+
 export default async function handler(
   req: VercelRequest,
   res: VercelResponse
@@ -53,12 +55,13 @@ export default async function handler(
       } else {
         console.log(`Sitemap: Total de artigos no banco: ${allData?.length || 0}`);
         
-        // Agora buscar apenas os publicados
+        // Agora buscar apenas os publicados do site específico
         // Usar service_role key se disponível para bypass RLS, senão usar anon key
         const { data, error } = await supabase
           .from("articles")
           .select("id, slug, updated_at")
           .eq("published", true)
+          .eq("site_id", SITE_ID)
           .order("updated_at", { ascending: false })
           .limit(500); // Limite máximo de 500 artigos
 

@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { Article } from "@/types/article";
+import { SITE_ID } from "@/config/site";
 
 export const generateSitemap = async (): Promise<string> => {
   const baseUrl = "https://www.segurosdecredito.com.br";
@@ -18,6 +19,7 @@ export const generateSitemap = async (): Promise<string> => {
       .from("articles")
       .select("id, slug, updated_at")
       .eq("published", true)
+      .eq("site_id", SITE_ID)
       .order("updated_at", { ascending: false });
 
     if (!error && data) {

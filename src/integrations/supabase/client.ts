@@ -5,6 +5,10 @@ import type { Database } from './types';
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
 const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
 
+// #region agent log
+fetch('http://127.0.0.1:7242/ingest/28d736e8-2ade-4952-ab85-87fba4e338a6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'client.ts:8',message:'Supabase client initialization',data:{supabaseUrl:SUPABASE_URL,hasUrl:!!SUPABASE_URL,hasKey:!!SUPABASE_PUBLISHABLE_KEY,urlLength:SUPABASE_URL.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+// #endregion
+
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 

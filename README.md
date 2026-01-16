@@ -2,7 +2,7 @@
 
 Este é o repositório do projeto **Site Seguro de Crédito Empresarial** (`credit-shield-buddy`), uma aplicação desenvolvida com o objetivo de oferecer uma solução digital para a proteção do fluxo de caixa de empresas.
 
-O projeto visa a **Blindagem do fluxo de caixa** para companhias que realizam vendas a prazo, focando na cobertura contra inadimplência. O site destaca a parceria oficial com a **Coface**, líder mundial em seguro de crédito, prometendo até 90% de cobertura.
+O projeto visa a **Blindagem do fluxo de caixa** para companhias que realizam vendas a prazo, focando na cobertura contra inadimplência. O site oferece soluções de seguro de crédito empresarial com até 90% de cobertura.
 
 ---
 

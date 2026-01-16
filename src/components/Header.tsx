@@ -18,7 +18,15 @@ const Header = () => {
   const location = useLocation();
   const whatsappLink = "https://wa.link/d3f6ih";
 
-  const menuItems: Array<{ label: string; href: string; type: "route" | "anchor" }> = [];
+  const menuItems: Array<{ label: string; href: string; type: "route" | "anchor" }> = [
+    { label: "Início", href: "/", type: "route" },
+    { label: "O que é", href: "#o-que-e", type: "anchor" },
+    { label: "Benefícios", href: "#beneficios", type: "anchor" },
+    { label: "Cases", href: "#casos", type: "anchor" },
+    { label: "Serviços", href: "#servicos", type: "anchor" },
+    { label: "Diagnóstico", href: "#diagnostico", type: "anchor" },
+    { label: "Conteúdo", href: "/conteudo", type: "route" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,7 +69,7 @@ const Header = () => {
 
   return (
     <header 
-      className={`w-full bg-background/98 backdrop-blur-xl border-b border-border/50 sticky top-0 z-50 transition-all duration-500 ${
+      className={`w-full bg-white dark:bg-background border-b border-border sticky top-0 z-50 transition-all duration-500 ${
         isScrolled ? "shadow-lg shadow-primary/5" : "shadow-sm"
       }`}
     >

@@ -26,7 +26,7 @@ const Hero = () => {
   const features = [
     "Proteção 360°",
     "Crescimento Seguro",
-    "Parceiro Coface"
+    "Cobertura até 90%"
   ];
 
   const parallaxOffset = Math.min(scrollY * 0.3, 200);
@@ -70,7 +70,7 @@ const Hero = () => {
               <Shield className="h-5 w-5 text-secondary" />
             </div>
             <span className="text-secondary font-semibold text-sm sm:text-base bg-secondary/10 px-4 py-2 rounded-full">
-              Parceria oficial Coface
+              Proteção Completa
             </span>
           </div>
           

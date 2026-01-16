@@ -32,7 +32,7 @@ const Footer = () => {
                 </p>
               </div>
               <p className="text-primary-foreground/90 mb-6 sm:mb-8 leading-relaxed max-w-md text-sm sm:text-base">
-                Parceria oficial Coface – líder mundial em seguro de crédito e inteligência de riscos. 
+                Líder em seguro de crédito e inteligência de riscos. 
                 Protegemos o fluxo de caixa de empresas que vendem a prazo.
               </p>
               <div className="space-y-3 sm:space-y-4">
@@ -162,6 +162,18 @@ const Footer = () => {
           </div>
         </AnimatedSection>
         
+        {/* Disclaimer Section */}
+        <AnimatedSection animationType="fade" delay={200}>
+          <div className="border-t border-primary-foreground/20 pt-6 sm:pt-8 mb-6 sm:mb-8">
+            <div className="max-w-4xl mx-auto">
+              <p className="text-primary-foreground/70 text-xs sm:text-sm leading-relaxed text-center italic">
+                Os conteúdos e iniciativas aqui apresentados são de responsabilidade exclusiva de seus respectivos autores. 
+                A Coface não se responsabiliza por informações, serviços ou atividades realizadas por terceiros.
+              </p>
+            </div>
+          </div>
+        </AnimatedSection>
+
         {/* Copyright Section */}
         <AnimatedSection animationType="fade" delay={200}>
           <div className="border-t border-primary-foreground/20 pt-8 text-center">

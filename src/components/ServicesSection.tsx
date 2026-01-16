@@ -126,7 +126,7 @@ const ServicesSection = () => {
           ))}
         </div>
 
-        {/* Partnership CTA */}
+        {/* CTA Section */}
         <div 
           ref={ctaRef}
           className={`bg-gradient-hero rounded-3xl p-8 sm:p-10 md:p-12 text-center shadow-premium relative overflow-hidden scroll-animate-fade ${ctaVisible ? "visible" : ""}`}
@@ -134,11 +134,11 @@ const ServicesSection = () => {
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5"></div>
           <div className="relative z-10 max-w-4xl mx-auto">
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-foreground mb-4 sm:mb-6">
-              Parceria oficial com a Coface
+              Proteja seu fluxo de caixa agora
             </h3>
             <p className="text-base sm:text-lg md:text-xl text-primary-foreground/90 mb-6 sm:mb-8 leading-relaxed">
-              Líder mundial em seguro de crédito e inteligência de riscos, 
-              a Coface está presente em mais de 100 países e protege empresas há mais de 70 anos.
+              Converse com nossos especialistas e descubra como proteger sua empresa 
+              contra inadimplência com soluções completas de seguro de crédito.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
@@ -149,15 +149,6 @@ const ServicesSection = () => {
               >
                 Falar com Especialista
                 <Phone className="ml-2 h-4 w-4" />
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="border-2 border-white/90 text-white hover:bg-white/10 backdrop-blur-sm bg-white/5 shadow-lg hover:shadow-xl transition-all"
-                onClick={() => window.open("https://www.coface.com.br/sobre-nos/coface-no-brasil", '_blank')}
-              >
-                Mais sobre a Coface
-                <Globe className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>
