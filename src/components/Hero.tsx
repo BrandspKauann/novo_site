@@ -71,13 +71,8 @@ const Hero = () => {
           </h1>
           
           {/* Description */}
-          <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/95 mb-5 sm:mb-6 max-w-4xl leading-relaxed font-medium">
+          <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/95 mb-8 sm:mb-10 max-w-4xl leading-relaxed font-medium">
             Blindagem do fluxo de caixa para empresas que vendem a prazo.
-          </p>
-          
-          <p className="text-base sm:text-lg md:text-xl text-secondary/95 font-semibold mb-8 sm:mb-10 max-w-3xl leading-relaxed">
-            Você protege sua fábrica, seu estoque e sua equipe. 
-            <span className="block mt-2">Mas quem protege o seu contas a receber?</span>
           </p>
           
           {/* CTA Buttons */}
