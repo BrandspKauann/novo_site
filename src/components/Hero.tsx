@@ -1,5 +1,5 @@
 import { Button } from "./ui/button";
-import { ArrowRight, Shield, TrendingUp, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import heroImage from "@/assets/hero-credit-insurance.jpg";
 import { useEffect, useRef, useState } from "react";
 
@@ -64,16 +64,6 @@ const Hero = () => {
         style={{ transform: `translateY(${contentOffset}px)` }}
       >
         <div className="max-w-5xl">
-          {/* Badge */}
-          <div className="flex items-center space-x-2 mb-6 sm:mb-8">
-            <div className="flex items-center justify-center w-10 h-10 bg-secondary/20 rounded-full">
-              <Shield className="h-5 w-5 text-secondary" />
-            </div>
-            <span className="text-secondary font-semibold text-sm sm:text-base bg-secondary/10 px-4 py-2 rounded-full">
-              Proteção Completa
-            </span>
-          </div>
-          
           {/* Heading */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 sm:mb-8 leading-[1.1] tracking-tight">
             Seguro de Crédito

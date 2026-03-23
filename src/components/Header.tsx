@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
 import {
   Sheet,
   SheetContent,
@@ -77,8 +76,21 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Brand Name */}
           <div className="flex items-center gap-6">
-            <a href="/" className="text-lg sm:text-xl font-bold text-primary hover:text-trust-blue transition-colors">
-              Hirayama Seguros de Crédito
+            <a
+              href="/"
+              className="group inline-flex items-baseline gap-x-1 sm:gap-x-1.5 min-w-0"
+            >
+              <span className="text-base sm:text-lg md:text-xl font-bold text-primary group-hover:text-trust-blue transition-colors leading-none">
+                Seguros de
+              </span>
+              <span className="inline-flex flex-col items-start leading-none">
+                <span className="text-base sm:text-lg md:text-xl font-bold text-primary group-hover:text-trust-blue transition-colors leading-none">
+                  Crédito
+                </span>
+                <span className="text-[0.65rem] sm:text-xs font-medium text-muted-foreground group-hover:text-primary/70 transition-colors tracking-tight -mt-1 leading-none whitespace-nowrap">
+                  by Hirayama
+                </span>
+              </span>
             </a>
             
             {/* Desktop Navigation */}
@@ -97,8 +109,6 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-            <ThemeToggle />
-            
             <Button 
               variant="hero" 
               size="lg" 
