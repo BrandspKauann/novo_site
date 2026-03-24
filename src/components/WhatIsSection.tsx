@@ -1,7 +1,29 @@
 import { Card, CardContent } from "./ui/card";
-import { Shield, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { DollarSign, AlertTriangle, CheckCircle2 } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+
+const cobrancaSemSeguroItems = [
+  "Após o problema acontecer",
+  "Sem garantia de recebimento",
+  "Tentativa de recuperação",
+  "Prejuízo direto no fluxo de caixa em caso de inadimplência",
+  "Crédito concedido sem respaldo objetivo do risco",
+  "Custos extras com jurídico, cobrança e tempo da equipe",
+  "Dificuldade para planejar receitas com previsibilidade",
+  "Relacionamento comercial exposto a calotes",
+];
+
+const cobrancaComSeguroItems = [
+  "Análise antes da venda",
+  "Garantia de recebimento",
+  "Indenização automática",
+  "Limite de crédito alinhado ao perfil do comprador",
+  "Até 90% do valor pode ser indenizado, conforme apólice",
+  "Cobrança administrada pela seguradora após sinistro",
+  "Decisões de venda a prazo com mais segurança",
+  "Fluxo de caixa menos vulnerável a imprevistos",
+];
 
 const WhatIsSection = () => {
   const { elementRef: statRef, isVisible: statVisible } = useScrollAnimation({
@@ -14,70 +36,35 @@ const WhatIsSection = () => {
     <section id="o-que-e" className="py-16 sm:py-20 md:py-24 lg:py-28 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-4">
 
-        {/* Definição Visual */}
-        <div className="max-w-5xl mx-auto mb-16 sm:mb-20">
-          <AnimatedSection animationType="fade" delay={100}>
-            <Card className="bg-gradient-to-br from-trust-blue/10 via-primary/5 to-background border-2 border-trust-blue/20 shadow-premium overflow-hidden">
-              <CardContent className="p-8 sm:p-12">
-                <div className="flex flex-col md:flex-row items-center gap-8">
-                  <div className="flex-shrink-0">
-                    <div className="w-32 h-32 bg-gradient-to-br from-trust-blue to-primary rounded-3xl flex items-center justify-center shadow-lg">
-                      <Shield className="h-16 w-16 text-white" />
-                    </div>
-                  </div>
-                  <div className="flex-1 text-center md:text-left">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
-                      Proteção para suas vendas a prazo
-                    </h3>
-                    <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-4">
-                      Se um cliente não pagar, a seguradora indeniza
-                    </p>
-                    <div className="flex items-center justify-center md:justify-start gap-2 text-3xl sm:text-4xl font-bold text-trust-blue">
-                      <span>até 90%</span>
-                      <span className="text-muted-foreground text-xl">do valor</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </AnimatedSection>
-        </div>
-
-        {/* Comparação Visual: Cobrança sem seguro vs com seguro */}
-        <div className="max-w-6xl mx-auto mb-16 sm:mb-20">
+        {/* Comparação: com vs sem seguro */}
+        <div className="max-w-7xl mx-auto mb-16 sm:mb-20">
           <AnimatedSection animationType="slide-up" delay={200}>
-            <h3 className="text-2xl sm:text-3xl font-bold text-foreground text-center mb-8 sm:mb-12">
-              Cobrança sem seguro vs Cobrança com seguro
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground text-center mb-8 sm:mb-12 leading-tight max-w-4xl mx-auto px-2">
+              Por que eu deveria ter um seguro para minhas cobranças?
             </h3>
           </AnimatedSection>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
             {/* Cobrança sem seguro */}
             <AnimatedSection animationType="slide-up" delay={300}>
-              <Card className="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20 border-2 border-orange-500/30 shadow-card h-full hover:shadow-premium transition-all duration-500">
-                <CardContent className="p-6 sm:p-8">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center">
-                      <AlertTriangle className="h-8 w-8 text-white" />
+              <Card className="rounded-sm bg-gradient-to-br from-red-50 via-rose-50/80 to-red-100/60 dark:from-red-950/25 dark:via-red-950/15 dark:to-red-950/20 border-2 border-red-500/35 shadow-card h-full hover:shadow-premium transition-all duration-500">
+                <CardContent className="p-5 sm:px-8 sm:py-6">
+                  <div className="flex items-center gap-4 mb-5 sm:mb-6 pb-5 border-b border-red-200/60 dark:border-red-900/40">
+                    <div className="w-[5.25rem] h-12 sm:w-32 sm:h-14 bg-red-600 rounded-sm flex items-center justify-center shrink-0 shadow-sm">
+                      <AlertTriangle className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h4 className="text-xl sm:text-2xl font-bold text-foreground">Cobrança sem seguro</h4>
                       <p className="text-sm text-muted-foreground">Ação reativa</p>
                     </div>
                   </div>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <AlertTriangle className="h-5 w-5 text-orange-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm sm:text-base text-muted-foreground">Após o problema acontecer</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <AlertTriangle className="h-5 w-5 text-orange-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm sm:text-base text-muted-foreground">Sem garantia de recebimento</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <AlertTriangle className="h-5 w-5 text-orange-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm sm:text-base text-muted-foreground">Tentativa de recuperação</span>
-                    </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-2.5 sm:gap-y-3">
+                    {cobrancaSemSeguroItems.map((text) => (
+                      <div key={text} className="flex items-start gap-2.5">
+                        <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
+                        <span className="text-sm sm:text-base text-muted-foreground leading-snug">{text}</span>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
@@ -85,30 +72,24 @@ const WhatIsSection = () => {
 
             {/* Cobrança com seguro */}
             <AnimatedSection animationType="slide-up" delay={400}>
-              <Card className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border-2 border-green-500/30 shadow-card h-full hover:shadow-premium transition-all duration-500">
-                <CardContent className="p-6 sm:p-8">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center">
-                      <Shield className="h-8 w-8 text-white" />
+              <Card className="rounded-sm bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border-2 border-green-500/30 shadow-card h-full hover:shadow-premium transition-all duration-500">
+                <CardContent className="p-5 sm:px-8 sm:py-6">
+                  <div className="flex items-center gap-4 mb-5 sm:mb-6 pb-5 border-b border-green-200/60 dark:border-green-900/40">
+                    <div className="w-[5.25rem] h-12 sm:w-32 sm:h-14 bg-green-600 rounded-sm flex items-center justify-center shrink-0 shadow-sm">
+                      <DollarSign className="h-8 w-8 sm:h-9 sm:w-9 text-white stroke-[2.5]" aria-hidden />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h4 className="text-xl sm:text-2xl font-bold text-foreground">Cobrança com seguro</h4>
                       <p className="text-sm text-muted-foreground">Proteção preventiva</p>
                     </div>
                   </div>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm sm:text-base text-muted-foreground">Análise antes da venda</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm sm:text-base text-muted-foreground">Garantia de recebimento</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm sm:text-base text-muted-foreground">Indenização automática</span>
-                    </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-2.5 sm:gap-y-3">
+                    {cobrancaComSeguroItems.map((text) => (
+                      <div key={text} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                        <span className="text-sm sm:text-base text-muted-foreground leading-snug">{text}</span>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>

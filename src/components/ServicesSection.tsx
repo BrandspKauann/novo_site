@@ -1,15 +1,21 @@
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
-import { Globe, Phone, ArrowRight, Shield, Database, TrendingUp } from "lucide-react";
+import { Phone, ArrowRight, Shield, Database, TrendingUp } from "lucide-react";
 import protectionIcon from "@/assets/protection-icon.jpg";
 import intelligenceIcon from "@/assets/intelligence-icon.jpg";
 import collectionIcon from "@/assets/collection-icon.jpg";
 import AnimatedSection from "./AnimatedSection";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useSpecialistContact } from "@/contexts/SpecialistContactContext";
 
 const ServicesSection = () => {
+  const { openSpecialistForm } = useSpecialistContact();
   const whatsappLink = "https://wa.link/d3f6ih";
   
+  const cofaceUrba360Url =
+    "https://www.coface.com.br/business-information/urba360-a-ferramenta-de-avaliacao-de-riscos-empresariais-que-fornece-dados-com-um-clique";
+  const debtCollectionFaqUrl = "https://consumer.ftc.gov/articles/debt-collection-faqs";
+
   const services = [
     {
       icon: protectionIcon,
@@ -23,6 +29,7 @@ const ServicesSection = () => {
         "Cobrança especializada incluída"
       ],
       cta: "Solicitar Análise",
+      ctaUrl: whatsappLink,
       variant: "premium" as const
     },
     {
@@ -37,6 +44,7 @@ const ServicesSection = () => {
         "Monitoramento contínuo"
       ],
       cta: "Conhecer BI",
+      ctaUrl: cofaceUrba360Url,
       variant: "trust" as const
     },
     {
@@ -51,6 +59,7 @@ const ServicesSection = () => {
         "Processo transparente"
       ],
       cta: "Saiba Mais",
+      ctaUrl: debtCollectionFaqUrl,
       variant: "secondary" as const
     }
   ];
@@ -115,7 +124,7 @@ const ServicesSection = () => {
                   <Button 
                     variant={service.variant} 
                     className="w-full shadow-md hover:shadow-lg transition-shadow group/btn"
-                    onClick={() => window.open(whatsappLink, '_blank')}
+                    onClick={() => window.open(service.ctaUrl, "_blank", "noopener,noreferrer")}
                   >
                     {service.cta}
                     <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -144,7 +153,7 @@ const ServicesSection = () => {
               <Button 
                 variant="hero" 
                 size="lg"
-                onClick={() => window.open(whatsappLink, '_blank')}
+                onClick={() => openSpecialistForm("servicos_cta")}
                 className="bg-white text-primary hover:bg-white/90 shadow-lg hover:shadow-xl transition-all"
               >
                 Falar com Especialista

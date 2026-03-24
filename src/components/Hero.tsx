@@ -2,8 +2,10 @@ import { Button } from "./ui/button";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import heroImage from "@/assets/hero-credit-insurance.jpg";
 import { useEffect, useRef, useState } from "react";
+import { useSpecialistContact } from "@/contexts/SpecialistContactContext";
 
 const Hero = () => {
+  const { openSpecialistForm } = useSpecialistContact();
   const whatsappLink = "https://wa.link/d3f6ih";
   const [scrollY, setScrollY] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
@@ -37,19 +39,33 @@ const Hero = () => {
       ref={heroRef}
       className="relative min-h-[600px] sm:min-h-[700px] lg:min-h-[85vh] flex items-center bg-gradient-hero overflow-hidden"
     >
-      {/* Background Image with Overlay - Parallax Effect */}
+      {/* Background: foto mais visível à direita; “fumaça” escura à esquerda para contraste do texto */}
       <div className="absolute inset-0 z-0">
-        <div 
+        <div
           style={{ transform: `translateY(${parallaxOffset}px)` }}
           className="absolute inset-0 transition-transform duration-300 ease-out"
         >
-          <img 
-            src={heroImage} 
-            alt="Seguro de Crédito Empresarial" 
-            className="w-full h-full object-cover opacity-15 dark:opacity-5 scale-110"
+          <img
+            src={heroImage}
+            alt="Seguro de Crédito Empresarial"
+            className="w-full h-full object-cover object-[62%_center] sm:object-[58%_center] scale-110"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/85 to-trust-blue/90 dark:from-primary/95 dark:via-primary/90 dark:to-trust-blue/95"></div>
+        {/* Camada base: mais escura à esquerda, irradiando um pouco mais pro centro */}
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-primary/42 via-primary/12 via-[48%] to-transparent pointer-events-none"
+          aria-hidden
+        />
+        {/* Gradiente principal: mais fechado no texto e “fumaça” mais longa antes de abrir a foto */}
+        <div
+          className="absolute inset-0 pointer-events-none bg-[linear-gradient(100deg,hsl(var(--primary)_/_0.97)_0%,hsl(var(--primary)_/_0.90)_20%,hsl(var(--primary)_/_0.78)_42%,hsl(var(--primary)_/_0.52)_58%,hsl(var(--trust-blue)_/_0.38)_72%,hsl(var(--primary)_/_0.16)_86%,hsl(var(--primary)_/_0.05)_94%,transparent_100%)]"
+          aria-hidden
+        />
+        {/* Radial maior no canto esquerdo/inferior para cravar contraste do bloco de texto */}
+        <div
+          className="absolute inset-0 pointer-events-none bg-[radial-gradient(150%_100%_at_0%_85%,hsl(var(--primary)_/_0.58)_0%,hsl(var(--primary)_/_0.22)_45%,transparent_68%)]"
+          aria-hidden
+        />
       </div>
       
       {/* Animated Background Elements */}
@@ -65,44 +81,35 @@ const Hero = () => {
       >
         <div className="max-w-5xl">
           {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 sm:mb-8 leading-[1.1] tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-5 sm:mb-6 leading-[1.1] tracking-tight">
             Seguro de Crédito
-            <span className="block text-secondary mt-3">Empresarial</span>
+            <span className="block text-secondary mt-2 sm:mt-2.5">Empresarial</span>
           </h1>
           
           {/* Description */}
-          <p className="text-lg sm:text-xl md:text-2xl text-primary-foreground/95 mb-8 sm:mb-10 max-w-4xl leading-relaxed font-medium">
+          <p className="text-base sm:text-lg md:text-xl text-primary-foreground/95 mb-7 sm:mb-8 max-w-4xl leading-relaxed font-medium">
             Blindagem do fluxo de caixa para empresas que vendem a prazo.
           </p>
           
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-10 sm:mb-12">
-            <Button 
-              variant="hero" 
-              size="lg" 
-              className="text-base sm:text-lg px-8 sm:px-10 py-6 sm:py-7 w-full sm:w-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
-              onClick={() => window.open(whatsappLink, '_blank')}
+          {/* CTA */}
+          <div className="mb-8 sm:mb-10">
+            <Button
+              variant="hero"
+              size="sm"
+              className="text-xs sm:text-sm px-4 sm:px-5 py-2.5 sm:py-3 h-auto min-h-9 rounded-md shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
+              onClick={() => openSpecialistForm("hero")}
             >
               Falar com Especialista
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="text-base sm:text-lg px-8 sm:px-10 py-6 sm:py-7 border-2 border-white/90 text-white hover:bg-white hover:text-primary w-full sm:w-auto backdrop-blur-sm bg-white/10 transition-all duration-300"
-              onClick={() => window.open(whatsappLink, '_blank')}
-            >
-              Falar com Especialista
+              <ArrowRight className="ml-1.5 h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
           </div>
           
           {/* Features */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-center space-x-2 sm:space-x-3 bg-white/15 backdrop-blur-lg rounded-full px-4 sm:px-6 py-2.5 sm:py-3 border border-white/30 shadow-lg">
-                <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-secondary" />
-                <span className="text-primary-foreground text-sm sm:text-base font-semibold">
+              <div key={index} className="flex items-center space-x-1.5 sm:space-x-2 bg-white/15 backdrop-blur-lg rounded-full px-3 sm:px-5 py-2 sm:py-2.5 border border-white/30 shadow-lg">
+                <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-secondary shrink-0" />
+                <span className="text-primary-foreground text-xs sm:text-sm font-semibold">
                   {feature}
                 </span>
               </div>

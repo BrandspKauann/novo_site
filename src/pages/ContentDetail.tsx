@@ -8,8 +8,10 @@ import remarkGfm from "remark-gfm";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { findRelatedArticles } from "@/utils/articleRecommendation";
+import { useSpecialistContact } from "@/contexts/SpecialistContactContext";
 
 const ContentDetail = () => {
+  const { openSpecialistForm } = useSpecialistContact();
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { data: article, isLoading, error } = useArticleBySlug(slug);
@@ -239,7 +241,7 @@ const ContentDetail = () => {
                   </p>
                   <div className="space-y-2 sm:space-y-3">
                     <Button
-                      onClick={() => window.open("https://wa.link/d3f6ih", "_blank")}
+                      onClick={() => openSpecialistForm(`conteudo:${slug ?? ""}`)}
                       className="w-full bg-trust-blue hover:bg-trust-blue-light text-white text-sm sm:text-base h-10 sm:h-11"
                     >
                       <Phone className="h-4 w-4 mr-2" />

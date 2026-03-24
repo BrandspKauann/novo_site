@@ -1,8 +1,10 @@
 import { Button } from "./ui/button";
+import { useSpecialistContact } from "@/contexts/SpecialistContactContext";
 import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 
 const Footer = () => {
+  const { openSpecialistForm } = useSpecialistContact();
   const whatsappLink = "https://wa.link/d3f6ih";
 
   const scrollToSection = (href: string) => {
@@ -72,43 +74,27 @@ const Footer = () => {
               <h4 className="text-lg sm:text-xl font-semibold mb-6 sm:mb-8">Links Rápidos</h4>
               <ul className="space-y-3 sm:space-y-4">
                 <li>
-                  <button 
-                    onClick={() => scrollToSection("#o-que-e")} 
+                  <button
+                    onClick={() => scrollToSection("#o-que-e")}
                     className="text-primary-foreground/80 hover:text-secondary transition-colors text-sm sm:text-base"
                   >
-                    O que é Seguro de Crédito
+                    Benefícios
                   </button>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => scrollToSection("#beneficios")} 
+                  <button
+                    onClick={() => scrollToSection("#beneficios")}
                     className="text-primary-foreground/80 hover:text-secondary transition-colors text-sm sm:text-base"
                   >
                     Quem pode contratar
                   </button>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => scrollToSection("#casos")} 
-                    className="text-primary-foreground/80 hover:text-secondary transition-colors text-sm sm:text-base"
-                  >
-                    Cases de sucesso
-                  </button>
-                </li>
-                <li>
-                  <button 
-                    onClick={() => scrollToSection("#servicos")} 
+                  <button
+                    onClick={() => scrollToSection("#servicos")}
                     className="text-primary-foreground/80 hover:text-secondary transition-colors text-sm sm:text-base"
                   >
                     Serviços Coface
-                  </button>
-                </li>
-                <li>
-                  <button 
-                    onClick={() => scrollToSection("#diagnostico")} 
-                    className="text-primary-foreground/80 hover:text-secondary transition-colors text-sm sm:text-base"
-                  >
-                    Diagnóstico online
                   </button>
                 </li>
               </ul>
@@ -153,7 +139,7 @@ const Footer = () => {
                   variant="outline" 
                   size="lg" 
                   className="border-2 border-white/90 text-white hover:bg-white/10 backdrop-blur-sm bg-white/5 shadow-lg hover:shadow-xl transition-all w-full sm:w-auto"
-                  onClick={() => window.open(whatsappLink, '_blank')}
+                  onClick={() => openSpecialistForm("footer")}
                 >
                   Falar com Especialista
                 </Button>

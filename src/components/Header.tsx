@@ -19,11 +19,8 @@ const Header = () => {
 
   const menuItems: Array<{ label: string; href: string; type: "route" | "anchor" }> = [
     { label: "Início", href: "/", type: "route" },
-    { label: "O que é", href: "#o-que-e", type: "anchor" },
-    { label: "Benefícios", href: "#beneficios", type: "anchor" },
-    { label: "Cases", href: "#casos", type: "anchor" },
+    { label: "Benefícios", href: "#o-que-e", type: "anchor" },
     { label: "Serviços", href: "#servicos", type: "anchor" },
-    { label: "Diagnóstico", href: "#diagnostico", type: "anchor" },
     { label: "Conteúdo", href: "/conteudo", type: "route" },
   ];
 
@@ -73,9 +70,9 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Brand Name */}
-          <div className="flex items-center gap-6">
+        <div className="grid w-full grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-4">
+          {/* Brand */}
+          <div className="col-start-1 flex min-w-0 justify-self-start">
             <a
               href="/"
               className="group inline-flex items-baseline gap-x-1 sm:gap-x-1.5 min-w-0"
@@ -92,33 +89,32 @@ const Header = () => {
                 </span>
               </span>
             </a>
-            
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
-              {menuItems.map((item) => (
-                <button
-                  key={item.href}
-                  onClick={() => handleNavigation(item)}
-                  className="px-4 py-2.5 text-sm lg:text-base text-muted-foreground hover:text-foreground hover:bg-muted/80 rounded-lg transition-all duration-300 font-medium"
-                >
-                  {item.label}
-                </button>
-              ))}
-            </nav>
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center gap-3">
-            <Button 
-              variant="hero" 
-              size="lg" 
-              onClick={() => window.open(whatsappLink, '_blank')}
+          {/* Menu central (desktop) */}
+          <nav className="col-start-2 hidden items-center justify-center space-x-0.5 lg:space-x-1 justify-self-center md:flex">
+            {menuItems.map((item) => (
+              <button
+                key={item.href}
+                onClick={() => handleNavigation(item)}
+                className="px-3 py-2.5 lg:px-4 text-sm lg:text-base text-muted-foreground hover:text-foreground hover:bg-muted/80 rounded-lg transition-all duration-300 font-medium whitespace-nowrap"
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+
+          {/* Ações à direita */}
+          <div className="col-start-3 flex items-center justify-end gap-2 sm:gap-3">
+            <Button
+              variant="hero"
+              size="lg"
+              onClick={() => window.open(whatsappLink, "_blank")}
               className="hidden sm:flex shadow-md hover:shadow-lg transition-shadow"
             >
               Falar no WhatsApp
             </Button>
 
-            {/* Mobile Menu */}
             <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="md:hidden">
@@ -139,12 +135,12 @@ const Header = () => {
                       {item.label}
                     </button>
                   ))}
-                  <Button 
-                    variant="hero" 
-                    size="lg" 
+                  <Button
+                    variant="hero"
+                    size="lg"
                     onClick={() => {
                       setIsMenuOpen(false);
-                      window.open(whatsappLink, '_blank');
+                      window.open(whatsappLink, "_blank");
                     }}
                     className="mt-4 w-full"
                   >
