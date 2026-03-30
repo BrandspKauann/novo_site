@@ -3,4 +3,5 @@
  * This identifies which site/project this application belongs to
  * Used to isolate data between different projects sharing the same Supabase database
  */
-export const SITE_ID = 'hirayama';
+/** Identificador deste site no Supabase (articles.site_id, contact_leads, admin) */
+export const SITE_ID = "seguros-de-credito";

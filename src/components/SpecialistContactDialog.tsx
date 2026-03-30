@@ -67,6 +67,30 @@ const specialistFormSchema = z.object({
 
 export type SpecialistFormValues = z.infer<typeof specialistFormSchema>;
 
+/** POST JSON para n8n (ou outro) após lead salvo. Defina VITE_CONTACT_FORM_WEBHOOK_URL no .env. */
+async function postContactLeadWebhook(body: Record<string, unknown>) {
+  const url = import.meta.env.VITE_CONTACT_FORM_WEBHOOK_URL?.trim();
+  if (!url) return;
+
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        event: "contact_lead",
+        submitted_at: new Date().toISOString(),
+        ...body,
+      }),
+      mode: "cors",
+    });
+    if (!res.ok) {
+      console.warn("[contact webhook]", res.status, await res.text().catch(() => ""));
+    }
+  } catch (e) {
+    console.warn("[contact webhook] falhou (CORS/rede?)", e);
+  }
+}
+
 const defaultValues: SpecialistFormValues = {
   fullName: "",
   email: "",
@@ -121,6 +145,8 @@ export function SpecialistContactDialog({ open, onOpenChange, source }: Speciali
       );
       return;
     }
+
+    void postContactLeadWebhook(row);
 
     toast.success("Recebemos seus dados. Em breve um especialista entra em contato.");
     onOpenChange(false);

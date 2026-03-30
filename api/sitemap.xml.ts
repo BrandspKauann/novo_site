@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 
-const SITE_ID = 'hirayama';
+const SITE_ID = "seguros-de-credito";
 
 export default async function handler(
   req: VercelRequest,

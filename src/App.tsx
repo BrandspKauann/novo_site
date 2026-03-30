@@ -15,6 +15,7 @@ import AdminSignup from "./pages/AdminSignup";
 import { AdminProtectedRoute } from "./components/admin/AdminProtectedRoute";
 import Content from "./pages/Content";
 import ContentDetail from "./pages/ContentDetail";
+import { ExitIntentContactListener } from "@/components/ExitIntentContactListener";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,6 +52,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
           <WhatsAppButton />
+          <ExitIntentContactListener />
           </SpecialistContactProvider>
         </BrowserRouter>
       </TooltipProvider>

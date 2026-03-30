@@ -10,6 +10,7 @@ import { useImageUpload } from "@/hooks/useImageUpload";
 import { Loader2, Upload } from "lucide-react";
 import type { Article, ArticleInsert } from "@/types/article";
 import { toast } from "@/components/ui/sonner";
+import { SITE_ID } from "@/config/site";
 
 interface ArticleFormProps {
   article?: Article;
@@ -17,7 +18,7 @@ interface ArticleFormProps {
 }
 
 export const ArticleForm = ({ article, onClose }: ArticleFormProps) => {
-  const createArticle = useCreateArticle();
+  const createArticle = useCreateArticle(SITE_ID);
   const updateArticle = useUpdateArticle();
   const { uploadImage } = useImageUpload();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -49,6 +50,7 @@ export const ArticleForm = ({ article, onClose }: ArticleFormProps) => {
         og_image_url: article.og_image_url || "",
         type: article.type || "article",
         category: article.category || "",
+        read_time: article.read_time || "5 min",
         external_url: article.external_url || "",
         youtube_iframe: (article as any).youtube_iframe || "",
         image_url: article.image_url || "",
@@ -67,6 +69,7 @@ export const ArticleForm = ({ article, onClose }: ArticleFormProps) => {
       og_image_url: "",
       type: "article",
       category: "",
+      read_time: "5 min",
       external_url: "",
       youtube_iframe: "",
       image_url: "",
@@ -98,6 +101,7 @@ export const ArticleForm = ({ article, onClose }: ArticleFormProps) => {
           og_image_url: article.og_image_url || "",
           type: article.type || "article",
           category: article.category || "",
+          read_time: article.read_time || "5 min",
           external_url: article.external_url || "",
           youtube_iframe: (article as any).youtube_iframe || "",
           image_url: article.image_url || "",
@@ -117,6 +121,7 @@ export const ArticleForm = ({ article, onClose }: ArticleFormProps) => {
           og_image_url: "",
           type: "article",
           category: "",
+          read_time: "5 min",
           external_url: "",
           youtube_iframe: "",
           image_url: "",
@@ -137,6 +142,7 @@ export const ArticleForm = ({ article, onClose }: ArticleFormProps) => {
         description: formData.description.trim(),
         type: formData.type,
         category: formData.category.trim(),
+        read_time: (formData.read_time || "").trim() || "5 min",
         published: formData.published ?? true,
         featured: formData.featured ?? false,
         // Campos opcionais básicos - só incluir se tiver valor
@@ -333,6 +339,21 @@ export const ArticleForm = ({ article, onClose }: ArticleFormProps) => {
           </div>
         </div>
 
+        <div>
+          <Label htmlFor="read_time">Tempo de leitura *</Label>
+          <Input
+            id="read_time"
+            name="read_time"
+            value={formData.read_time ?? ""}
+            onChange={(e) => setFormData({ ...formData, read_time: e.target.value })}
+            placeholder="ex: 5 min"
+            required
+            className="mt-2 max-w-xs"
+          />
+          <p className="text-xs text-muted-foreground mt-1">
+            Exibido no card e na página do artigo (obrigatório no banco).
+          </p>
+        </div>
 
         <div>
           <Label htmlFor="youtube_iframe">Iframe do YouTube</Label>

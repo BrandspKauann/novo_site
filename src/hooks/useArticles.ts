@@ -3,30 +3,24 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Article, ArticleInsert, ArticleUpdate } from "@/types/article";
 import { SITE_ID } from "@/config/site";
 
-// Buscar artigos destacados e publicados (para a home - máximo 6)
+// Home "Conteúdo Educativo": publicados deste site, até 6 (destaques primeiro, depois os mais recentes)
 export const useArticles = () => {
   return useQuery({
-    queryKey: ["articles", "published", "featured"],
+    queryKey: ["articles", "published", "home", SITE_ID],
     queryFn: async () => {
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/28d736e8-2ade-4952-ab85-87fba4e338a6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useArticles.ts:11',message:'Query articles - before fetch',data:{table:'articles',filters:['published=true','featured=true','site_id='+SITE_ID],siteId:SITE_ID},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'C'})}).catch(()=>{});
-      // #endregion
       const { data, error } = await supabase
         .from("articles")
         .select("*")
         .eq("published", true)
-        .eq("featured", true)
         .eq("site_id", SITE_ID)
+        .order("featured", { ascending: false })
         .order("created_at", { ascending: false })
         .limit(6);
 
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/28d736e8-2ade-4952-ab85-87fba4e338a6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useArticles.ts:20',message:'Query articles - after fetch',data:{articleCount:data?.length||0,firstArticleTitle:data?.[0]?.title||'none',firstArticleSiteId:data?.[0]?.site_id||'none',hasError:!!error,errorMessage:error?.message||''},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'C'})}).catch(()=>{});
-      // #endregion
       if (error) throw error;
       return data as Article[];
     },
-    staleTime: 5 * 60 * 1000, // Cache por 5 minutos
+    staleTime: 5 * 60 * 1000,
   });
 };
 
@@ -75,53 +69,40 @@ export const useArticleBySlug = (rawSlug?: string) => {
   });
 };
 
-// Buscar todos os artigos (para admin - inclui não publicados)
-export const useAllArticles = () => {
+// Buscar todos os artigos (para admin - inclui não publicados), filtrado por site_id
+export const useAllArticles = (siteId: string) => {
   return useQuery({
-    queryKey: ["articles", "all"],
+    queryKey: ["articles", "all", siteId],
     queryFn: async () => {
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/28d736e8-2ade-4952-ab85-87fba4e338a6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useArticles.ts:72',message:'Query all articles - before fetch',data:{table:'articles',siteIdFilter:SITE_ID},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
       const { data, error } = await supabase
         .from("articles")
         .select("*")
-        .eq("site_id", SITE_ID)
+        .eq("site_id", siteId)
         .order("created_at", { ascending: false });
 
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/28d736e8-2ade-4952-ab85-87fba4e338a6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useArticles.ts:79',message:'Query all articles - after fetch',data:{totalArticles:data?.length||0,sampleTitles:data?.slice(0,3).map(a=>a.title)||[],sampleSiteIds:data?.slice(0,3).map(a=>a.site_id)||[],hasError:!!error},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
       if (error) throw error;
       return data as Article[];
     },
   });
 };
 
-// Criar novo artigo
-export const useCreateArticle = () => {
+// Criar novo artigo (site_id do admin sobrescreve o padrão do build)
+export const useCreateArticle = (siteId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (article: ArticleInsert) => {
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/28d736e8-2ade-4952-ab85-87fba4e338a6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useArticles.ts:89',message:'Create article - before insert',data:{articleTitle:article.title,siteId:article.site_id||SITE_ID,articleKeys:Object.keys(article)},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
-      const articleWithSiteId = { ...article, site_id: article.site_id || SITE_ID };
+      const articleWithSiteId = { ...article, site_id: article.site_id || siteId };
       const { data, error } = await supabase
         .from("articles")
         .insert([articleWithSiteId])
         .select()
         .single();
 
-      // #region agent log
-      fetch('http://127.0.0.1:7242/ingest/28d736e8-2ade-4952-ab85-87fba4e338a6',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'useArticles.ts:97',message:'Create article - after insert',data:{createdId:data?.id,createdTitle:data?.title,createdSiteId:data?.site_id,hasError:!!error},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
       if (error) throw error;
       return data as Article;
     },
     onSuccess: () => {
-      // Invalidar apenas queries específicas, não todas
       queryClient.invalidateQueries({ queryKey: ["articles", "all"] });
       queryClient.invalidateQueries({ queryKey: ["articles", "published"] });
     },
@@ -177,16 +158,19 @@ export const useDeleteArticle = () => {
 };
 
 // Contar artigos destacados e publicados (excluindo um artigo específico se fornecido)
-export const useFeaturedCount = (excludeArticleId?: string) => {
+export const useFeaturedCount = (
+  excludeArticleId?: string,
+  siteId: string = SITE_ID
+) => {
   return useQuery({
-    queryKey: ["articles", "featured", "count", excludeArticleId],
+    queryKey: ["articles", "featured", "count", siteId, excludeArticleId],
     queryFn: async () => {
       let query = supabase
         .from("articles")
         .select("*", { count: "exact", head: true })
         .eq("featured", true)
         .eq("published", true)
-        .eq("site_id", SITE_ID);
+        .eq("site_id", siteId);
 
       if (excludeArticleId) {
         query = query.neq("id", excludeArticleId);

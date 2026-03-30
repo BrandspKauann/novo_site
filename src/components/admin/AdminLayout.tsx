@@ -12,12 +12,10 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   const handleLogout = () => {
     try {
-      // Limpar sessão do localStorage
       localStorage.removeItem("admin_session_token");
       localStorage.removeItem("admin_email");
       localStorage.removeItem("admin_id");
       localStorage.removeItem("admin_role");
-      
       navigate("/admin/login");
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
@@ -26,38 +24,28 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   return (
     <div className="min-h-screen bg-muted/30">
-      {/* Header Admin */}
-      <header className="bg-background border-b border-border sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-hero rounded-lg flex items-center justify-center">
-                <Shield className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <div>
-                <span className="text-xl font-bold text-primary block">
-                  Admin - Hirayama Seguros
-                </span>
-                <span className="text-xs text-corporate-gray">
-                  Gerenciamento de Conteúdo
-                </span>
-              </div>
+      <header className="sticky top-0 z-50 border-b border-border bg-background/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/15">
+              <Shield className="h-5 w-5" strokeWidth={2} />
             </div>
-            <Button
-              variant="ghost"
-              onClick={handleLogout}
-              className="flex items-center gap-2"
-            >
-              <LogOut className="h-4 w-4" />
-              Sair
-            </Button>
+            <div className="min-w-0">
+              <h1 className="truncate text-lg font-bold text-primary sm:text-xl">
+                Admin · Seguros de Crédito
+              </h1>
+              <p className="truncate text-xs text-muted-foreground">
+                Conteúdo e artigos do site
+              </p>
+            </div>
           </div>
+          <Button variant="outline" size="sm" onClick={handleLogout} className="shrink-0 gap-2">
+            <LogOut className="h-4 w-4" />
+            <span className="hidden sm:inline">Sair</span>
+          </Button>
         </div>
       </header>
-
-      {/* Conteúdo */}
       <main>{children}</main>
     </div>
   );
 };
-
