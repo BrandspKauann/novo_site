@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE_ID } from "@/config/site";
+import { CONTACT_FORM_WEBHOOK_URL } from "@/config/contactWebhook";
 import { toast } from "@/components/ui/sonner";
 import { Building2, Loader2, MessageSquareText, Send, User } from "lucide-react";
 
@@ -67,13 +68,10 @@ const specialistFormSchema = z.object({
 
 export type SpecialistFormValues = z.infer<typeof specialistFormSchema>;
 
-/** POST JSON para n8n (ou outro) após lead salvo. Defina VITE_CONTACT_FORM_WEBHOOK_URL no .env. */
+/** POST JSON para n8n após lead salvo (URL única em `config/contactWebhook.ts`). */
 async function postContactLeadWebhook(body: Record<string, unknown>) {
-  const url = import.meta.env.VITE_CONTACT_FORM_WEBHOOK_URL?.trim();
-  if (!url) return;
-
   try {
-    const res = await fetch(url, {
+    const res = await fetch(CONTACT_FORM_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({

@@ -23,7 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Environment variables
-.env
+# Environment variables (`.env` versionado a pedido do projeto; não commitar segredos reais em forks públicos)
 .env.local
 .env.*.local
