@@ -39,9 +39,11 @@ const WhatIsSection = () => {
         {/* Comparação: com vs sem seguro */}
         <div className="max-w-7xl mx-auto mb-16 sm:mb-20">
           <AnimatedSection animationType="slide-up" delay={200}>
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground text-center mb-8 sm:mb-12 leading-tight max-w-4xl mx-auto px-2">
-              Por que eu deveria ter um seguro para minhas cobranças?
-            </h3>
+            <div className="mx-auto mb-10 max-w-4xl px-2 text-center sm:mb-12">
+              <h3 className="mb-6 text-3xl font-bold leading-tight text-foreground sm:text-4xl md:text-5xl">
+                Por que eu deveria ter um seguro para minhas cobranças?
+              </h3>
+            </div>
           </AnimatedSection>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
@@ -107,8 +109,8 @@ const WhatIsSection = () => {
             <h4 className="text-lg sm:text-xl font-bold text-foreground mb-3">
               Segundo dados da Coface:
             </h4>
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
-              <span className="text-5xl sm:text-6xl md:text-7xl font-bold text-red-600">40%</span>
+            <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
+              <span className="text-5xl font-bold text-red-600 sm:text-6xl md:text-7xl">40%</span>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed flex-1">
                 das empresas no Brasil têm relação direta com inadimplência em suas operações comerciais.
               </p>

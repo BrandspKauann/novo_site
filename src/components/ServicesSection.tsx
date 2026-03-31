@@ -21,7 +21,8 @@ const ServicesSection = () => {
       icon: protectionIcon,
       iconComponent: <Shield className="h-8 w-8 text-trust-blue" />,
       title: "Seguro de Crédito",
-      description: "Proteção das vendas a prazo. Se um cliente não pagar, a seguradora indeniza até 90% do valor e assume a cobrança.",
+      description:
+        "Proteção das vendas a prazo. Se um cliente não pagar, a seguradora indeniza até 90% do valor e assume a cobrança.",
       features: [
         "Cobertura de até 90%",
         "Indenização em até 30 dias",
@@ -36,7 +37,8 @@ const ServicesSection = () => {
       icon: intelligenceIcon,
       iconComponent: <Database className="h-8 w-8 text-trust-blue" />,
       title: "Business Information (URBA360)",
-      description: "Banco de dados global em mais de 200 países. O 'Serasa internacional' para validar clientes e fornecedores.",
+      description:
+        "Banco de dados global em mais de 200 países. O 'Serasa internacional' para validar clientes e fornecedores.",
       features: [
         "Dados de empresas em 200+ países",
         "Análise de risco em tempo real",
@@ -51,7 +53,8 @@ const ServicesSection = () => {
       icon: collectionIcon,
       iconComponent: <TrendingUp className="h-8 w-8 text-trust-blue" />,
       title: "Debt Collection",
-      description: "Cobrança nacional e internacional com estrutura própria da Coface. Expertise global em recuperação de créditos.",
+      description:
+        "Cobrança nacional e internacional com estrutura própria da Coface. Expertise global em recuperação de créditos.",
       features: [
         "Cobrança nacional e internacional",
         "Estrutura própria Coface",
@@ -79,8 +82,8 @@ const ServicesSection = () => {
               Serviços Coface
             </h2>
             <p className="text-lg sm:text-xl md:text-2xl text-corporate-gray leading-relaxed">
-              Além do seguro de crédito, a Coface oferece uma gama completa de soluções 
-              para proteger e fortalecer o seu negócio.
+              Além do seguro de crédito, a Coface oferece uma gama completa de soluções para proteger e fortalecer o seu
+              negócio.
             </p>
           </div>
         </AnimatedSection>
@@ -146,8 +149,8 @@ const ServicesSection = () => {
               Proteja seu fluxo de caixa agora
             </h3>
             <p className="text-base sm:text-lg md:text-xl text-primary-foreground/90 mb-6 sm:mb-8 leading-relaxed">
-              Converse com nossos especialistas e descubra como proteger sua empresa 
-              contra inadimplência com soluções completas de seguro de crédito.
+              Converse com nossos especialistas e descubra como proteger sua empresa contra inadimplência com soluções
+              completas de seguro de crédito.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 

@@ -26,9 +26,9 @@ const Hero = () => {
   }, []);
 
   const features = [
-    "Proteção 360°",
-    "Crescimento Seguro",
-    "Cobertura até 90%"
+    "Cobertura de até 90%",
+    "Análise prévia do comprador",
+    "Proteção do fluxo de caixa",
   ];
 
   const parallaxOffset = Math.min(scrollY * 0.3, 200);
@@ -85,10 +85,10 @@ const Hero = () => {
             Seguro de Crédito
             <span className="block text-secondary mt-2 sm:mt-2.5">Empresarial</span>
           </h1>
-          
-          {/* Description */}
-          <p className="text-base sm:text-lg md:text-xl text-primary-foreground/95 mb-7 sm:mb-8 max-w-4xl leading-relaxed font-medium">
-            Blindagem do fluxo de caixa para empresas que vendem a prazo.
+
+          <p className="mb-7 sm:mb-8 max-w-2xl text-base font-medium leading-relaxed text-primary-foreground/95 sm:text-lg md:text-xl">
+            Proteja suas vendas a prazo com a Coface. Análise de risco, limite de crédito e indenização em caso de
+            inadimplência — com a Hirayama ao seu lado.
           </p>
           
           {/* CTA */}

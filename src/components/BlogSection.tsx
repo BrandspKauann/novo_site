@@ -1,55 +1,61 @@
-import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
-import { ArrowRight, Play, FileText, BookOpen, Loader2 } from "lucide-react";
+import { BookOpen, Loader2 } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useArticles } from "@/hooks/useArticles";
 import type { Article } from "@/types/article";
 import { useNavigate } from "react-router-dom";
 
+/** Texto plano a partir de HTML (descrição do artigo) para resumo no card */
+function plainTextFromDescription(html: string, maxLen = 280): string {
+  if (!html?.trim()) return "";
+  const text = html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (text.length <= maxLen) return text;
+  return `${text.slice(0, maxLen).trim()}…`;
+}
+
 const BlogSection = () => {
-  const whatsappLink = "https://wa.link/d3f6ih";
   const { data: articles, isLoading, error } = useArticles();
   const navigate = useNavigate();
 
-  const getIcon = (type: string) => {
-    return type === "video" ? <Play className="h-5 w-5" /> : <FileText className="h-5 w-5" />;
-  };
-
-  const handleArticleClick = (article: Article) => {
-    const slugOrId = article.slug || article.id;
-    navigate(`/conteudo/${slugOrId}`);
+  const openArticle = (article: Article) => {
+    navigate(`/conteudo/${article.slug || article.id}`);
   };
 
   return (
-    <section className="py-16 sm:py-20 md:py-24 lg:py-28 bg-background">
-      <div className="container mx-auto px-4">
+    <section className="bg-background py-16 sm:py-20 md:py-24 lg:py-28">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6">
         <AnimatedSection animationType="slide-up">
-          <div className="text-center mb-16 sm:mb-20 md:mb-24 max-w-4xl mx-auto">
-            <div className="flex justify-center mb-6">
-              <BookOpen className="h-12 w-12 text-secondary" />
+          <header className="mx-auto mb-16 max-w-4xl text-center sm:mb-20 md:mb-24">
+            <div className="mb-6 flex justify-center sm:mb-7">
+              <BookOpen
+                className="h-14 w-14 text-trust-blue sm:h-16 sm:w-16 md:h-[4.5rem] md:w-[4.5rem]"
+                strokeWidth={1.15}
+                aria-hidden
+              />
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6 sm:mb-8">
-              Conteúdo Educativo
+            <h2 className="mb-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl md:leading-[1.12]">
+              Conteúdo sobre seguro de crédito empresarial
             </h2>
-            <p className="text-lg sm:text-xl md:text-2xl text-corporate-gray leading-relaxed">
-              Aprenda mais sobre Seguro de Crédito, gestão de risco e proteção empresarial 
-              com nossos conteúdos especializados.
+            <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl md:text-[1.25rem] md:leading-relaxed">
+              Veja os últimos artigos da nossa biblioteca sobre seguro de crédito, Coface e gestão de risco comercial.
             </p>
-          </div>
+          </header>
         </AnimatedSection>
 
         {isLoading && (
-          <div className="flex justify-center items-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-trust-blue" />
+          <div className="flex justify-center py-20">
+            <Loader2 className="h-10 w-10 animate-spin text-trust-blue sm:h-12 sm:w-12" />
           </div>
         )}
 
         {error && (
-          <div className="text-center py-20">
-            <p className="text-corporate-gray mb-4">
-              Erro ao carregar artigos. Por favor, tente novamente.
-            </p>
-            <p className="text-sm text-corporate-gray-light">
+          <div className="py-20 text-center">
+            <p className="mb-2 text-corporate-gray">Erro ao carregar artigos. Tente novamente.</p>
+            <p className="text-sm text-muted-foreground">
               {error instanceof Error ? error.message : "Erro desconhecido"}
             </p>
           </div>
@@ -57,67 +63,60 @@ const BlogSection = () => {
 
         {articles && articles.length > 0 && (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
+            <div className="grid grid-cols-1 gap-9 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10">
               {articles.map((article, index) => (
-                <AnimatedSection 
-                  key={article.id}
-                  animationType="fade" 
-                  delay={index * 50}
-                >
-                  <Card 
-                    className="bg-card shadow-card hover:shadow-premium transition-all duration-500 border border-border/50 cursor-pointer group h-full flex flex-col hover:-translate-y-1 overflow-hidden"
-                    onClick={() => handleArticleClick(article)}
+                <AnimatedSection key={article.id} animationType="fade" delay={index * 50}>
+                  <article
+                    className="flex h-full flex-col rounded-2xl border border-border/80 bg-card p-8 shadow-sm transition-shadow duration-200 hover:border-trust-blue/25 hover:shadow-md dark:border-border sm:p-9"
                   >
-                    <CardContent className="p-0 h-full flex flex-col">
-                      {article.image_url && (
-                        <div className="w-full overflow-hidden bg-muted" style={{ aspectRatio: '8/3' }}>
-                          <img
-                            src={article.image_url}
-                            alt={article.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                          />
-                        </div>
-                      )}
-                      <div className="p-6 sm:p-8 h-full flex flex-col">
-                        <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4 group-hover:text-trust-blue transition-colors duration-300">
-                          {article.title}
-                        </h3>
-                      
-                        <p 
-                          className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-6 flex-grow [&_strong]:font-semibold [&_strong]:text-foreground [&_b]:font-semibold [&_b]:text-foreground"
-                          dangerouslySetInnerHTML={{ __html: article.description }}
-                        />
-
-                        <div className="flex items-center text-trust-blue font-semibold text-sm sm:text-base group-hover:text-trust-blue-light transition-colors duration-300 mt-auto">
-                          <span>Ler mais</span>
-                          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-2 transition-transform duration-300" />
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                    <p className="mb-5 text-sm font-semibold uppercase tracking-[0.14em] text-trust-blue dark:text-trust-blue-light">
+                      {(article.type === "video" ? "Vídeo" : article.category).toUpperCase()}
+                    </p>
+                    <h3 className="mb-4 line-clamp-3 text-xl font-bold leading-snug text-foreground sm:text-2xl sm:leading-tight">
+                      <button
+                        type="button"
+                        onClick={() => openArticle(article)}
+                        className="text-left transition-colors hover:text-trust-blue dark:hover:text-trust-blue-light"
+                      >
+                        {article.title}
+                      </button>
+                    </h3>
+                    <p className="mb-10 flex-1 text-base leading-relaxed text-muted-foreground line-clamp-4 sm:text-lg">
+                      {plainTextFromDescription(article.description)}
+                    </p>
+                    <div className="mt-auto flex items-end justify-between gap-4 border-t border-border/70 pt-6 dark:border-border">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:text-sm">
+                        {article.read_time
+                          ? article.read_time.replace(/\s*min\s*/i, " min").trim().toUpperCase()
+                          : "—"}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => openArticle(article)}
+                        className="shrink-0 text-base font-semibold text-trust-blue transition-colors hover:text-trust-blue-light sm:text-lg"
+                      >
+                        Ler artigo →
+                      </button>
+                    </div>
+                  </article>
                 </AnimatedSection>
               ))}
             </div>
-            <div className="flex justify-center mt-8">
+            <div className="mt-14 flex justify-center sm:mt-16">
               <Button
-                variant="hero"
+                variant="outline"
                 size="lg"
                 onClick={() => navigate("/conteudo")}
-                className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
+                className="h-12 border-2 border-trust-blue/45 px-8 text-base font-semibold text-trust-blue hover:bg-trust-blue/10 hover:text-trust-blue sm:h-14 sm:px-10 sm:text-lg dark:hover:bg-trust-blue/20"
               >
-                Ver mais artigos
-                <ArrowRight className="h-5 w-5" />
+                Ver todos os conteúdos
               </Button>
             </div>
           </>
         )}
 
         {articles && articles.length === 0 && !isLoading && (
-          <div className="text-center py-20">
-            <p className="text-corporate-gray">
-              Nenhum artigo disponível no momento.
-            </p>
-          </div>
+          <p className="py-20 text-center text-muted-foreground">Nenhum artigo disponível no momento.</p>
         )}
       </div>
     </section>

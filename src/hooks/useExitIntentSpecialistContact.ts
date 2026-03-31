@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
 import { useSpecialistContact } from "@/contexts/SpecialistContactContext";
 
 /** Tempo mínimo na sessão antes de permitir o disparo */
@@ -54,14 +53,11 @@ function hadRecentUpwardApproachToTop(exitY: number, samples: { t: number; y: nu
  */
 export function useExitIntentSpecialistContact() {
   const { openSpecialistForm } = useSpecialistContact();
-  const location = useLocation();
   const samplesRef = useRef<{ t: number; y: number }[]>([]);
   const visitStartRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (location.pathname.startsWith("/admin")) return;
-
     try {
       if (sessionStorage.getItem(STORAGE_ALREADY_SHOWN)) return;
     } catch {
@@ -112,5 +108,5 @@ export function useExitIntentSpecialistContact() {
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseout", onOut);
     };
-  }, [location.pathname, openSpecialistForm]);
+  }, [openSpecialistForm]);
 }

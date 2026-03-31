@@ -1,6 +1,7 @@
 import { useAllPublishedArticles } from "@/hooks/useArticles";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Loader2, Play, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -30,15 +31,11 @@ const Content = () => {
             <div className="flex justify-center mb-6">
               <BookOpen className="h-12 w-12 text-secondary" />
             </div>
-            <p className="text-sm uppercase tracking-[0.3em] text-secondary mb-4 font-semibold">
-              Biblioteca Hirayama
-            </p>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 tracking-tight">
-              Conteúdo completo sobre Seguro de Crédito Empresarial
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-5 tracking-tight">
+              Conteúdo sobre Seguro de Crédito
             </h1>
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-              Artigos, guias e vídeos para blindar o fluxo de caixa da sua empresa e dominar o
-              seguro de crédito em todas as etapas da operação.
+            <p className="text-base text-muted-foreground leading-relaxed sm:text-lg max-w-2xl mx-auto">
+              Artigos, guias e vídeos sobre seguro de crédito empresarial, Coface e proteção do fluxo de caixa.
             </p>
           </div>
         </AnimatedSection>
@@ -73,6 +70,11 @@ const Content = () => {
                     </div>
                   )}
                   <CardContent className="p-6 sm:p-8 flex flex-col h-full">
+                    {article.featured && (
+                      <Badge className="mb-3 w-fit border-trust-blue/40 bg-trust-blue/10 text-trust-blue hover:bg-trust-blue/15">
+                        Em destaque
+                      </Badge>
+                    )}
                     <button
                       className="text-left"
                       onClick={() => openArticle(article)}
@@ -104,8 +106,8 @@ const Content = () => {
         )}
 
         {articles && articles.length === 0 && !isLoading && (
-          <div className="text-center py-20 text-corporate-gray">
-            Ainda não temos conteúdos publicados. Volte em breve!
+          <div className="py-20 text-center text-corporate-gray">
+            Ainda não temos conteúdos publicados. Volte em breve.
           </div>
         )}
         </div>

@@ -9,10 +9,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import Admin from "./pages/Admin";
-import AdminLogin from "./pages/AdminLogin";
-import AdminSignup from "./pages/AdminSignup";
-import { AdminProtectedRoute } from "./components/admin/AdminProtectedRoute";
 import Content from "./pages/Content";
 import ContentDetail from "./pages/ContentDetail";
 import { ExitIntentContactListener } from "@/components/ExitIntentContactListener";
@@ -34,25 +30,15 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <SpecialistContactProvider>
-          <RouteScrollToTop />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/conteudo" element={<Content />} />
-            <Route path="/conteudo/:slug" element={<ContentDetail />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/signup" element={<AdminSignup />} />
-            <Route
-              path="/admin"
-              element={
-                <AdminProtectedRoute>
-                  <Admin />
-                </AdminProtectedRoute>
-              }
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <WhatsAppButton />
-          <ExitIntentContactListener />
+            <RouteScrollToTop />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/conteudo" element={<Content />} />
+              <Route path="/conteudo/:slug" element={<ContentDetail />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <WhatsAppButton />
+            <ExitIntentContactListener />
           </SpecialistContactProvider>
         </BrowserRouter>
       </TooltipProvider>
