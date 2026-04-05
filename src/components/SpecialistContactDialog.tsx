@@ -28,9 +28,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
 import { SITE_ID } from "@/config/site";
-import { CONTACT_FORM_WEBHOOK_URL } from "@/config/contactWebhook";
+import { postContactLead } from "@/config/contactWebhook";
 import { toast } from "@/components/ui/sonner";
 import { Building2, Loader2, MessageSquareText, Send, User } from "lucide-react";
 
@@ -67,27 +66,6 @@ const specialistFormSchema = z.object({
 });
 
 export type SpecialistFormValues = z.infer<typeof specialistFormSchema>;
-
-/** POST JSON para n8n após lead salvo (URL única em `config/contactWebhook.ts`). */
-async function postContactLeadWebhook(body: Record<string, unknown>) {
-  try {
-    const res = await fetch(CONTACT_FORM_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({
-        event: "contact_lead",
-        submitted_at: new Date().toISOString(),
-        ...body,
-      }),
-      mode: "cors",
-    });
-    if (!res.ok) {
-      console.warn("[contact webhook]", res.status, await res.text().catch(() => ""));
-    }
-  } catch (e) {
-    console.warn("[contact webhook] falhou (CORS/rede?)", e);
-  }
-}
 
 const defaultValues: SpecialistFormValues = {
   fullName: "",
@@ -134,17 +112,11 @@ export function SpecialistContactDialog({ open, onOpenChange, source }: Speciali
       consent_accepted: data.consent,
     };
 
-    const { error } = await supabase.from("contact_leads").insert(row);
-
-    if (error) {
-      console.error(error);
-      toast.error(
-        "Não foi possível enviar agora. Confira se a tabela contact_leads existe no Supabase ou fale pelo WhatsApp.",
-      );
+    const result = await postContactLead(row);
+    if (!result.ok) {
+      toast.error(result.message);
       return;
     }
-
-    void postContactLeadWebhook(row);
 
     toast.success("Recebemos seus dados. Em breve um especialista entra em contato.");
     onOpenChange(false);
