@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SITE_ID } from "@/config/site";
-import { postContactLead } from "@/config/contactWebhook";
+import { submitToFormspree } from "@/config/formspree";
 import { toast } from "@/components/ui/sonner";
 import { Building2, Loader2, MessageSquareText, Send, User } from "lucide-react";
 
@@ -97,22 +97,21 @@ export function SpecialistContactDialog({ open, onOpenChange, source }: Speciali
   }, [open, form]);
 
   async function onSubmit(data: SpecialistFormValues) {
-    const row = {
+    const payload = {
+      _subject: `[Site] Contato — ${data.fullName} (${SITE_ID})`,
       site_id: SITE_ID,
       full_name: data.fullName,
       email: data.email,
       phone: data.phone,
       company_name: data.companyName,
-      job_title: "",
-      cnpj: null,
       monthly_revenue_range: data.monthlyRevenueRange,
       interest: data.interest,
-      message: data.message || null,
+      message: data.message || "",
       source: source || "site",
       consent_accepted: data.consent,
     };
 
-    const result = await postContactLead(row);
+    const result = await submitToFormspree(payload);
     if (!result.ok) {
       toast.error(result.message);
       return;
