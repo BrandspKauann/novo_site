@@ -2,12 +2,20 @@ import { Button } from "./ui/button";
 import { useSpecialistContact } from "@/contexts/SpecialistContactContext";
 import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
+import { useLocation, useNavigate } from "react-router-dom";
+import { PRODUCTS } from "@/config/products";
 
 const Footer = () => {
   const { openSpecialistForm } = useSpecialistContact();
   const whatsappLink = "https://wa.link/d3f6ih";
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const scrollToSection = (href: string) => {
+    if (location.pathname !== "/") {
+      window.location.href = `/${href}`;
+      return;
+    }
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -34,8 +42,8 @@ const Footer = () => {
                 </p>
               </div>
               <p className="text-primary-foreground/90 mb-6 sm:mb-8 leading-relaxed max-w-md text-sm sm:text-base">
-                Líder em seguro de crédito e inteligência de riscos. 
-                Protegemos o fluxo de caixa de empresas que vendem a prazo.
+                Soluções comerciais para proteger vendas a prazo, analisar empresas com mais profundidade e recuperar
+                recebíveis com método.
               </p>
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex items-center space-x-3">
@@ -94,7 +102,7 @@ const Footer = () => {
                     onClick={() => scrollToSection("#servicos")}
                     className="text-primary-foreground/80 hover:text-secondary transition-colors text-sm sm:text-base"
                   >
-                    Serviços Coface
+                    Soluções
                   </button>
                 </li>
               </ul>
@@ -102,13 +110,18 @@ const Footer = () => {
 
             {/* Services */}
             <div>
-              <h4 className="text-lg sm:text-xl font-semibold mb-6 sm:mb-8">Serviços</h4>
+              <h4 className="text-lg sm:text-xl font-semibold mb-6 sm:mb-8">Produtos</h4>
               <ul className="space-y-3 sm:space-y-4">
-                <li><span className="text-primary-foreground/80 text-sm sm:text-base">Seguro de Crédito</span></li>
-                <li><span className="text-primary-foreground/80 text-sm sm:text-base">Business Information</span></li>
-                <li><span className="text-primary-foreground/80 text-sm sm:text-base">Debt Collection</span></li>
-                <li><span className="text-primary-foreground/80 text-sm sm:text-base">Análise de Risco</span></li>
-                <li><span className="text-primary-foreground/80 text-sm sm:text-base">Consultoria Especializada</span></li>
+                {PRODUCTS.map((product) => (
+                  <li key={product.slug}>
+                    <button
+                      onClick={() => navigate(`/solucoes/${product.slug}`)}
+                      className="text-primary-foreground/80 hover:text-secondary transition-colors text-sm sm:text-base text-left"
+                    >
+                      {product.navLabel}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

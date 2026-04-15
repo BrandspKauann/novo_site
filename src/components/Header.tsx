@@ -20,7 +20,7 @@ const Header = () => {
   const menuItems: Array<{ label: string; href: string; type: "route" | "anchor" }> = [
     { label: "Início", href: "/", type: "route" },
     { label: "Benefícios", href: "#o-que-e", type: "anchor" },
-    { label: "Serviços", href: "#servicos", type: "anchor" },
+    { label: "Soluções", href: "#servicos", type: "anchor" },
     { label: "Conteúdo", href: "/conteudo", type: "route" },
   ];
 
@@ -51,8 +51,7 @@ const Header = () => {
     // Para links de âncora, se não estiver na home, navegar para home primeiro
     if (item.type === "anchor") {
       if (location.pathname !== "/") {
-        // Navegar para home com o hash para fazer scroll automático
-        window.location.href = item.href;
+        window.location.href = `/${item.href}`;
       } else {
         const element = document.querySelector(item.href);
         if (element) {

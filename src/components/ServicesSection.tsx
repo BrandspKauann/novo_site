@@ -1,70 +1,44 @@
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { Phone, ArrowRight, Shield, Database, TrendingUp } from "lucide-react";
-import protectionIcon from "@/assets/protection-icon.jpg";
-import intelligenceIcon from "@/assets/intelligence-icon.jpg";
-import collectionIcon from "@/assets/collection-icon.jpg";
 import AnimatedSection from "./AnimatedSection";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useSpecialistContact } from "@/contexts/SpecialistContactContext";
+import { useNavigate } from "react-router-dom";
+import { PRODUCTS } from "@/config/products";
 
 const ServicesSection = () => {
   const { openSpecialistForm } = useSpecialistContact();
-  const whatsappLink = "https://wa.link/d3f6ih";
-  
-  const cofaceUrba360Url =
-    "https://www.coface.com.br/business-information/urba360-a-ferramenta-de-avaliacao-de-riscos-empresariais-que-fornece-dados-com-um-clique";
-  const debtCollectionFaqUrl = "https://consumer.ftc.gov/articles/debt-collection-faqs";
+  const navigate = useNavigate();
 
   const services = [
     {
-      icon: protectionIcon,
+      icon: PRODUCTS[0].image,
       iconComponent: <Shield className="h-8 w-8 text-trust-blue" />,
-      title: "Seguro de Crédito",
-      description:
-        "Proteção das vendas a prazo. Se um cliente não pagar, a seguradora indeniza até 90% do valor e assume a cobrança.",
-      features: [
-        "Cobertura de até 90%",
-        "Indenização em até 30 dias",
-        "Indenização antecipada em atrasos prolongados",
-        "Cobrança especializada incluída"
-      ],
-      cta: "Solicitar Análise",
-      ctaUrl: whatsappLink,
-      variant: "premium" as const
+      title: PRODUCTS[0].title,
+      description: PRODUCTS[0].cardDescription,
+      features: PRODUCTS[0].cardFeatures,
+      slug: PRODUCTS[0].slug,
+      variant: "premium" as const,
     },
     {
-      icon: intelligenceIcon,
+      icon: PRODUCTS[1].image,
       iconComponent: <Database className="h-8 w-8 text-trust-blue" />,
-      title: "Business Information (URBA360)",
-      description:
-        "Banco de dados global em mais de 200 países. O 'Serasa internacional' para validar clientes e fornecedores.",
-      features: [
-        "Dados de empresas em 200+ países",
-        "Análise de risco em tempo real",
-        "Relatórios detalhados",
-        "Monitoramento contínuo"
-      ],
-      cta: "Conhecer BI",
-      ctaUrl: cofaceUrba360Url,
-      variant: "trust" as const
+      title: PRODUCTS[1].title,
+      description: PRODUCTS[1].cardDescription,
+      features: PRODUCTS[1].cardFeatures,
+      slug: PRODUCTS[1].slug,
+      variant: "trust" as const,
     },
     {
-      icon: collectionIcon,
+      icon: PRODUCTS[2].image,
       iconComponent: <TrendingUp className="h-8 w-8 text-trust-blue" />,
-      title: "Debt Collection",
-      description:
-        "Cobrança nacional e internacional com estrutura própria da Coface. Expertise global em recuperação de créditos.",
-      features: [
-        "Cobrança nacional e internacional",
-        "Estrutura própria Coface",
-        "Expertise em recuperação",
-        "Processo transparente"
-      ],
-      cta: "Saiba Mais",
-      ctaUrl: debtCollectionFaqUrl,
-      variant: "secondary" as const
-    }
+      title: PRODUCTS[2].title,
+      description: PRODUCTS[2].cardDescription,
+      features: PRODUCTS[2].cardFeatures,
+      slug: PRODUCTS[2].slug,
+      variant: "secondary" as const,
+    },
   ];
 
   const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation({
@@ -79,11 +53,11 @@ const ServicesSection = () => {
         <AnimatedSection animationType="slide-up">
           <div className="text-center mb-16 sm:mb-20 md:mb-24 max-w-4xl mx-auto">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6 sm:mb-8">
-              Serviços Coface
+              Soluções principais
             </h2>
             <p className="text-lg sm:text-xl md:text-2xl text-corporate-gray leading-relaxed">
-              Além do seguro de crédito, a Coface oferece uma gama completa de soluções para proteger e fortalecer o seu
-              negócio.
+              Três frentes para reduzir risco comercial: proteger vendas a prazo, analisar empresas com mais profundidade
+              e recuperar recebíveis com método.
             </p>
           </div>
         </AnimatedSection>
@@ -127,9 +101,9 @@ const ServicesSection = () => {
                   <Button 
                     variant={service.variant} 
                     className="w-full shadow-md hover:shadow-lg transition-shadow group/btn"
-                    onClick={() => window.open(service.ctaUrl, "_blank", "noopener,noreferrer")}
+                    onClick={() => navigate(`/solucoes/${service.slug}`)}
                   >
-                    {service.cta}
+                    Saiba mais
                     <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                   </Button>
                 </CardContent>
@@ -146,11 +120,11 @@ const ServicesSection = () => {
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5"></div>
           <div className="relative z-10 max-w-4xl mx-auto">
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-foreground mb-4 sm:mb-6">
-              Proteja seu fluxo de caixa agora
+              Entenda qual solução faz mais sentido para sua operação
             </h3>
             <p className="text-base sm:text-lg md:text-xl text-primary-foreground/90 mb-6 sm:mb-8 leading-relaxed">
-              Converse com nossos especialistas e descubra como proteger sua empresa contra inadimplência com soluções
-              completas de seguro de crédito.
+              Avaliamos seu cenário para indicar se o melhor caminho é seguro de crédito, consulta de dados empresariais
+              ou cobrança de dívida.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 

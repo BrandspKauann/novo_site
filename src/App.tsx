@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Content from "./pages/Content";
 import ContentDetail from "./pages/ContentDetail";
+import ProductDetail from "./pages/ProductDetail";
 import { ExitIntentContactListener } from "@/components/ExitIntentContactListener";
 
 const queryClient = new QueryClient({
@@ -33,6 +34,7 @@ const App = () => (
             <RouteScrollToTop />
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/solucoes/:slug" element={<ProductDetail />} />
               <Route path="/conteudo" element={<Content />} />
               <Route path="/conteudo/:slug" element={<ContentDetail />} />
               <Route path="*" element={<NotFound />} />
