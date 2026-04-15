@@ -19,7 +19,7 @@ const Header = () => {
 
   const menuItems: Array<{ label: string; href: string; type: "route" | "anchor" }> = [
     { label: "Início", href: "/", type: "route" },
-    { label: "Benefícios", href: "#o-que-e", type: "anchor" },
+    { label: "Momentos", href: "#o-que-e", type: "anchor" },
     { label: "Soluções", href: "#servicos", type: "anchor" },
     { label: "Conteúdo", href: "/conteudo", type: "route" },
   ];

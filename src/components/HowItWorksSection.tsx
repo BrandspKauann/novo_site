@@ -1,100 +1,97 @@
 import { Card, CardContent } from "./ui/card";
-import { Search, CheckCircle2, ShoppingCart, Shield, ArrowRight } from "lucide-react";
+import { Button } from "./ui/button";
+import { Search, Shield, HandCoins, ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useNavigate } from "react-router-dom";
+
+const scenarios = [
+  {
+    icon: <Search className="h-8 w-8 text-trust-blue" />,
+    title: "Você ainda vai decidir com quem negociar",
+    description:
+      "Se a dúvida principal é se a empresa tem histórico, porte e finanças compatíveis com o negócio, a prioridade é Consulta de Dados Empresariais.",
+    bullets: [
+      "Cliente novo ou grande demais para decidir no escuro",
+      "Fornecedor crítico para a operação",
+      "Expansão para novos mercados ou novas praças",
+    ],
+    href: "/solucoes/consulta-de-dados-empresariais",
+    cta: "Ver Consulta de Dados Empresariais",
+  },
+  {
+    icon: <Shield className="h-8 w-8 text-trust-blue" />,
+    title: "Você já vende a prazo e quer proteger o caixa",
+    description:
+      "Se sua empresa depende de prazo comercial e quer crescer sem ficar exposta demais a poucos compradores, a prioridade é Seguro de Crédito.",
+    bullets: [
+      "Carteira relevante em vendas a prazo",
+      "Necessidade de previsibilidade financeira",
+      "Expansão comercial com mais controle sobre risco",
+    ],
+    href: "/solucoes/seguro-de-credito",
+    cta: "Ver Seguro de Crédito",
+  },
+  {
+    icon: <HandCoins className="h-8 w-8 text-trust-blue" />,
+    title: "O problema já virou atraso ou inadimplência",
+    description:
+      "Se o dinheiro ficou preso em títulos vencidos e a equipe não pode parar para cobrar, a prioridade é Cobrança de Dívida.",
+    bullets: [
+      "Recebíveis vencidos e pressão no caixa",
+      "Cobrança internacional ou mais complexa",
+      "Desejo de agir com método sem sobrecarregar o time",
+    ],
+    href: "/solucoes/cobranca-de-divida",
+    cta: "Ver Cobrança de Dívida",
+  },
+];
 
 const HowItWorksSection = () => {
-  const steps = [
-    {
-      icon: <Search className="h-8 w-8 text-trust-blue" />,
-      title: "Análise do CNPJ",
-      description: "A seguradora analisa o CNPJ do cliente do seu cliente",
-      number: 1
-    },
-    {
-      icon: <CheckCircle2 className="h-8 w-8 text-trust-blue" />,
-      title: "Limite aprovado",
-      description: "Define um limite de crédito aprovado",
-      number: 2
-    },
-    {
-      icon: <ShoppingCart className="h-8 w-8 text-trust-blue" />,
-      title: "Venda segura",
-      description: "Sua empresa vende com segurança",
-      number: 3
-    },
-    {
-      icon: <Shield className="h-8 w-8 text-trust-blue" />,
-      title: "Proteção garantida",
-      description: "Se o cliente não pagar → a seguradora indeniza",
-      number: 4
-    }
-  ];
-
-  const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation({
-    threshold: 0.05,
-    rootMargin: "0px 0px -15% 0px",
-    triggerOnce: false,
-  });
+  const navigate = useNavigate();
 
   return (
-    <section className="py-16 sm:py-20 md:py-24 lg:py-28 bg-background">
+    <section id="cenarios" className="py-16 sm:py-20 md:py-24 lg:py-28 bg-background">
       <div className="container mx-auto px-4">
-        <div 
-          ref={headerRef}
-          className={`text-center mb-12 sm:mb-16 max-w-4xl mx-auto scroll-animate-slide-up ${headerVisible ? "visible" : ""}`}
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 sm:mb-8 tracking-tight">
-            Como o Seguro de Crédito funciona
-          </h2>
-          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-            Fluxo simples de operação para proteger suas vendas
-          </p>
-        </div>
-
-        {/* Fluxo visual */}
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {steps.map((step, index) => (
-              <AnimatedSection 
-                key={index}
-                animationType="slide-up" 
-                delay={index * 100}
-                className="h-full"
-              >
-                <div className="relative h-full">
-                  <Card className="bg-card border border-border/50 shadow-card hover:shadow-premium transition-all duration-500 h-full group hover:-translate-y-1">
-                    <CardContent className="p-6 sm:p-8 text-center h-full flex flex-col">
-                      <div className="relative mb-6">
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-trust-blue/10 rounded-2xl flex items-center justify-center mx-auto group-hover:bg-trust-blue/20 transition-colors">
-                          {step.icon}
-                        </div>
-                        <div className="absolute -top-2 -right-2 w-8 h-8 bg-secondary rounded-full flex items-center justify-center shadow-md">
-                          <span className="text-sm font-bold text-foreground">{step.number}</span>
-                        </div>
-                      </div>
-                      <h3 className="text-lg sm:text-xl font-bold text-foreground mb-3">
-                        {step.title}
-                      </h3>
-                      <p className="text-sm sm:text-base text-muted-foreground leading-relaxed flex-grow">
-                        {step.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                  
-                  {/* Seta conectando os passos */}
-                  {index < steps.length - 1 && (
-                    <div className="hidden lg:block absolute top-1/2 -right-4 z-10">
-                      <div className="w-8 h-8 bg-background border-2 border-trust-blue/30 rounded-full flex items-center justify-center">
-                        <ArrowRight className="h-4 w-4 text-trust-blue" />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </AnimatedSection>
-            ))}
+        <AnimatedSection animationType="slide-up">
+          <div className="mx-auto mb-12 max-w-5xl text-center sm:mb-16">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-trust-blue">
+              Qual solução faz sentido agora
+            </p>
+            <h2 className="mb-6 text-3xl font-bold text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
+              A decisão fica mais simples quando você olha para o momento do problema
+            </h2>
+            <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
+              Em vez de navegar por termos genéricos, o visitante precisa bater o olho e identificar em qual cenário se
+              encontra hoje. A partir daí, o site deve levar para a página certa.
+            </p>
           </div>
+        </AnimatedSection>
 
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          {scenarios.map((scenario, index) => (
+            <AnimatedSection key={scenario.title} animationType="slide-up" delay={index * 90}>
+              <Card className="h-full border border-border/60 bg-card shadow-card transition-all duration-500 hover:-translate-y-1 hover:shadow-premium">
+                <CardContent className="flex h-full flex-col p-6 sm:p-8">
+                  <div className="mb-5 rounded-2xl bg-trust-blue/10 p-4 w-fit">{scenario.icon}</div>
+                  <h3 className="mb-3 text-2xl font-bold text-foreground">{scenario.title}</h3>
+                  <p className="mb-6 text-sm leading-7 text-muted-foreground sm:text-base">{scenario.description}</p>
+
+                  <div className="mb-8 flex-grow space-y-3">
+                    {scenario.bullets.map((item) => (
+                      <div key={item} className="rounded-2xl border border-border/50 bg-muted/30 px-4 py-3">
+                        <p className="text-sm leading-6 text-foreground/85 sm:text-base">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Button onClick={() => navigate(scenario.href)} className="w-full group/btn">
+                    {scenario.cta}
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                  </Button>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
+          ))}
         </div>
       </div>
     </section>

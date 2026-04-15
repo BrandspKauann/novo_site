@@ -3,11 +3,9 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import heroImage from "@/assets/hero-credit-insurance.jpg";
 import { useEffect, useRef, useState } from "react";
 import { useSpecialistContact } from "@/contexts/SpecialistContactContext";
-import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
   const { openSpecialistForm } = useSpecialistContact();
-  const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
 
@@ -27,9 +25,9 @@ const Hero = () => {
   }, []);
 
   const features = [
-    "Seguro de Crédito",
-    "Consulta de Dados Empresariais",
-    "Cobrança de Dívida",
+    "Cobertura de até 90%",
+    "Análise prévia do comprador",
+    "Proteção do fluxo de caixa",
   ];
 
   const parallaxOffset = Math.min(scrollY * 0.3, 200);
@@ -83,18 +81,17 @@ const Hero = () => {
         <div className="max-w-5xl">
           {/* Heading */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-5 sm:mb-6 leading-[1.1] tracking-tight">
-            Soluções para vender,
-            <span className="block text-secondary mt-2 sm:mt-2.5">analisar e recuperar com mais segurança</span>
+            Seguro de Crédito
+            <span className="block text-secondary mt-2 sm:mt-2.5">Empresarial</span>
           </h1>
 
           <p className="mb-7 sm:mb-8 max-w-2xl text-base font-medium leading-relaxed text-primary-foreground/95 sm:text-lg md:text-xl">
-            A Hirayama estrutura três frentes para empresas B2B: Seguro de Crédito para proteger vendas a prazo,
-            Consulta de Dados Empresariais para avaliar clientes e fornecedores, e Cobrança de Dívida para recuperar
-            recebíveis sem travar a operação.
+            Proteja suas vendas a prazo com a Coface. Análise de risco, limite de crédito e indenização em caso de
+            inadimplência — com a Hirayama ao seu lado.
           </p>
           
           {/* CTA */}
-          <div className="mb-8 sm:mb-10 flex flex-col sm:flex-row gap-3">
+          <div className="mb-8 sm:mb-10">
             <Button
               variant="hero"
               size="sm"
@@ -103,21 +100,6 @@ const Hero = () => {
             >
               Falar com Especialista
               <ArrowRight className="ml-1.5 h-3.5 w-3.5 sm:h-4 sm:w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-xs sm:text-sm px-4 sm:px-5 py-2.5 sm:py-3 h-auto min-h-9 rounded-md border-white/70 bg-white/5 text-white hover:bg-white/10"
-              onClick={() => {
-                const section = document.querySelector("#servicos");
-                if (section) {
-                  section.scrollIntoView({ behavior: "smooth", block: "start" });
-                } else {
-                  navigate("/#servicos");
-                }
-              }}
-            >
-              Conhecer soluções
             </Button>
           </div>
           

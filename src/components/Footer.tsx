@@ -86,15 +86,15 @@ const Footer = () => {
                     onClick={() => scrollToSection("#o-que-e")}
                     className="text-primary-foreground/80 hover:text-secondary transition-colors text-sm sm:text-base"
                   >
-                    Benefícios
+                    Onde cada solução entra
                   </button>
                 </li>
                 <li>
                   <button
-                    onClick={() => scrollToSection("#beneficios")}
+                    onClick={() => scrollToSection("#cenarios")}
                     className="text-primary-foreground/80 hover:text-secondary transition-colors text-sm sm:text-base"
                   >
-                    Quem pode contratar
+                    Qual solução faz sentido
                   </button>
                 </li>
                 <li>
@@ -132,11 +132,11 @@ const Footer = () => {
           <div className="bg-primary-hover rounded-3xl p-8 sm:p-10 md:p-12 mb-12 sm:mb-16 text-center shadow-xl border border-primary-foreground/10">
             <div className="max-w-3xl mx-auto">
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
-                Pronto para blindar seu fluxo de caixa?
+                Pronto para entender qual solução encaixa no seu cenário?
               </h3>
               <p className="text-sm sm:text-base md:text-lg text-primary-foreground/90 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
-                Agende uma sessão estratégica gratuita com nossos especialistas e 
-                descubra como proteger sua empresa contra inadimplência.
+                Agende uma conversa com nossos especialistas para avaliar se a prioridade da sua empresa hoje é proteger
+                vendas a prazo, analisar parceiros com mais profundidade ou recuperar recebíveis em atraso.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
