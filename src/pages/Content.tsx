@@ -25,16 +25,16 @@ const Content = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <section className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-16 sm:py-20 md:py-24">
+        <div className="container mx-auto px-4 py-14 sm:py-16 md:py-20">
         <AnimatedSection animationType="slide-up">
-          <div className="text-center mb-16 max-w-3xl mx-auto">
+          <div className="text-center mb-12 max-w-3xl mx-auto">
             <div className="flex justify-center mb-6">
               <BookOpen className="h-12 w-12 text-secondary" />
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-5 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold text-foreground mb-5 tracking-tight">
               Conteúdo sobre Seguro de Crédito
             </h1>
-            <p className="text-base text-muted-foreground leading-relaxed sm:text-lg max-w-2xl mx-auto">
+            <p className="text-[0.98rem] text-muted-foreground leading-relaxed sm:text-[1.02rem] max-w-2xl mx-auto">
               Artigos, guias e vídeos sobre seguro de crédito empresarial, Coface e proteção do fluxo de caixa.
             </p>
           </div>
@@ -56,7 +56,7 @@ const Content = () => {
         )}
 
         {articles && articles.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
             {articles.map((article, index) => (
               <AnimatedSection key={article.id} animationType="fade" delay={index * 50}>
                 <Card className="border border-border/50 shadow-card bg-card hover:shadow-premium transition-all duration-500 h-full flex flex-col overflow-hidden hover:-translate-y-1">
@@ -69,7 +69,7 @@ const Content = () => {
                       />
                     </div>
                   )}
-                  <CardContent className="p-6 sm:p-8 flex flex-col h-full">
+                  <CardContent className="p-5 sm:p-6 flex flex-col h-full">
                     {article.featured && (
                       <Badge className="mb-3 w-fit border-trust-blue/40 bg-trust-blue/10 text-trust-blue hover:bg-trust-blue/15">
                         Em destaque
@@ -80,13 +80,13 @@ const Content = () => {
                       onClick={() => openArticle(article)}
                       aria-label={`Abrir ${article.title}`}
                     >
-                      <h2 className="text-xl sm:text-2xl font-bold text-foreground hover:text-trust-blue transition-colors duration-300 mb-4">
+                      <h2 className="text-xl sm:text-[1.4rem] font-bold text-foreground hover:text-trust-blue transition-colors duration-300 mb-4">
                         {article.title}
                       </h2>
                     </button>
 
                     <p 
-                      className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow [&_strong]:font-semibold [&_strong]:text-foreground [&_b]:font-semibold [&_b]:text-foreground"
+                      className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow sm:text-[0.98rem] [&_strong]:font-semibold [&_strong]:text-foreground [&_b]:font-semibold [&_b]:text-foreground"
                       dangerouslySetInnerHTML={{ __html: article.description }}
                     />
 

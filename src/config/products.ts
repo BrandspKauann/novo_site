@@ -92,12 +92,16 @@ export const PRODUCTS: ProductDefinition[] = [
         paragraphs: [
           "Essa solução faz mais sentido para empresas B2B que faturam a prazo, dependem de poucos compradores relevantes ou precisam sustentar crescimento sem sacrificar caixa.",
           "Na prática, o seguro transforma risco de crédito em processo: você não depende apenas de feeling comercial para aprovar pedidos, negociar prazo ou expandir a carteira.",
+          "Também é especialmente útil quando a empresa está ampliando participação em novos mercados, aumentando ticket médio por cliente ou operando com margens sensíveis a atraso. Nesses cenários, um evento de inadimplência relevante pode comprometer trimestre, investimento e até ritmo de expansão.",
+          "Para negócios que já têm governança mínima de crédito, o ganho aparece rápido: decisões mais consistentes entre comercial e financeiro, menor improviso em exceções e maior clareza sobre quanto risco cada comprador realmente representa para a companhia.",
         ],
         bullets: [
           "Operações com vendas recorrentes a prazo",
           "Carteira concentrada em poucos clientes ou setores",
           "Planos de crescimento com abertura de novos compradores",
           "Necessidade de previsibilidade para caixa e financiamento",
+          "Empresas com limites comerciais definidos, mas sem proteção para eventos de cauda",
+          "Negócios que precisam reduzir dependência de renegociações e prorrogações frequentes",
         ],
       },
       {
@@ -106,12 +110,16 @@ export const PRODUCTS: ProductDefinition[] = [
         paragraphs: [
           "Segundo a própria Coface, o Seguro de Crédito reúne três pilares complementares: informação de risco, cobrança e indenização. Isso significa que a solução começa antes do problema e continua durante todo o relacionamento comercial.",
           "O processo normalmente envolve análise do comprador, definição de limite, acompanhamento da carteira e acionamento da cobrança especializada quando necessário. Se o evento coberto ocorrer, a apólice indeniza os créditos garantidos nos termos contratados.",
+          "No dia a dia, isso se traduz em uma rotina contínua: avaliar exposição por cliente, revisar limites quando o contexto muda e registrar a operação com qualidade documental suficiente para sustentar eventual sinistro. O valor está na consistência do processo, não em ações pontuais.",
+          "Quando comercial, crédito e financeiro operam com os mesmos critérios, a empresa reduz decisões por urgência e melhora a qualidade das negociações de prazo. A venda continua fluindo, mas com parâmetros claros sobre até onde vale avançar em cada comprador.",
         ],
         bullets: [
           "Definição de limites por comprador",
           "Acompanhamento de sinais de deterioração financeira",
           "Suporte para decisões de prazo e exposição",
           "Recuperação e indenização conforme condições da apólice",
+          "Revisão de exposição por setor, concentração e comportamento de pagamento",
+          "Governança documental para cobrança e eventual abertura de sinistro",
         ],
       },
       {
@@ -120,6 +128,8 @@ export const PRODUCTS: ProductDefinition[] = [
         paragraphs: [
           "Empresas costumam buscar o seguro pensando apenas em inadimplência, mas o ganho principal costuma estar na disciplina comercial que ele traz. Com critérios mais claros, a equipe vende com mais segurança e a direção ganha visibilidade sobre concentração de risco.",
           "Além disso, a existência de uma política estruturada de crédito pode fortalecer conversas com bancos e melhorar a qualidade do crescimento, especialmente em momentos de expansão ou de economia volátil.",
+          "Com previsibilidade maior sobre exposição e perdas potenciais, a companhia melhora planejamento de caixa, reduz decisões reativas e consegue discutir crescimento com base em cenários mais realistas. Isso impacta orçamento, priorização de investimentos e capacidade de sustentar metas comerciais de médio prazo.",
+          "Outro ganho prático é a profissionalização da cultura de risco: exceções passam a ser justificadas, acompanhadas e revistas. Em vez de tratar inadimplência como surpresa, a empresa passa a tratar crédito como variável estratégica de governança.",
         ],
       },
     ],

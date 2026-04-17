@@ -6,7 +6,7 @@ import type { Article } from "@/types/article";
 import { useNavigate } from "react-router-dom";
 
 /** Texto plano a partir de HTML (descrição do artigo) para resumo no card */
-function plainTextFromDescription(html: string, maxLen = 280): string {
+function plainTextFromDescription(html: string, maxLen = 170): string {
   if (!html?.trim()) return "";
   const text = html
     .replace(/<[^>]*>/g, " ")
@@ -26,10 +26,10 @@ const BlogSection = () => {
   };
 
   return (
-    <section className="bg-background py-16 sm:py-20 md:py-24 lg:py-28">
+    <section className="bg-background py-14 sm:py-16 md:py-20 lg:py-24">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6">
         <AnimatedSection animationType="slide-up">
-          <header className="mx-auto mb-16 max-w-4xl text-center sm:mb-20 md:mb-24">
+          <header className="mx-auto mb-12 max-w-4xl text-center sm:mb-16 md:mb-20">
             <div className="mb-6 flex justify-center sm:mb-7">
               <BookOpen
                 className="h-14 w-14 text-trust-blue sm:h-16 sm:w-16 md:h-[4.5rem] md:w-[4.5rem]"
@@ -37,11 +37,11 @@ const BlogSection = () => {
                 aria-hidden
               />
             </div>
-            <h2 className="mb-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl md:leading-[1.12]">
-              Conteúdo sobre seguro de crédito empresarial
+            <h2 className="mb-4 text-[1.35rem] font-bold tracking-tight text-foreground sm:text-[1.6rem] md:text-[1.75rem] md:leading-[1.2]">
+              Conteúdo para vender com segurança
             </h2>
-            <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl md:text-[1.25rem] md:leading-relaxed">
-              Veja os últimos artigos da nossa biblioteca sobre seguro de crédito, Coface e gestão de risco comercial.
+            <p className="text-sm leading-relaxed text-muted-foreground sm:text-base md:text-[1rem] md:leading-relaxed">
+              Artigos recentes sobre seguro de crédito e risco comercial.
             </p>
           </header>
         </AnimatedSection>
@@ -63,16 +63,16 @@ const BlogSection = () => {
 
         {articles && articles.length > 0 && (
           <>
-            <div className="grid grid-cols-1 gap-9 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10">
+            <div className="grid grid-cols-1 gap-7 md:grid-cols-2 md:gap-7 lg:grid-cols-3 lg:gap-8">
               {articles.map((article, index) => (
                 <AnimatedSection key={article.id} animationType="fade" delay={index * 50}>
                   <article
-                    className="flex h-full flex-col rounded-2xl border border-border/80 bg-card p-8 shadow-sm transition-shadow duration-200 hover:border-trust-blue/25 hover:shadow-md dark:border-border sm:p-9"
+                    className="flex h-full flex-col rounded-2xl border border-primary/40 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-primary/70 hover:shadow-premium dark:border-primary/40 sm:p-7"
                   >
                     <p className="mb-5 text-sm font-semibold uppercase tracking-[0.14em] text-trust-blue dark:text-trust-blue-light">
                       {(article.type === "video" ? "Vídeo" : article.category).toUpperCase()}
                     </p>
-                    <h3 className="mb-4 line-clamp-3 text-xl font-bold leading-snug text-foreground sm:text-2xl sm:leading-tight">
+                    <h3 className="mb-4 line-clamp-3 text-xl font-bold leading-snug text-foreground sm:text-[1.4rem] sm:leading-tight">
                       <button
                         type="button"
                         onClick={() => openArticle(article)}
@@ -81,7 +81,7 @@ const BlogSection = () => {
                         {article.title}
                       </button>
                     </h3>
-                    <p className="mb-10 flex-1 text-base leading-relaxed text-muted-foreground line-clamp-4 sm:text-lg">
+                    <p className="mb-6 flex-1 text-sm leading-relaxed text-muted-foreground line-clamp-3">
                       {plainTextFromDescription(article.description)}
                     </p>
                     <div className="mt-auto flex items-end justify-between gap-4 border-t border-border/70 pt-6 dark:border-border">
@@ -93,7 +93,7 @@ const BlogSection = () => {
                       <button
                         type="button"
                         onClick={() => openArticle(article)}
-                        className="shrink-0 text-base font-semibold text-trust-blue transition-colors hover:text-trust-blue-light sm:text-lg"
+                        className="shrink-0 text-sm font-semibold text-trust-blue transition-colors hover:text-trust-blue-light sm:text-base"
                       >
                         Ler artigo →
                       </button>
@@ -102,7 +102,7 @@ const BlogSection = () => {
                 </AnimatedSection>
               ))}
             </div>
-            <div className="mt-14 flex justify-center sm:mt-16">
+            <div className="mt-10 flex justify-center sm:mt-12">
               <Button
                 variant="outline"
                 size="lg"

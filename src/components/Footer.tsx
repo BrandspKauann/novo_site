@@ -131,8 +131,8 @@ const Footer = () => {
         <AnimatedSection animationType="scale" delay={100}>
           <div className="bg-primary-hover rounded-3xl p-8 sm:p-10 md:p-12 mb-12 sm:mb-16 text-center shadow-xl border border-primary-foreground/10">
             <div className="max-w-3xl mx-auto">
-              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
-                Pronto para entender qual solução encaixa no seu cenário?
+              <h3 className="text-lg sm:text-xl md:text-[1.55rem] font-bold mb-4 sm:mb-6">
+                Pronto para escolher a melhor solução?
               </h3>
               <p className="text-sm sm:text-base md:text-lg text-primary-foreground/90 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
                 Agende uma conversa com nossos especialistas para avaliar se a prioridade da sua empresa hoje é proteger

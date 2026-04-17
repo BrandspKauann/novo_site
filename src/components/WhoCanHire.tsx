@@ -46,8 +46,6 @@ const WhoCanHire = () => {
   ];
 
   const { elementRef: altRef, isVisible: altVisible } = useScrollAnimation({
-    threshold: 0.05,
-    rootMargin: "0px 0px -15% 0px",
     triggerOnce: false,
   });
 

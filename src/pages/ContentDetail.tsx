@@ -9,6 +9,40 @@ import Footer from "@/components/Footer";
 import { findRelatedArticles } from "@/utils/articleRecommendation";
 import { useSpecialistContact } from "@/contexts/SpecialistContactContext";
 import { ArticleLandingContent } from "@/components/article/ArticleLandingContent";
+import AnimatedSection from "@/components/AnimatedSection";
+import type { Article } from "@/types/article";
+
+function stripHtmlTags(value: string): string {
+  if (!value) return "";
+  return value
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getProductPathFromArticle(article: Article): string | null {
+  const normalizedSlug = (article.slug || "").toLowerCase();
+  const normalizedCategory = (article.category || "").toLowerCase();
+
+  if (normalizedSlug.includes("seguro-credito") || normalizedCategory.includes("seguro")) {
+    return "/solucoes/seguro-de-credito";
+  }
+
+  if (
+    normalizedSlug.includes("consulta-dados") ||
+    normalizedSlug.includes("dados-empresariais") ||
+    normalizedCategory.includes("consulta")
+  ) {
+    return "/solucoes/consulta-de-dados-empresariais";
+  }
+
+  if (normalizedSlug.includes("cobranca-divida") || normalizedCategory.includes("cobran")) {
+    return "/solucoes/cobranca-de-divida";
+  }
+
+  return null;
+}
 
 const ContentDetail = () => {
   const { openSpecialistForm } = useSpecialistContact();
@@ -20,6 +54,7 @@ const ContentDetail = () => {
   useArticlePageMeta(article ?? null, slug);
 
   const relatedArticles = findRelatedArticles(article, allArticles, 3);
+  const productPath = article ? getProductPathFromArticle(article) : null;
 
   if (isLoading) {
     return (
@@ -53,7 +88,7 @@ const ContentDetail = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <article className="bg-background min-h-screen">
-        <div className="bg-gradient-hero py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden">
+        <div className="bg-gradient-hero py-10 sm:py-14 md:py-16 lg:py-20 relative overflow-hidden">
           {article.image_url && (
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50"
@@ -79,7 +114,8 @@ const ContentDetail = () => {
               Voltar
             </Button>
 
-            <div className="max-w-4xl space-y-4 sm:space-y-6">
+            <AnimatedSection animationType="slide-up">
+              <div className="max-w-4xl space-y-4 sm:space-y-5">
               <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                 <span className="text-xs font-semibold bg-white/20 backdrop-blur-md text-primary-foreground px-3 py-1.5 sm:px-4 sm:py-2 rounded-full inline-flex items-center border border-white/30 shadow-lg">
                   {article.category}
@@ -94,13 +130,13 @@ const ContentDetail = () => {
                 )}
               </div>
 
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-primary-foreground leading-tight tracking-tight text-balance">
+              <h1 className="text-2xl sm:text-3xl md:text-[2.7rem] lg:text-[3.25rem] xl:text-[3.65rem] font-bold text-primary-foreground leading-[1.18] tracking-[0.01em] normal-case text-balance font-sans">
                 {article.title}
               </h1>
 
               {article.description ? (
-                <p className="text-base sm:text-lg md:text-xl text-primary-foreground/90 leading-relaxed max-w-3xl">
-                  {article.description}
+                <p className="text-base sm:text-[1.02rem] md:text-[1.12rem] text-primary-foreground/90 leading-relaxed max-w-3xl">
+                  {stripHtmlTags(article.description)}
                 </p>
               ) : null}
 
@@ -115,26 +151,47 @@ const ContentDetail = () => {
                 </time>
               </p>
             </div>
+            </AnimatedSection>
           </div>
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 md:py-14">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10">
-            <div className="lg:col-span-2 order-1 space-y-8">
-              {article.content ? (
-                <ArticleLandingContent content={article.content} />
-              ) : (
-                <p className="text-muted-foreground">
-                  Este artigo ainda não possui conteúdo completo cadastrado.
-                </p>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="lg:col-span-2 order-1 space-y-9">
+              <AnimatedSection animationType="slide-up">
+                <div className="mx-auto w-full">
+                  {article.content ? (
+                    <ArticleLandingContent content={article.content} />
+                  ) : (
+                    <p className="text-muted-foreground">
+                      Este artigo ainda não possui conteúdo completo cadastrado.
+                    </p>
+                  )}
+                </div>
+              </AnimatedSection>
+
+              {productPath && (
+                <AnimatedSection animationType="slide-up" delay={80}>
+                  <div className="rounded-2xl border border-border/50 bg-card p-5 sm:p-6">
+                    <Button
+                      size="lg"
+                      className="w-full sm:w-auto"
+                      onClick={() => navigate(productPath)}
+                    >
+                      Conheça nossa solução
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </AnimatedSection>
               )}
             </div>
 
             <div className="lg:col-span-1 order-2">
               <div className="space-y-4 sm:space-y-6 lg:sticky lg:top-6">
                 {article.youtube_iframe && (
-                  <Card className="border border-border/50 shadow-card">
-                    <CardContent className="p-4 sm:p-6">
+                  <AnimatedSection animationType="slide-left">
+                    <Card className="border border-border/50 shadow-card">
+                    <CardContent className="p-4 sm:p-5">
                       <h3 className="text-base sm:text-lg font-semibold text-foreground mb-3 sm:mb-4 flex items-center gap-2">
                         <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-trust-blue" />
                         Vídeo
@@ -145,11 +202,13 @@ const ContentDetail = () => {
                       />
                     </CardContent>
                   </Card>
+                  </AnimatedSection>
                 )}
 
                 {relatedArticles.length > 0 && (
-                  <Card className="border border-border/50 shadow-card">
-                    <CardContent className="p-4 sm:p-6">
+                  <AnimatedSection animationType="slide-left" delay={60}>
+                    <Card className="border border-border/50 shadow-card">
+                    <CardContent className="p-4 sm:p-5">
                       <h3 className="text-base sm:text-lg font-semibold text-foreground mb-3 sm:mb-4 flex items-center gap-2">
                         <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-trust-blue" />
                         Artigos Relacionados
@@ -165,7 +224,7 @@ const ContentDetail = () => {
                               {relatedArticle.title}
                             </h4>
                             <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
-                              {relatedArticle.description}
+                              {stripHtmlTags(relatedArticle.description)}
                             </p>
                             <div className="flex items-center gap-2 mt-1.5 sm:mt-2 text-xs text-trust-blue">
                               Ler mais
@@ -176,10 +235,12 @@ const ContentDetail = () => {
                       </div>
                     </CardContent>
                   </Card>
+                  </AnimatedSection>
                 )}
 
-                <Card className="border border-border/50 shadow-card bg-gradient-to-br from-trust-blue/10 to-secondary/10">
-                  <CardContent className="p-4 sm:p-6">
+                <AnimatedSection animationType="slide-left" delay={120}>
+                  <Card className="border border-border/50 shadow-card bg-gradient-to-br from-trust-blue/10 to-secondary/10">
+                  <CardContent className="p-4 sm:p-5">
                     <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2 sm:mb-3">
                       Precisa de ajuda?
                     </h3>
@@ -205,9 +266,11 @@ const ContentDetail = () => {
                     </div>
                   </CardContent>
                 </Card>
+                </AnimatedSection>
 
-                <Card className="border border-border/50 shadow-card">
-                  <CardContent className="p-4 sm:p-6">
+                <AnimatedSection animationType="slide-left" delay={180}>
+                  <Card className="border border-border/50 shadow-card">
+                  <CardContent className="p-4 sm:p-5">
                     <h3 className="text-base sm:text-lg font-semibold text-foreground mb-3 sm:mb-4">
                       Links Úteis
                     </h3>
@@ -240,6 +303,7 @@ const ContentDetail = () => {
                     </div>
                   </CardContent>
                 </Card>
+                </AnimatedSection>
               </div>
             </div>
           </div>

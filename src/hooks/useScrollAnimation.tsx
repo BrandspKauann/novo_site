@@ -1,57 +1,83 @@
 import { useEffect, useRef, useState } from "react";
 
-interface UseScrollAnimationOptions {
-  threshold?: number;
-  rootMargin?: string;
+export interface UseScrollAnimationOptions {
+  /**
+   * Fraction of viewport height where the “focus” band starts (0–1).
+   */
+  focusZoneTop?: number;
+  /**
+   * Fraction of viewport height where the focus band ends (0–1).
+   */
+  focusZoneBottom?: number;
   triggerOnce?: boolean;
 }
 
+/**
+ * Scroll-linked visibility: a block is visible only while it meaningfully overlaps
+ * the focus band in the viewport. This is more stable than center-only checks when
+ * scrolling in both directions (up/down).
+ */
 export const useScrollAnimation = (options: UseScrollAnimationOptions = {}) => {
   const {
-    threshold = 0.05, // Threshold menor para detecção mais rápida
-    rootMargin = "0px 0px -20% 0px", // Elemento desaparece quando 20% sai da viewport (mais responsivo)
-    triggerOnce = false, // Mudado para false para permitir animação reversível
+    focusZoneTop = 0.2,
+    focusZoneBottom = 0.78,
+    triggerOnce = false,
   } = options;
 
   const [isVisible, setIsVisible] = useState(false);
-  const elementRef = useRef<HTMLDivElement>(null);
+  const elementRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Quando entra na viewport
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          if (triggerOnce && elementRef.current) {
-            observer.unobserve(elementRef.current);
-          }
-        } else {
-          // Quando sai da viewport - animação reversível
-          if (!triggerOnce) {
-            setIsVisible(false);
-          }
-        }
-      },
-      {
-        threshold: threshold,
-        rootMargin: rootMargin,
-      }
-    );
+    const top = Math.min(focusZoneTop, focusZoneBottom);
+    const bottom = Math.max(focusZoneTop, focusZoneBottom);
 
-    const currentElement = elementRef.current;
-    if (currentElement) {
-      observer.observe(currentElement);
-    }
+    let frameId = 0;
+
+    const updateVisibility = () => {
+      frameId = 0;
+
+      const el = elementRef.current;
+      if (!el) return;
+
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      if (vh <= 0) return;
+
+      const overlapsViewport = rect.bottom > 0 && rect.top < vh;
+      if (!overlapsViewport) {
+        setIsVisible((prev) => (triggerOnce && prev ? true : false));
+        return;
+      }
+
+      const bandTop = vh * top;
+      const bandBottom = vh * bottom;
+      const overlapWithBand = Math.min(rect.bottom, bandBottom) - Math.max(rect.top, bandTop);
+      const minRequiredOverlap = Math.max(32, Math.min(rect.height * 0.2, 120));
+      const intersectsFocusBand = overlapWithBand >= minRequiredOverlap;
+
+      setIsVisible((prev) => {
+        if (triggerOnce && prev) return true;
+        return intersectsFocusBand;
+      });
+    };
+
+    const requestUpdate = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(updateVisibility);
+    };
+
+    updateVisibility();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
 
     return () => {
-      if (currentElement) {
-        observer.unobserve(currentElement);
-      }
+      if (frameId) window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
     };
-  }, [threshold, rootMargin, triggerOnce]);
+  }, [focusZoneTop, focusZoneBottom, triggerOnce]);
 
   return { elementRef, isVisible };
 };
 
 export default useScrollAnimation;
-

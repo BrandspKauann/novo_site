@@ -36,7 +36,7 @@ const Hero = () => {
   return (
     <section 
       ref={heroRef}
-      className="relative min-h-[600px] sm:min-h-[700px] lg:min-h-[85vh] flex items-center bg-gradient-hero overflow-hidden"
+      className="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[78vh] flex items-center bg-gradient-hero overflow-hidden"
     >
       {/* Background: foto mais visível à direita; “fumaça” escura à esquerda para contraste do texto */}
       <div className="absolute inset-0 z-0">
@@ -68,24 +68,24 @@ const Hero = () => {
       </div>
       
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      <div className="absolute inset-0 z-0 overflow-hidden hero-zoom-reset">
         <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-secondary/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-trust-blue/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
       
       {/* Content */}
       <div 
-        className="container mx-auto px-4 py-16 sm:py-20 lg:py-24 relative z-10"
+        className="w-full px-5 sm:px-8 lg:px-16 xl:px-24 py-16 sm:py-20 lg:py-24 relative z-10"
         style={{ transform: `translateY(${contentOffset}px)` }}
       >
         <div className="max-w-5xl">
           {/* Heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-5 sm:mb-6 leading-[1.1] tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-[2.9rem] lg:text-[3.5rem] font-bold text-primary-foreground mb-4 sm:mb-5 leading-[1.08] tracking-tight">
             Seguro de Crédito
             <span className="block text-secondary mt-2 sm:mt-2.5">Empresarial</span>
           </h1>
 
-          <p className="mb-7 sm:mb-8 max-w-2xl text-base font-medium leading-relaxed text-primary-foreground/95 sm:text-lg md:text-xl">
+          <p className="mb-6 sm:mb-7 max-w-2xl text-[0.98rem] font-medium leading-relaxed text-primary-foreground/95 sm:text-[1.05rem] md:text-[1.14rem]">
             Proteja suas vendas a prazo com a Coface. Análise de risco, limite de crédito e indenização em caso de
             inadimplência — com a Hirayama ao seu lado.
           </p>
