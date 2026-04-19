@@ -3,6 +3,33 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { cn } from "@/lib/utils";
 import { ExternalLink } from "lucide-react";
+import {
+  StatsBlock,
+  BarChartBlock,
+  CalloutBlock,
+  TimelineBlock,
+} from "@/components/article/ArticleVisualBlocks";
+
+const VISUAL_LANGS = new Set(["stats", "chart", "callout", "timeline"]);
+
+function extractCodeInfo(node: unknown): { lang: string; raw: string } | null {
+  // node is the children prop of <pre>; in react-markdown it's a single <code> element
+  // with className like "language-stats" and a string child.
+  const candidates = Array.isArray(node) ? node : [node];
+  for (const c of candidates) {
+    const el = c as { props?: { className?: string; children?: unknown } } | null | undefined;
+    if (!el || !el.props) continue;
+    const className: string | undefined = el.props.className;
+    const langMatch = className && /language-([\w-]+)/.exec(className);
+    if (!langMatch) continue;
+    const lang = langMatch[1];
+    if (!VISUAL_LANGS.has(lang)) continue;
+    const childContent = el.props.children;
+    const raw = Array.isArray(childContent) ? childContent.join("") : String(childContent ?? "");
+    return { lang, raw: raw.trim() };
+  }
+  return null;
+}
 
 const WHATSAPP_HREF = "https://wa.link/d3f6ih";
 
@@ -18,20 +45,20 @@ const markdownComponents: Partial<Components> = {
   ),
   h2: ({ children, ...props }) => (
     <h2
-      className="mt-10 mb-4 flex scroll-mt-24 flex-wrap items-center gap-3 border-b border-border/80 pb-3 text-xl font-bold text-foreground sm:text-2xl"
+      className="mt-14 mb-5 scroll-mt-24 text-2xl font-bold leading-[1.2] tracking-tight text-foreground sm:text-[1.75rem] md:text-[2rem] normal-case"
       {...props}
     >
-      <span className="inline-flex h-8 w-1 shrink-0 rounded-full bg-gradient-to-b from-trust-blue to-trust-blue-light" />
+      <span className="mb-3 block h-1 w-10 rounded-full bg-trust-blue" />
       {children}
     </h2>
   ),
   h3: ({ children, ...props }) => (
     <h3
-      className="mt-8 mb-3 flex scroll-mt-24 items-start gap-2 text-lg font-semibold text-foreground sm:text-xl"
+      className="mt-9 mb-3 scroll-mt-24 text-lg font-bold text-foreground sm:text-xl flex items-baseline gap-2.5"
       {...props}
     >
-      <span className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-secondary ring-4 ring-secondary/20" />
-      {children}
+      <span className="text-trust-blue/60">§</span>
+      <span className="normal-case">{children}</span>
     </h3>
   ),
   h4: ({ children, ...props }) => (
@@ -45,7 +72,7 @@ const markdownComponents: Partial<Components> = {
     </p>
   ),
   strong: ({ children, ...props }) => (
-    <strong className="font-semibold text-foreground" {...props}>
+    <strong className="font-bold text-trust-blue dark:text-trust-blue-light" {...props}>
       {children}
     </strong>
   ),
@@ -93,16 +120,16 @@ const markdownComponents: Partial<Components> = {
   ),
   blockquote: ({ children, ...props }) => (
     <blockquote
-      className="relative my-8 overflow-hidden rounded-2xl border border-trust-blue/20 bg-gradient-to-br from-trust-blue/[0.06] via-muted/30 to-secondary/[0.08] px-5 py-6 shadow-sm dark:from-trust-blue/10 dark:via-muted/20"
+      className="relative my-10 border-l-4 border-secondary bg-gradient-to-r from-secondary/5 to-transparent pl-6 pr-4 py-4"
       {...props}
     >
       <span
-        className="pointer-events-none absolute -left-1 top-2 font-serif text-6xl leading-none text-trust-blue/15 select-none"
+        className="pointer-events-none absolute -top-3 -left-2 font-serif text-7xl leading-none text-secondary/30 select-none"
         aria-hidden
       >
         &ldquo;
       </span>
-      <div className="relative z-[1] text-[1.05rem] leading-relaxed text-foreground/95 [&_p]:mb-3 [&_p:last-child]:mb-0">
+      <div className="relative z-[1] font-serif italic text-xl sm:text-2xl leading-snug text-foreground/90 tracking-tight [&_p]:mb-2 [&_p:last-child]:mb-0 [&_strong]:not-italic [&_strong]:text-trust-blue">
         {children}
       </div>
     </blockquote>
@@ -118,14 +145,23 @@ const markdownComponents: Partial<Components> = {
       <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
     </div>
   ),
-  pre: ({ children, ...props }) => (
-    <pre
-      className="my-8 overflow-x-auto rounded-xl border border-border/80 bg-muted/60 p-4 text-sm shadow-inner dark:bg-muted/40 sm:p-5"
-      {...props}
-    >
-      {children}
-    </pre>
-  ),
+  pre: ({ children, ...props }) => {
+    const info = extractCodeInfo(children);
+    if (info) {
+      if (info.lang === "stats") return <StatsBlock raw={info.raw} />;
+      if (info.lang === "chart") return <BarChartBlock raw={info.raw} />;
+      if (info.lang === "callout") return <CalloutBlock raw={info.raw} />;
+      if (info.lang === "timeline") return <TimelineBlock raw={info.raw} />;
+    }
+    return (
+      <pre
+        className="my-8 overflow-x-auto rounded-xl border border-border/80 bg-muted/60 p-4 text-sm shadow-inner dark:bg-muted/40 sm:p-5"
+        {...props}
+      >
+        {children}
+      </pre>
+    );
+  },
   code: ({ className, children, ...props }) => {
     const isBlock = Boolean(className?.includes("language-"));
     if (isBlock) {
@@ -145,26 +181,33 @@ const markdownComponents: Partial<Components> = {
     );
   },
   table: ({ children, ...props }) => (
-    <div className="my-8 overflow-x-auto rounded-xl border border-border/60 shadow-sm">
-      <table className="w-full min-w-[280px] border-collapse text-sm" {...props}>
+    <div className="my-10 overflow-x-auto rounded-xl border border-border bg-card shadow-sm not-prose">
+      <table className="w-full min-w-[320px] border-collapse text-sm" {...props}>
         {children}
       </table>
     </div>
   ),
-  thead: ({ children, ...props }) => <thead className="bg-muted/70 dark:bg-muted/50" {...props}>{children}</thead>,
-  tbody: ({ children, ...props }) => <tbody className="divide-y divide-border/60" {...props}>{children}</tbody>,
+  thead: ({ children, ...props }) => (
+    <thead className="bg-trust-blue text-white" {...props}>{children}</thead>
+  ),
+  tbody: ({ children, ...props }) => (
+    <tbody className="divide-y divide-border [&>tr:nth-child(even)]:bg-muted/30" {...props}>{children}</tbody>
+  ),
   tr: ({ children, ...props }) => (
-    <tr className="transition-colors hover:bg-muted/40 dark:hover:bg-muted/25" {...props}>
+    <tr className="transition-colors hover:bg-trust-blue/5" {...props}>
       {children}
     </tr>
   ),
   th: ({ children, ...props }) => (
-    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-foreground sm:px-5" {...props}>
+    <th
+      className="px-4 py-3.5 text-left text-[0.7rem] font-bold uppercase tracking-[0.15em] sm:px-5"
+      {...props}
+    >
       {children}
     </th>
   ),
   td: ({ children, ...props }) => (
-    <td className="px-4 py-3.5 text-muted-foreground sm:px-5" {...props}>
+    <td className="px-4 py-3.5 text-foreground sm:px-5 [&_strong]:text-trust-blue" {...props}>
       {children}
     </td>
   ),
@@ -208,7 +251,10 @@ export function ArticleMarkdown({ content, className }: ArticleMarkdownProps) {
   return (
     <div
       className={cn(
-        "article-markdown max-w-none [&_iframe]:my-8 [&_iframe]:aspect-video [&_iframe]:w-full [&_iframe]:max-w-3xl [&_iframe]:rounded-xl [&_iframe]:border [&_iframe]:border-border/50 [&_iframe]:shadow-lg",
+        "article-markdown max-w-none",
+        "[&_>p:first-of-type]:first-letter:float-left [&_>p:first-of-type]:first-letter:font-bold [&_>p:first-of-type]:first-letter:text-trust-blue [&_>p:first-of-type]:first-letter:text-[3.75rem] [&_>p:first-of-type]:first-letter:leading-[0.9] [&_>p:first-of-type]:first-letter:mr-2 [&_>p:first-of-type]:first-letter:mt-1.5 [&_>p:first-of-type]:first-letter:font-sans",
+        "[&_strong]:bg-secondary/12 [&_strong]:px-1 [&_strong]:rounded-sm",
+        "[&_iframe]:my-8 [&_iframe]:aspect-video [&_iframe]:w-full [&_iframe]:max-w-3xl [&_iframe]:rounded-xl [&_iframe]:border [&_iframe]:border-border/50 [&_iframe]:shadow-lg",
         className
       )}
     >

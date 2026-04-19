@@ -32,11 +32,8 @@ const Content = () => {
               <BookOpen className="h-12 w-12 text-secondary" />
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-[2.8rem] font-bold text-foreground mb-5 tracking-tight">
-              Conteúdo sobre Seguro de Crédito
+              Conteúdo para vender com segurança
             </h1>
-            <p className="text-[0.98rem] text-muted-foreground leading-relaxed sm:text-[1.02rem] max-w-2xl mx-auto">
-              Artigos, guias e vídeos sobre seguro de crédito empresarial, Coface e proteção do fluxo de caixa.
-            </p>
           </div>
         </AnimatedSection>
 
@@ -92,11 +89,11 @@ const Content = () => {
 
                     <Button
                       variant="ghost"
-                      className="justify-start px-0 text-trust-blue hover:text-trust-blue-light mt-auto font-semibold"
+                      className="group mt-auto w-fit justify-start rounded-md px-4 py-2 text-trust-blue hover:bg-trust-blue hover:text-white font-semibold transition-all duration-300"
                       onClick={() => openArticle(article)}
                     >
                       Ler mais
-                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-2 transition-transform duration-300" />
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white" />
                     </Button>
                   </CardContent>
                 </Card>
@@ -118,4 +115,3 @@ const Content = () => {
 };
 
 export default Content;
-

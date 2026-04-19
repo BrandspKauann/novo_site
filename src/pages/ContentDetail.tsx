@@ -1,15 +1,37 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useArticleBySlug, useAllPublishedArticles } from "@/hooks/useArticles";
 import { useArticlePageMeta } from "@/hooks/useArticlePageMeta";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, ExternalLink, Loader2, ArrowRight, BookOpen, Phone, FileText } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  ChevronRight,
+  Clock,
+  Calendar,
+  Loader2,
+  Phone,
+  Share2,
+  Tag,
+  ArrowRight,
+  Folder,
+  Mail,
+  Link2,
+} from "lucide-react";
+import { SiWhatsapp, SiFacebook, SiTelegram } from "react-icons/si";
+import { FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { findRelatedArticles } from "@/utils/articleRecommendation";
 import { useSpecialistContact } from "@/contexts/SpecialistContactContext";
 import { ArticleLandingContent } from "@/components/article/ArticleLandingContent";
-import AnimatedSection from "@/components/AnimatedSection";
+import { useToast } from "@/hooks/use-toast";
 import type { Article } from "@/types/article";
 
 function stripHtmlTags(value: string): string {
@@ -22,30 +44,19 @@ function stripHtmlTags(value: string): string {
 }
 
 function getProductPathFromArticle(article: Article): string | null {
-  const normalizedSlug = (article.slug || "").toLowerCase();
-  const normalizedCategory = (article.category || "").toLowerCase();
-
-  if (normalizedSlug.includes("seguro-credito") || normalizedCategory.includes("seguro")) {
+  const slug = (article.slug || "").toLowerCase();
+  const cat = (article.category || "").toLowerCase();
+  if (slug.includes("seguro-credito") || cat.includes("seguro"))
     return "/solucoes/seguro-de-credito";
-  }
-
-  if (
-    normalizedSlug.includes("consulta-dados") ||
-    normalizedSlug.includes("dados-empresariais") ||
-    normalizedCategory.includes("consulta")
-  ) {
+  if (slug.includes("consulta-dados") || slug.includes("dados-empresariais") || cat.includes("consulta"))
     return "/solucoes/consulta-de-dados-empresariais";
-  }
-
-  if (normalizedSlug.includes("cobranca-divida") || normalizedCategory.includes("cobran")) {
+  if (slug.includes("cobranca-divida") || cat.includes("cobran"))
     return "/solucoes/cobranca-de-divida";
-  }
-
   return null;
 }
 
 const ContentDetail = () => {
-  const { openSpecialistForm } = useSpecialistContact();
+  const { openSpecialistForm, openNewsletterForm } = useSpecialistContact();
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { data: article, isLoading, error } = useArticleBySlug(slug);
@@ -55,6 +66,53 @@ const ContentDetail = () => {
 
   const relatedArticles = findRelatedArticles(article, allArticles, 3);
   const productPath = article ? getProductPathFromArticle(article) : null;
+
+  const { toast } = useToast();
+
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+  const shareTitle = article?.title ?? "";
+  const encodedUrl = encodeURIComponent(shareUrl);
+  const encodedTitle = encodeURIComponent(shareTitle);
+
+  const [canNativeShare, setCanNativeShare] = useState(false);
+
+  useEffect(() => {
+    if (typeof navigator === "undefined" || typeof window === "undefined") return;
+    const isMobile =
+      /Android|iPhone|iPad|iPod|Mobile|Opera Mini|IEMobile/i.test(navigator.userAgent) ||
+      (typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches);
+    setCanNativeShare(typeof navigator.share === "function" && isMobile);
+  }, []);
+
+  const openShare = (href: string) => {
+    window.open(href, "_blank", "noopener,noreferrer");
+  };
+
+  const handleNativeShare = async () => {
+    try {
+      await navigator.share({
+        title: shareTitle,
+        text: shareTitle,
+        url: shareUrl,
+      });
+    } catch (err) {
+      if ((err as DOMException)?.name === "AbortError") return;
+      toast({
+        title: "Não foi possível compartilhar",
+        description: "Tente novamente em instantes.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      toast({ title: "Link copiado", description: "O link do artigo foi copiado para a área de transferência." });
+    } catch {
+      toast({ title: "Não foi possível copiar", description: "Tente novamente ou copie a URL manualmente.", variant: "destructive" });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -84,231 +142,445 @@ const ContentDetail = () => {
     );
   }
 
+  const formattedDate = new Date(article.updated_at).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
+  const cleanDescription = stripHtmlTags(article.description);
+  const categoryLabel = article.category;
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-muted/30 flex flex-col">
       <Header />
-      <article className="bg-background min-h-screen">
-        <div className="bg-gradient-hero py-10 sm:py-14 md:py-16 lg:py-20 relative overflow-hidden">
-          {article.image_url && (
-            <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50"
-              style={{ backgroundImage: `url(${article.image_url})` }}
-            />
-          )}
 
-          <div className="absolute inset-0 bg-gradient-to-br from-trust-blue via-blue-900/90 to-trust-blue" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/30 to-black/50" />
-
-          <div className="absolute inset-0 overflow-hidden hidden sm:block">
-            <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-white/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
-          </div>
-
-          <div className="container mx-auto px-4 sm:px-6 relative z-10">
-            <Button
-              variant="ghost"
-              className="text-primary-foreground/90 hover:text-primary-foreground hover:bg-white/10 mb-4 sm:mb-6 md:mb-8 flex items-center gap-2 transition-all duration-300 backdrop-blur-sm text-sm sm:text-base"
-              onClick={() => navigate("/conteudo")}
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Voltar
-            </Button>
-
-            <AnimatedSection animationType="slide-up">
-              <div className="max-w-4xl space-y-4 sm:space-y-5">
-              <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                <span className="text-xs font-semibold bg-white/20 backdrop-blur-md text-primary-foreground px-3 py-1.5 sm:px-4 sm:py-2 rounded-full inline-flex items-center border border-white/30 shadow-lg">
-                  {article.category}
-                </span>
-                <div className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/15 backdrop-blur-md rounded-full font-semibold border border-white/20 shadow-lg text-xs sm:text-sm">
-                  {article.type === "video" ? "Vídeo" : "Artigo"}
-                </div>
-                {article.read_time && (
-                  <div className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white/15 backdrop-blur-md rounded-full font-semibold border border-white/20 shadow-lg text-xs sm:text-sm">
-                    {article.read_time}
-                  </div>
-                )}
-              </div>
-
-              <h1 className="text-2xl sm:text-3xl md:text-[2.7rem] lg:text-[3.25rem] xl:text-[3.65rem] font-bold text-primary-foreground leading-[1.18] tracking-[0.01em] normal-case text-balance font-sans">
-                {article.title}
-              </h1>
-
-              {article.description ? (
-                <p className="text-base sm:text-[1.02rem] md:text-[1.12rem] text-primary-foreground/90 leading-relaxed max-w-3xl">
-                  {stripHtmlTags(article.description)}
-                </p>
-              ) : null}
-
-              <p className="text-xs sm:text-sm text-primary-foreground/70">
-                <time dateTime={article.updated_at}>
-                  Atualizado em{" "}
-                  {new Date(article.updated_at).toLocaleDateString("pt-BR", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </time>
-              </p>
-            </div>
-            </AnimatedSection>
-          </div>
+      {/* ── Breadcrumb ────────────────────────────────────────── */}
+      <nav
+        aria-label="Breadcrumb"
+        className="bg-background border-b border-border"
+      >
+        <div className="container mx-auto px-4 py-3.5">
+          <ol className="flex items-center gap-1.5 text-sm text-muted-foreground flex-wrap">
+            <li>
+              <Link to="/" className="hover:text-trust-blue transition-colors" data-testid="breadcrumb-home">
+                Início
+              </Link>
+            </li>
+            <ChevronRight className="h-3.5 w-3.5 opacity-60" />
+            <li>
+              <Link to="/conteudo" className="hover:text-trust-blue transition-colors" data-testid="breadcrumb-conteudo">
+                Conteúdo
+              </Link>
+            </li>
+            <ChevronRight className="h-3.5 w-3.5 opacity-60" />
+            <li className="text-foreground font-medium truncate max-w-[40ch]" aria-current="page">
+              {article.title}
+            </li>
+          </ol>
         </div>
+      </nav>
 
-        <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10 md:py-14">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-            <div className="lg:col-span-2 order-1 space-y-9">
-              <AnimatedSection animationType="slide-up">
-                <div className="mx-auto w-full">
-                  {article.content ? (
-                    <ArticleLandingContent content={article.content} />
-                  ) : (
-                    <p className="text-muted-foreground">
-                      Este artigo ainda não possui conteúdo completo cadastrado.
-                    </p>
+      {/* ── Main 2-column layout ──────────────────────────────── */}
+      <main className="flex-1 py-8 sm:py-10 lg:py-14">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+            {/* ═════ ARTICLE COLUMN ═════ */}
+            <article className="lg:col-span-8 bg-background rounded-xl border border-border shadow-sm overflow-hidden">
+              {/* Featured image */}
+              {article.image_url && (
+                <div className="aspect-[16/9] w-full overflow-hidden bg-muted">
+                  <img
+                    src={article.image_url}
+                    alt={article.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+
+              <div className="p-5 sm:p-8 lg:p-10">
+                {/* Category + meta */}
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-5">
+                  <Badge
+                    onClick={() => productPath && navigate(productPath)}
+                    className="bg-trust-blue/10 text-trust-blue hover:bg-trust-blue/15 border-0 cursor-pointer font-semibold uppercase tracking-wide text-[0.7rem] px-2.5 py-1"
+                    data-testid="badge-category"
+                  >
+                    <Folder className="h-3 w-3 mr-1.5" />
+                    {categoryLabel}
+                  </Badge>
+                  <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <Calendar className="h-3.5 w-3.5" />
+                    <time dateTime={article.updated_at}>{formattedDate}</time>
+                  </span>
+                  {article.read_time && (
+                    <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                      <Clock className="h-3.5 w-3.5" />
+                      {article.read_time} de leitura
+                    </span>
                   )}
                 </div>
-              </AnimatedSection>
 
-              {productPath && (
-                <AnimatedSection animationType="slide-up" delay={80}>
-                  <div className="rounded-2xl border border-border/50 bg-card p-5 sm:p-6">
-                    <Button
-                      size="lg"
-                      className="w-full sm:w-auto"
-                      onClick={() => navigate(productPath)}
-                    >
-                      Conheça nossa solução
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
+                {/* Title */}
+                <h1
+                  className="text-2xl sm:text-3xl md:text-[2.5rem] font-bold text-foreground leading-[1.2] tracking-tight normal-case mb-4"
+                  data-testid="text-article-title"
+                >
+                  {article.title}
+                </h1>
+
+                {/* Lead / description */}
+                {cleanDescription && (
+                  <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6 sm:mb-8">
+                    {cleanDescription}
+                  </p>
+                )}
+
+                {/* Author + share row */}
+                <div className="flex items-center justify-between gap-4 py-4 border-y border-border mb-8">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-trust-blue to-primary flex items-center justify-center text-white font-bold text-sm shrink-0">
+                      H
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-foreground leading-tight">
+                        Equipe Hirayama
+                      </p>
+                      <p className="text-xs text-muted-foreground sm:hidden">{formattedDate}</p>
+                      <p className="text-xs text-muted-foreground hidden sm:block">
+                        Especialistas em proteção de crédito B2B
+                      </p>
+                    </div>
                   </div>
-                </AnimatedSection>
-              )}
-            </div>
-
-            <div className="lg:col-span-1 order-2">
-              <div className="space-y-4 sm:space-y-6 lg:sticky lg:top-6">
-                {article.youtube_iframe && (
-                  <AnimatedSection animationType="slide-left">
-                    <Card className="border border-border/50 shadow-card">
-                    <CardContent className="p-4 sm:p-5">
-                      <h3 className="text-base sm:text-lg font-semibold text-foreground mb-3 sm:mb-4 flex items-center gap-2">
-                        <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-trust-blue" />
-                        Vídeo
-                      </h3>
-                      <div
-                        className="w-full [&_iframe]:w-full [&_iframe]:aspect-video [&_iframe]:rounded-lg [&_iframe]:border-0"
-                        dangerouslySetInnerHTML={{ __html: article.youtube_iframe }}
-                      />
-                    </CardContent>
-                  </Card>
-                  </AnimatedSection>
-                )}
-
-                {relatedArticles.length > 0 && (
-                  <AnimatedSection animationType="slide-left" delay={60}>
-                    <Card className="border border-border/50 shadow-card">
-                    <CardContent className="p-4 sm:p-5">
-                      <h3 className="text-base sm:text-lg font-semibold text-foreground mb-3 sm:mb-4 flex items-center gap-2">
-                        <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-trust-blue" />
-                        Artigos Relacionados
-                      </h3>
-                      <div className="space-y-3 sm:space-y-4">
-                        {relatedArticles.map((relatedArticle) => (
-                          <button
-                            key={relatedArticle.id}
-                            onClick={() => navigate(`/conteudo/${relatedArticle.slug || relatedArticle.id}`)}
-                            className="text-left w-full group hover:bg-muted/50 p-2.5 sm:p-3 rounded-lg transition-colors"
-                          >
-                            <h4 className="font-semibold text-foreground group-hover:text-trust-blue transition-colors mb-1.5 sm:mb-2 line-clamp-2 text-sm sm:text-base">
-                              {relatedArticle.title}
-                            </h4>
-                            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
-                              {stripHtmlTags(relatedArticle.description)}
-                            </p>
-                            <div className="flex items-center gap-2 mt-1.5 sm:mt-2 text-xs text-trust-blue">
-                              Ler mais
-                              <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                  </AnimatedSection>
-                )}
-
-                <AnimatedSection animationType="slide-left" delay={120}>
-                  <Card className="border border-border/50 shadow-card bg-gradient-to-br from-trust-blue/10 to-secondary/10">
-                  <CardContent className="p-4 sm:p-5">
-                    <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2 sm:mb-3">
-                      Precisa de ajuda?
-                    </h3>
-                    <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
-                      Fale com nossos especialistas em Seguro de Crédito e proteja o fluxo de caixa da sua empresa.
-                    </p>
-                    <div className="space-y-2 sm:space-y-3">
-                      <Button
-                        onClick={() => openSpecialistForm(`conteudo:${slug ?? ""}`)}
-                        className="w-full bg-trust-blue hover:bg-trust-blue-light text-white text-sm sm:text-base h-10 sm:h-11"
-                      >
-                        <Phone className="h-4 w-4 mr-2" />
-                        Falar com Especialista
-                      </Button>
+                  {canNativeShare ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      data-testid="button-share"
+                      className="gap-1.5 shrink-0"
+                      onClick={handleNativeShare}
+                    >
+                      <Share2 className="h-3.5 w-3.5" />
+                      <span className="hidden sm:inline">Compartilhar</span>
+                    </Button>
+                  ) : (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
                       <Button
                         variant="outline"
-                        onClick={() => navigate("/conteudo")}
-                        className="w-full text-sm sm:text-base h-10 sm:h-11"
+                        size="sm"
+                        data-testid="button-share"
+                        className="gap-1.5 shrink-0"
                       >
-                        <BookOpen className="h-4 w-4 mr-2" />
-                        Ver mais conteúdos
+                        <Share2 className="h-3.5 w-3.5" />
+                        <span className="hidden sm:inline">Compartilhar</span>
                       </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-                </AnimatedSection>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <DropdownMenuItem
+                        onClick={() =>
+                          openShare(`https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`)
+                        }
+                        data-testid="share-whatsapp"
+                        className="gap-2.5 cursor-pointer"
+                      >
+                        <SiWhatsapp className="h-4 w-4 text-[#25D366]" />
+                        WhatsApp
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          openShare(`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`)
+                        }
+                        data-testid="share-linkedin"
+                        className="gap-2.5 cursor-pointer"
+                      >
+                        <FaLinkedinIn className="h-4 w-4 text-[#0A66C2]" />
+                        LinkedIn
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          openShare(`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`)
+                        }
+                        data-testid="share-twitter"
+                        className="gap-2.5 cursor-pointer"
+                      >
+                        <FaXTwitter className="h-4 w-4 text-foreground" />
+                        X (Twitter)
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          openShare(`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`)
+                        }
+                        data-testid="share-facebook"
+                        className="gap-2.5 cursor-pointer"
+                      >
+                        <SiFacebook className="h-4 w-4 text-[#1877F2]" />
+                        Facebook
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          openShare(`https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`)
+                        }
+                        data-testid="share-telegram"
+                        className="gap-2.5 cursor-pointer"
+                      >
+                        <SiTelegram className="h-4 w-4 text-[#26A5E4]" />
+                        Telegram
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          openShare(
+                            `mailto:?subject=${encodedTitle}&body=${encodedTitle}%0A%0A${encodedUrl}`,
+                          )
+                        }
+                        data-testid="share-email"
+                        className="gap-2.5 cursor-pointer"
+                      >
+                        <Mail className="h-4 w-4 text-muted-foreground" />
+                        E-mail
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={handleCopyLink}
+                        data-testid="share-copy-link"
+                        className="gap-2.5 cursor-pointer"
+                      >
+                        <Link2 className="h-4 w-4 text-muted-foreground" />
+                        Copiar link
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  )}
+                </div>
 
-                <AnimatedSection animationType="slide-left" delay={180}>
-                  <Card className="border border-border/50 shadow-card">
-                  <CardContent className="p-4 sm:p-5">
-                    <h3 className="text-base sm:text-lg font-semibold text-foreground mb-3 sm:mb-4">
-                      Links Úteis
-                    </h3>
-                    <div className="space-y-1.5 sm:space-y-2">
-                      <button
-                        onClick={() => navigate("/")}
-                        className="w-full text-left text-xs sm:text-sm text-muted-foreground hover:text-trust-blue transition-colors py-1.5 sm:py-2 flex items-center justify-between group"
-                      >
-                        <span>Página Inicial</span>
-                        <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                      </button>
-                      <button
-                        onClick={() => navigate("/conteudo")}
-                        className="w-full text-left text-xs sm:text-sm text-muted-foreground hover:text-trust-blue transition-colors py-1.5 sm:py-2 flex items-center justify-between group"
-                      >
-                        <span>Todos os conteúdos</span>
-                        <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                      </button>
-                      {article.external_url && (
-                        <a
-                          href={article.external_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-full text-left text-xs sm:text-sm text-muted-foreground hover:text-trust-blue transition-colors py-1.5 sm:py-2 flex items-center justify-between group"
-                        >
-                          <span>Link Externo</span>
-                          <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 opacity-0 group-hover:opacity-100 transition-all" />
-                        </a>
-                      )}
+                {/* Body */}
+                {article.content ? (
+                  <ArticleLandingContent content={article.content} />
+                ) : (
+                  <p className="text-muted-foreground text-center py-12">
+                    Este artigo ainda não possui conteúdo completo cadastrado.
+                  </p>
+                )}
+
+                {article.youtube_iframe && (
+                  <div
+                    className="mt-8 [&_iframe]:w-full [&_iframe]:aspect-video [&_iframe]:rounded-lg [&_iframe]:border-0"
+                    dangerouslySetInnerHTML={{ __html: article.youtube_iframe }}
+                  />
+                )}
+
+                {/* Final CTA — compact, single button to specific product */}
+                {productPath && (
+                  <aside
+                    data-testid="cta-final-produto"
+                    className="mt-10 rounded-xl border border-trust-blue/20 bg-trust-blue/5 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+                  >
+                    <div className="min-w-0">
+                      <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-trust-blue mb-1">
+                        Próximo passo
+                      </p>
+                      <h3 className="text-base sm:text-lg font-bold text-foreground normal-case leading-snug">
+                        Quer aplicar isso na sua empresa?
+                      </h3>
                     </div>
-                  </CardContent>
-                </Card>
-                </AnimatedSection>
+                    <Button
+                      onClick={() => navigate(productPath)}
+                      data-testid="cta-final-ver-produto"
+                      className="bg-trust-blue hover:bg-trust-blue-light text-white font-semibold shrink-0 group"
+                    >
+                      Conhecer {categoryLabel}
+                      <ArrowRight className="ml-1.5 h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                    </Button>
+                  </aside>
+                )}
+
+                {/* Tags-like footer */}
+                <div className="mt-10 pt-6 border-t border-border flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider mr-1">
+                    <Tag className="h-3.5 w-3.5" />
+                    Tópico:
+                  </span>
+                  <Badge
+                    variant="outline"
+                    onClick={() => productPath && navigate(productPath)}
+                    className="cursor-pointer hover:bg-muted font-normal"
+                    data-testid="tag-category"
+                  >
+                    {categoryLabel}
+                  </Badge>
+                  <Badge variant="outline" className="font-normal">
+                    Hirayama
+                  </Badge>
+                  <Badge variant="outline" className="font-normal">
+                    Crédito B2B
+                  </Badge>
+                </div>
               </div>
-            </div>
+            </article>
+
+            {/* ═════ SIDEBAR ═════ */}
+            <aside className="lg:col-span-4 space-y-6">
+              {/* CTA card */}
+              <div className="bg-background rounded-xl border border-border shadow-sm p-6">
+                <div className="h-10 w-10 rounded-lg bg-trust-blue/10 flex items-center justify-center mb-4">
+                  <Phone className="h-5 w-5 text-trust-blue" />
+                </div>
+                <h3 className="font-bold text-foreground text-lg leading-tight mb-2 normal-case">
+                  Precisa de ajuda?
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                  Fale com um especialista da Hirayama e descubra como aplicar essa solução na sua
+                  empresa.
+                </p>
+                <Button
+                  onClick={() => openSpecialistForm(`conteudo:${slug ?? ""}`)}
+                  data-testid="cta-fale-especialista"
+                  className="w-full bg-trust-blue hover:bg-trust-blue-light text-white font-semibold"
+                >
+                  Falar com Especialista
+                </Button>
+                {productPath && (
+                  <Button
+                    variant="ghost"
+                    onClick={() => navigate(productPath)}
+                    data-testid="cta-product-page"
+                    className="w-full mt-2 text-trust-blue hover:text-trust-blue-light hover:bg-trust-blue/5"
+                  >
+                    Ver {categoryLabel}
+                    <ArrowRight className="ml-1.5 h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+
+              {/* Related posts list */}
+              {relatedArticles.length > 0 && (
+                <div className="bg-background rounded-xl border border-border shadow-sm overflow-hidden">
+                  <div className="px-6 pt-6 pb-4 border-b border-border bg-gradient-to-br from-trust-blue/5 to-transparent">
+                    <p className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-trust-blue">
+                      Continue lendo
+                    </p>
+                    <h3 className="text-base font-bold text-foreground mt-1 normal-case">
+                      Mais artigos para você
+                    </h3>
+                  </div>
+                  <ul>
+                    {relatedArticles.map((rel, idx) => (
+                      <li key={rel.id} className="border-b border-border last:border-b-0">
+                        <button
+                          onClick={() => navigate(`/conteudo/${rel.slug || rel.id}`)}
+                          data-testid={`sidebar-related-${rel.id}`}
+                          className="w-full text-left px-6 py-4 flex gap-4 group hover:bg-muted/40 transition-colors"
+                        >
+                          <div className="shrink-0 flex flex-col items-center">
+                            <span className="font-bold text-trust-blue/30 group-hover:text-trust-blue transition-colors text-2xl leading-none tabular-nums">
+                              {String(idx + 1).padStart(2, "0")}
+                            </span>
+                          </div>
+                          <div className="min-w-0 flex-1 space-y-1.5">
+                            <p className="text-[0.65rem] font-bold uppercase tracking-wider text-muted-foreground group-hover:text-trust-blue transition-colors">
+                              {rel.category}
+                            </p>
+                            <p className="text-sm font-semibold text-foreground leading-snug line-clamp-3 group-hover:text-trust-blue transition-colors normal-case">
+                              {rel.title}
+                            </p>
+                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-trust-blue opacity-0 group-hover:opacity-100 transition-opacity">
+                              Ler artigo
+                              <ArrowRight className="h-3 w-3" />
+                            </span>
+                          </div>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="px-6 py-4 bg-muted/30">
+                    <Link
+                      to="/conteudo"
+                      data-testid="sidebar-link-todos"
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-trust-blue hover:text-trust-blue-light"
+                    >
+                      Ver todos os artigos
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              )}
+
+              {/* Newsletter-style mini card */}
+              <div className="bg-primary text-primary-foreground rounded-xl shadow-sm p-6">
+                <div className="h-10 w-10 rounded-lg bg-secondary/20 flex items-center justify-center mb-3">
+                  <Mail className="h-5 w-5 text-secondary" />
+                </div>
+                <h3 className="font-bold text-base mb-2 normal-case">
+                  Receba conteúdos exclusivos
+                </h3>
+                <p className="text-sm text-primary-foreground/75 leading-relaxed mb-4">
+                  Materiais sobre proteção de crédito, inadimplência e gestão de risco direto da
+                  Hirayama.
+                </p>
+                <Button
+                  onClick={() => openNewsletterForm(`newsletter-sidebar:${slug ?? ""}`)}
+                  data-testid="cta-newsletter"
+                  className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground font-bold"
+                >
+                  Quero receber
+                </Button>
+              </div>
+            </aside>
           </div>
         </div>
-      </article>
+      </main>
+
+      {/* ── Related grid (full width below) ──────────────────── */}
+      {relatedArticles.length > 0 && (
+        <section className="bg-background border-t border-border py-12 sm:py-16">
+          <div className="container mx-auto px-4">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-trust-blue mb-1.5">
+                  Continue lendo
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground normal-case">
+                  Posts relacionados
+                </h2>
+              </div>
+              <Link
+                to="/conteudo"
+                data-testid="link-todos-conteudos"
+                className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-trust-blue hover:text-trust-blue-light"
+              >
+                Ver todos
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {relatedArticles.map((rel) => (
+                <button
+                  key={rel.id}
+                  onClick={() => navigate(`/conteudo/${rel.slug || rel.id}`)}
+                  data-testid={`grid-related-${rel.id}`}
+                  className="group text-left bg-background rounded-xl border border-border p-6 hover:shadow-md hover:border-trust-blue/40 transition-all duration-300 flex flex-col gap-3"
+                >
+                  <Badge className="self-start bg-trust-blue/10 text-trust-blue hover:bg-trust-blue/10 border-0 font-semibold text-[0.65rem] uppercase tracking-wider">
+                    {rel.category}
+                  </Badge>
+                  <h3 className="text-base sm:text-lg font-bold text-foreground group-hover:text-trust-blue transition-colors normal-case leading-snug line-clamp-3">
+                    {rel.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed flex-1">
+                    {stripHtmlTags(rel.description)}
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-trust-blue group-hover:gap-2 transition-all pt-2 mt-auto border-t border-border pt-3">
+                    Ler artigo
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <Footer />
     </div>
   );

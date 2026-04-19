@@ -2,9 +2,9 @@
  * Verifica se as tabelas expostas pela Data API respondem (usa .env na raiz).
  * Uso: node scripts/check-supabase.mjs
  */
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import fs from "/@id/__vite-browser-external:node:fs";
+import path from "/@id/__vite-browser-external:node:path";
+import __vite__cjsImport2_node_url from "/@id/__vite-browser-external:node:url"; const fileURLToPath = __vite__cjsImport2_node_url["fileURLToPath"];
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, "..");

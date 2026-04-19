@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Instagram, Linkedin, MessageCircle } from "lucide-react";
+import { SiYoutube } from "react-icons/si";
 import {
   Tooltip,
   TooltipContent,
@@ -8,9 +9,11 @@ import {
 } from "@/components/ui/tooltip";
 
 const WhatsAppButton = () => {
-  const whatsappUrl = "https://wa.link/d3f6ih";
-  const instagramUrl = "https://www.instagram.com/";
-  const linkedinUrl = "https://www.linkedin.com/";
+  const whatsappUrl =
+    "https://api.whatsapp.com/send?phone=5511972896857&text=Ol%C3%A1%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20seguro%20de%20cr%C3%A9ditos";
+  const instagramUrl = "https://www.instagram.com/hirayamaseguros";
+  const linkedinUrl = "https://www.linkedin.com/in/ewertonhirayama/";
+  const youtubeUrl = "https://www.youtube.com/@HirayamaCorretora";
 
   const handleClick = () => {
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
@@ -34,6 +37,32 @@ const WhatsAppButton = () => {
             <p>LinkedIn</p>
           </TooltipContent>
         </Tooltip>
+
+        <button
+          type="button"
+          onClick={() => window.open(youtubeUrl, "_blank", "noopener,noreferrer")}
+          className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full text-white transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          style={{
+            backgroundColor: "#FF0000",
+            color: "#FFFFFF",
+            opacity: 1,
+            boxShadow: "0 10px 18px rgba(255, 0, 0, 0.28)",
+          }}
+          onMouseEnter={(event) => {
+            event.currentTarget.style.backgroundColor = "#D90000";
+          }}
+          onMouseLeave={(event) => {
+            event.currentTarget.style.backgroundColor = "#FF0000";
+          }}
+          aria-label="Abrir YouTube"
+          title="YouTube"
+        >
+          <SiYoutube
+            className="h-5 w-5 sm:h-[1.35rem] sm:w-[1.35rem] shrink-0"
+            style={{ color: "#FFFFFF", fill: "#FFFFFF", opacity: 1 }}
+          />
+          <span className="sr-only">Abrir YouTube</span>
+        </button>
 
         <Tooltip>
           <TooltipTrigger asChild>
@@ -72,4 +101,3 @@ const WhatsAppButton = () => {
 };
 
 export default WhatsAppButton;
-
