@@ -13,6 +13,7 @@ import Content from "./pages/Content";
 import ContentDetail from "./pages/ContentDetail";
 import ProductDetail from "./pages/ProductDetail";
 import { ExitIntentContactListener } from "@/components/ExitIntentContactListener";
+import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +44,7 @@ const App = () => (
             <ExitIntentContactListener />
           </SpecialistContactProvider>
         </BrowserRouter>
+        <Analytics />
       </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>
