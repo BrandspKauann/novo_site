@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useArticleBySlug, useAllPublishedArticles } from "@/hooks/useArticles";
 import { useArticlePageMeta } from "@/hooks/useArticlePageMeta";
@@ -75,6 +75,9 @@ const ContentDetail = () => {
   const encodedTitle = encodeURIComponent(shareTitle);
 
   const [canNativeShare, setCanNativeShare] = useState(false);
+  const [shareMenuOpen, setShareMenuOpen] = useState(false);
+  const [shareMenuReady, setShareMenuReady] = useState(true);
+  const shareMenuOpenedByPointer = useRef(false);
 
   useEffect(() => {
     if (typeof navigator === "undefined" || typeof window === "undefined") return;
@@ -112,6 +115,35 @@ const ContentDetail = () => {
     } catch {
       toast({ title: "Não foi possível copiar", description: "Tente novamente ou copie a URL manualmente.", variant: "destructive" });
     }
+  };
+
+  const handleShareMenuOpenChange = (nextOpen: boolean) => {
+    setShareMenuOpen(nextOpen);
+
+    if (!nextOpen) {
+      setShareMenuReady(true);
+      shareMenuOpenedByPointer.current = false;
+      return;
+    }
+
+    if (!shareMenuOpenedByPointer.current) {
+      setShareMenuReady(true);
+      return;
+    }
+
+    setShareMenuReady(false);
+
+    const releasePointerLock = () => {
+      setShareMenuReady(true);
+      shareMenuOpenedByPointer.current = false;
+      window.removeEventListener("pointerup", releasePointerLock);
+      window.removeEventListener("mouseup", releasePointerLock);
+      window.removeEventListener("touchend", releasePointerLock);
+    };
+
+    window.addEventListener("pointerup", releasePointerLock, { once: true });
+    window.addEventListener("mouseup", releasePointerLock, { once: true });
+    window.addEventListener("touchend", releasePointerLock, { once: true });
   };
 
   if (isLoading) {
@@ -264,19 +296,28 @@ const ContentDetail = () => {
                       <span className="hidden sm:inline">Compartilhar</span>
                     </Button>
                   ) : (
-                  <DropdownMenu>
+                  <DropdownMenu open={shareMenuOpen} onOpenChange={handleShareMenuOpenChange}>
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="outline"
                         size="sm"
                         data-testid="button-share"
                         className="gap-1.5 shrink-0"
+                        onPointerDown={() => {
+                          shareMenuOpenedByPointer.current = true;
+                        }}
+                        onKeyDown={() => {
+                          shareMenuOpenedByPointer.current = false;
+                        }}
                       >
                         <Share2 className="h-3.5 w-3.5" />
                         <span className="hidden sm:inline">Compartilhar</span>
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuContent
+                      align="end"
+                      className={`w-56 ${shareMenuReady ? "" : "pointer-events-none"}`}
+                    >
                       <DropdownMenuItem
                         onClick={() =>
                           openShare(`https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`)

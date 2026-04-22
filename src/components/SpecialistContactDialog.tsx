@@ -131,7 +131,7 @@ export function SpecialistContactDialog({ open, onOpenChange, source }: Speciali
           </DialogTitle>
           <DialogDescription className="text-center text-xs sm:text-sm leading-snug text-muted-foreground max-w-md mx-auto">
             Preencha os campos obrigatórios. Usamos essas informações apenas para retornar seu contato sobre seguro de
-            crédito e soluções Coface.
+            crédito e soluções para proteção de vendas.
           </DialogDescription>
         </DialogHeader>
 
@@ -311,7 +311,7 @@ export function SpecialistContactDialog({ open, onOpenChange, source }: Speciali
                   </FormControl>
                   <div className="space-y-0.5 leading-snug">
                     <FormLabel className="text-[11px] sm:text-xs font-medium text-foreground cursor-pointer">
-                      Autorizo receber e-mails e comunicações da Hirayama sobre seguro de crédito e soluções Coface.
+                      Autorizo receber e-mails e comunicações da Hirayama sobre seguro de crédito e soluções para proteção de vendas.
                       <span className="block text-[10px] sm:text-[11px] font-normal text-muted-foreground mt-1">
                         Por padrão esta opção vem marcada; desmarque se não quiser receber comunicações.
                       </span>

@@ -108,7 +108,7 @@ export const PRODUCTS: ProductDefinition[] = [
         eyebrow: "Como funciona",
         title: "Mais do que indenização: uma rotina de controle de risco",
         paragraphs: [
-          "Segundo a própria Coface, o Seguro de Crédito reúne três pilares complementares: informação de risco, cobrança e indenização. Isso significa que a solução começa antes do problema e continua durante todo o relacionamento comercial.",
+          "O Seguro de Crédito reúne três pilares complementares: informação de risco, cobrança e indenização. Isso significa que a solução começa antes do problema e continua durante todo o relacionamento comercial.",
           "O processo normalmente envolve análise do comprador, definição de limite, acompanhamento da carteira e acionamento da cobrança especializada quando necessário. Se o evento coberto ocorrer, a apólice indeniza os créditos garantidos nos termos contratados.",
           "No dia a dia, isso se traduz em uma rotina contínua: avaliar exposição por cliente, revisar limites quando o contexto muda e registrar a operação com qualidade documental suficiente para sustentar eventual sinistro. O valor está na consistência do processo, não em ações pontuais.",
           "Quando comercial, crédito e financeiro operam com os mesmos critérios, a empresa reduz decisões por urgência e melhora a qualidade das negociações de prazo. A venda continua fluindo, mas com parâmetros claros sobre até onde vale avançar em cada comprador.",
@@ -183,7 +183,7 @@ export const PRODUCTS: ProductDefinition[] = [
       {
         label: "Leitura de risco",
         value: "0 a 10",
-        description: "Escala padronizada de probabilidade de default usada pela Coface em seus modelos.",
+        description: "Escala padronizada de probabilidade de default usada em modelos de análise de risco.",
       },
       {
         label: "Atualização",
@@ -210,7 +210,7 @@ export const PRODUCTS: ProductDefinition[] = [
         eyebrow: "O diferencial",
         title: "Dados que dialogam com decisão, não só planilhas",
         paragraphs: [
-          "De acordo com a plataforma de Business Information da Coface, a leitura de risco combina visão financeira, opinião especializada e alertas sobre mudanças relevantes. Isso ajuda a enxergar não apenas a fotografia atual, mas a tendência do parceiro comercial.",
+          "A leitura de risco combina visão financeira, opinião especializada e alertas sobre mudanças relevantes. Isso ajuda a enxergar não apenas a fotografia atual, mas a tendência do parceiro comercial.",
           "Na prática, a solução ajuda a responder perguntas simples e valiosas: essa empresa comporta o volume que quero vender? Esse fornecedor é robusto o suficiente? Vale abrir crédito, reduzir exposição ou renegociar condições?",
         ],
         bullets: [
@@ -306,7 +306,7 @@ export const PRODUCTS: ProductDefinition[] = [
         eyebrow: "Como a cobrança avança",
         title: "Negociação, formalização e escalonamento com inteligência",
         paragraphs: [
-          "A literatura pública da Coface sobre debt collection destaca a importância de começar com abordagem amigável, personalizada e persistente. O objetivo é entender a causa do atraso, formalizar compromissos e aumentar a chance de pagamento sem deteriorar o relacionamento além do necessário.",
+          "A literatura pública sobre debt collection destaca a importância de começar com abordagem amigável, personalizada e persistente. O objetivo é entender a causa do atraso, formalizar compromissos e aumentar a chance de pagamento sem deteriorar o relacionamento além do necessário.",
           "Quando a via amigável não resolve, a cobrança pode evoluir com medidas mais formais e, se fizer sentido, com apoio jurídico. Isso reduz improviso e melhora a governança da recuperação.",
         ],
         bullets: [

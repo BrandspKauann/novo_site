@@ -86,7 +86,7 @@ const Hero = () => {
           </h1>
 
           <p className="mb-6 sm:mb-7 max-w-2xl text-[0.98rem] font-medium leading-relaxed text-primary-foreground/95 sm:text-[1.05rem] md:text-[1.14rem]">
-            Proteja suas vendas a prazo com a Coface. Análise de risco, limite de crédito e indenização em caso de
+            Proteja suas vendas a prazo com seguro de crédito empresarial. Análise de risco, limite de crédito e indenização em caso de
             inadimplência — com a Hirayama ao seu lado.
           </p>
           

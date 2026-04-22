@@ -166,8 +166,7 @@ const Footer = () => {
           <div className="border-t border-primary-foreground/20 pt-6 sm:pt-8 mb-6 sm:mb-8">
             <div className="max-w-4xl mx-auto">
               <p className="text-primary-foreground/70 text-xs sm:text-sm leading-relaxed text-center italic">
-                Os conteúdos e iniciativas aqui apresentados são de responsabilidade exclusiva de seus respectivos autores. 
-                A Coface não se responsabiliza por informações, serviços ou atividades realizadas por terceiros.
+                  Os conteúdos e iniciativas aqui apresentados são de responsabilidade exclusiva de seus respectivos autores.
               </p>
             </div>
           </div>
