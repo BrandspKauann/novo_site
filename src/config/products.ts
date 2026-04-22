@@ -250,25 +250,25 @@ export const PRODUCTS: ProductDefinition[] = [
   },
   {
     slug: "cobranca-de-divida",
-    title: "Cobrança de Dívida",
-    shortTitle: "Cobrança de Dívida",
-    navLabel: "Cobrança de Dívida",
+    title: "Cobrança de Dívida por Êxito",
+    shortTitle: "Cobrança por Êxito",
+    navLabel: "Cobrança por Êxito",
     cardDescription:
-      "Recupere recebíveis em atraso com apoio especializado no Brasil e no exterior, preservando o foco da sua equipe no core business.",
+      "Recupere recebíveis em atraso com apoio especializado no Brasil e no exterior, com modelo de cobrança por êxito e preservação do foco da sua equipe no core business.",
     cardFeatures: [
       "Cobrança amigável e escalonada",
       "Atuação nacional e internacional",
       "Preservação do relacionamento comercial",
-      "Modelo com pagamento atrelado à recuperação",
+      "Cobrança por êxito",
     ],
     heroEyebrow: "Recuperação de recebíveis",
-    heroTitle: "Cobrança de Dívida para recuperar caixa sem travar a operação",
+    heroTitle: "Cobrança por Êxito para recuperar caixa sem travar a operação",
     heroDescription:
-      "Quando a fatura atrasa, o problema deixa de ser apenas financeiro e passa a consumir tempo, energia e foco da equipe. A solução de Cobrança de Dívida estrutura a recuperação com abordagem profissional, inclusive em operações internacionais, e no seu modelo comercial você só paga se houver recuperação.",
-    heroHighlights: ["Brasil e exterior", "Cobrança amigável", "Só paga se recuperar"],
-    seoTitle: "Cobrança de Dívida B2B | Recuperação de recebíveis",
+      "Quando a fatura atrasa, o problema deixa de ser apenas financeiro e passa a consumir tempo, energia e foco da equipe. A solução de Cobrança de Dívida por Êxito estrutura a recuperação com abordagem profissional, inclusive em operações internacionais, e no seu modelo comercial você só paga quando houver recuperação.",
+    heroHighlights: ["Brasil e exterior", "Cobrança amigável", "Cobrado por êxito"],
+    seoTitle: "Cobrança de Dívida por Êxito | Recuperação de recebíveis",
     seoDescription:
-      "Entenda como a Cobrança de Dívida ajuda a recuperar recebíveis no Brasil e no exterior com abordagem profissional e foco na preservação do caixa.",
+      "Entenda como a Cobrança de Dívida por Êxito ajuda a recuperar recebíveis no Brasil e no exterior com abordagem profissional e cobrança atrelada ao resultado.",
     image: collectionIcon,
     metrics: [
       {
@@ -283,8 +283,8 @@ export const PRODUCTS: ProductDefinition[] = [
       },
       {
         label: "Modelo",
-        value: "Sucesso",
-        description: "No seu posicionamento comercial, o cliente só paga se a dívida for efetivamente recuperada.",
+        value: "Por êxito",
+        description: "No modelo por êxito, a cobrança só gera custo quando há recuperação efetiva da dívida.",
       },
     ],
     sections: [
@@ -293,7 +293,7 @@ export const PRODUCTS: ProductDefinition[] = [
         title: "Recuperar recebíveis sem sobrecarregar o time interno",
         paragraphs: [
           "Muitas empresas demoram a agir porque a cobrança consome a equipe, desgasta a relação com o cliente e exige repertório jurídico e operacional que nem sempre existe internamente. O resultado costuma ser caixa parado e baixa prioridade para recuperação.",
-          "A Cobrança de Dívida entra justamente para dar método, ritmo e especialização ao processo, sem desviar seu time do que realmente gera crescimento.",
+          "A Cobrança de Dívida por Êxito entra justamente para dar método, ritmo e especialização ao processo, sem desviar seu time do que realmente gera crescimento.",
         ],
         bullets: [
           "Faturas vencidas que já começaram a impactar o caixa",
@@ -320,7 +320,7 @@ export const PRODUCTS: ProductDefinition[] = [
         eyebrow: "Valor financeiro",
         title: "Recuperar caixa com custo alinhado ao resultado",
         paragraphs: [
-          "No modelo que você descreveu, o cliente só paga se a dívida for paga. Isso torna a proposta especialmente aderente para empresas que querem atacar inadimplência sem adicionar um custo fixo elevado a uma situação que já pressiona a tesouraria.",
+          "No modelo por êxito, o cliente só é cobrado quando a dívida é efetivamente recuperada. Isso torna a proposta especialmente aderente para empresas que querem atacar inadimplência sem adicionar um custo fixo elevado a uma situação que já pressiona a tesouraria.",
           "Além da recuperação em si, a cobrança profissional ajuda a organizar evidências, mapear disputas e criar uma disciplina que reduz reincidência no médio prazo.",
         ],
       },

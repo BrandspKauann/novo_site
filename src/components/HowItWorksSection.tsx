@@ -28,14 +28,14 @@ const scenarios = [
   },
   {
     title: "O problema já virou atraso ou inadimplência",
-    description: "Se o dinheiro ficou preso em títulos vencidos, a prioridade é Cobrança de Dívida.",
+    description: "Se o dinheiro ficou preso em títulos vencidos, a prioridade é Cobrança por Êxito.",
     bullets: [
       "Recebíveis vencidos e pressão no caixa",
       "Cobrança internacional ou mais complexa",
       "Desejo de agir com método sem sobrecarregar o time",
     ],
     href: "/solucoes/cobranca-de-divida",
-    cta: "Ver Cobrança de Dívida",
+    cta: "Ver Cobrança por Êxito",
   },
 ];
 
@@ -56,7 +56,7 @@ const scenarioChart = [
   },
   {
     phase: "Depois do atraso",
-    focus: "Cobrança de dívida",
+    focus: "Cobrança por êxito",
     intensity: 74,
     color: "bg-secondary",
     href: "/solucoes/cobranca-de-divida",
@@ -158,4 +158,3 @@ const HowItWorksSection = () => {
 };
 
 export default HowItWorksSection;
-

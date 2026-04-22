@@ -25,10 +25,10 @@ const stages = [
   },
   {
     eyebrow: "Depois do atraso",
-    title: "Cobrança de Dívida",
-    description: "Ajuda a recuperar recebíveis vencidos com método, sem drenar a equipe.",
+    title: "Cobrança por Êxito",
+    description: "Ajuda a recuperar recebíveis vencidos com método e cobrança atrelada ao resultado, sem drenar a equipe.",
     bullets: [
-      "Cobrança estruturada",
+      "Cobrança estruturada por êxito",
       "Foco do time preservado",
       "Ação nacional e internacional",
     ],

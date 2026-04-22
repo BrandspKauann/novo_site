@@ -270,7 +270,7 @@ export function SpecialistContactDialog({ open, onOpenChange, source }: Speciali
                       <SelectContent>
                         <SelectItem value="seguro_credito">Seguro de crédito empresarial</SelectItem>
                         <SelectItem value="bi">Consulta de Dados Empresariais</SelectItem>
-                        <SelectItem value="debt_collection">Cobrança de Dívida</SelectItem>
+                        <SelectItem value="debt_collection">Cobrança por Êxito</SelectItem>
                         <SelectItem value="avaliando">Ainda estou avaliando opções</SelectItem>
                       </SelectContent>
                     </Select>

@@ -19,7 +19,7 @@ const faqs = [
     a: "A Consulta é uma análise pontual ou recorrente sobre um CNPJ específico — útil para decisões individuais como aprovar um novo cliente ou ampliar limite. O Seguro de Crédito é uma estrutura contínua que combina análise, monitoramento da carteira inteira, cobrança em caso de atraso e indenização. Muitas empresas começam pela Consulta e evoluem para o Seguro à medida que o volume cresce.",
   },
   {
-    q: "Como funciona a Cobrança de Dívida B2B?",
+    q: "Como funciona a Cobrança por Êxito B2B?",
     a: "Atuamos com cobrança extrajudicial e, quando necessário, judicial — no Brasil e no exterior. A operação combina contato administrativo profissional, notificações formais, protesto, negativação e ações judiciais quando cabíveis. Para clientes com apólice ativa, a cobrança costuma estar embutida no serviço; para os demais, oferecemos como serviço independente.",
   },
   {
