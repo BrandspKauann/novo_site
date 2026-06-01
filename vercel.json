@@ -3,6 +3,41 @@
   "outputDirectory": "dist",
   "routes": [
     {
+      "src": "/ig/?",
+      "status": 307,
+      "headers": {
+        "Location": "/links?utm_source=instagram&utm_medium=social&utm_campaign=organico&utm_id=campanha_1&utm_content=bio"
+      }
+    },
+    {
+      "src": "/tiktok/?",
+      "status": 307,
+      "headers": {
+        "Location": "/links?utm_source=tiktok&utm_medium=social&utm_campaign=organico&utm_id=campanha_1&utm_content=bio"
+      }
+    },
+    {
+      "src": "/linkedin/?",
+      "status": 307,
+      "headers": {
+        "Location": "/links?utm_source=linkedin&utm_medium=social&utm_campaign=organico&utm_id=campanha_1&utm_content=post"
+      }
+    },
+    {
+      "src": "/facebook/?",
+      "status": 307,
+      "headers": {
+        "Location": "/links?utm_source=facebook&utm_medium=social&utm_campaign=organico&utm_id=campanha_1&utm_content=post"
+      }
+    },
+    {
+      "src": "/youtube/?",
+      "status": 307,
+      "headers": {
+        "Location": "/links?utm_source=youtube&utm_medium=social&utm_campaign=organico&utm_id=campanha_1&utm_content=descricao"
+      }
+    },
+    {
       "handle": "filesystem"
     },
     {

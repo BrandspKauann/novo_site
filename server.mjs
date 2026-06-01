@@ -8,6 +8,14 @@ const rootDir = fileURLToPath(new URL(".", import.meta.url));
 const siteDir = path.join(rootDir, "site");
 const port = Number(process.env.PORT || 4174);
 
+const redirectRoutes = new Map([
+  ["/ig", "/links?utm_source=instagram&utm_medium=social&utm_campaign=organico&utm_id=campanha_1&utm_content=bio"],
+  ["/tiktok", "/links?utm_source=tiktok&utm_medium=social&utm_campaign=organico&utm_id=campanha_1&utm_content=bio"],
+  ["/linkedin", "/links?utm_source=linkedin&utm_medium=social&utm_campaign=organico&utm_id=campanha_1&utm_content=post"],
+  ["/facebook", "/links?utm_source=facebook&utm_medium=social&utm_campaign=organico&utm_id=campanha_1&utm_content=post"],
+  ["/youtube", "/links?utm_source=youtube&utm_medium=social&utm_campaign=organico&utm_id=campanha_1&utm_content=descricao"]
+]);
+
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
   ".gif": "image/gif",
@@ -63,6 +71,19 @@ async function sendFile(res, filePath) {
 }
 
 const server = createServer(async (req, res) => {
+  const requestUrl = new URL(req.url || "/", "http://localhost");
+  const normalizedPath = requestUrl.pathname.replace(/\/$/, "") || "/";
+  const redirectTarget = redirectRoutes.get(normalizedPath);
+
+  if (redirectTarget) {
+    res.writeHead(307, {
+      "Cache-Control": "no-cache",
+      "Location": redirectTarget
+    });
+    res.end();
+    return;
+  }
+
   const targetPath = resolvePath(req.url || "/");
 
   if (!targetPath) {
