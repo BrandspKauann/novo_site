@@ -50,5 +50,86 @@
 
   <body>
     <div id="root"></div>
+    <script>
+      window.addEventListener('load', () => {
+        const buildDropdown = () => {
+          const header = document.querySelector('header');
+          if (!header || header.querySelector('[data-extra-nav]')) return false;
+
+          const desktopNav = Array.from(header.querySelectorAll('nav button')).filter((button) => button.textContent.trim());
+          const contentButton = desktopNav.find((button) => button.textContent.trim() === 'Conteúdo');
+          if (!contentButton) return false;
+
+          const container = document.createElement('div');
+          container.setAttribute('data-extra-nav', 'true');
+          container.style.position = 'relative';
+
+          container.innerHTML = `
+            <button type="button" aria-haspopup="menu" aria-expanded="false" class="px-3 lg:px-4 py-2 lg:py-2.5 text-xs lg:text-sm xl:text-base text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-all duration-300 font-medium relative group hover:scale-105 hover:shadow-md inline-flex items-center gap-1.5">
+              <span class="relative z-10">Outras opções</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 200ms ease;">
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </button>
+            <div hidden style="position:absolute;left:0;top:100%;margin-top:8px;width:14rem;border:1px solid rgba(148,163,184,.35);border-radius:14px;background:#fff;box-shadow:0 20px 40px rgba(2,8,23,.12);overflow:hidden;z-index:60;">
+              <button type="button" data-nav-option="Hirayama Corretora" class="block w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-950">Hirayama Corretora</button>
+              <button type="button" data-nav-option="Consultoria RH" class="block w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-950">Consultoria RH</button>
+              <button type="button" data-nav-option="Consórcio" class="block w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-950">Consórcio</button>
+              <button type="button" data-nav-option="Seguro saúde" class="block w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-950">Seguro saúde</button>
+            </div>
+          `;
+
+          const trigger = container.querySelector('button');
+          const menu = container.querySelector('[hidden]');
+          const chevron = container.querySelector('svg');
+
+          const toggleMenu = () => {
+            const isOpen = menu.hasAttribute('hidden') === false;
+            if (isOpen) {
+              menu.setAttribute('hidden', '');
+              trigger.setAttribute('aria-expanded', 'false');
+              chevron.style.transform = 'rotate(0deg)';
+            } else {
+              menu.removeAttribute('hidden');
+              trigger.setAttribute('aria-expanded', 'true');
+              chevron.style.transform = 'rotate(180deg)';
+            }
+          };
+
+          trigger.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            toggleMenu();
+          });
+
+          menu.querySelectorAll('[data-nav-option]').forEach((option) => {
+            option.addEventListener('click', () => {
+              menu.setAttribute('hidden', '');
+              trigger.setAttribute('aria-expanded', 'false');
+              chevron.style.transform = 'rotate(0deg)';
+            });
+          });
+
+          document.addEventListener('click', (event) => {
+            if (!container.contains(event.target)) {
+              menu.setAttribute('hidden', '');
+              trigger.setAttribute('aria-expanded', 'false');
+              chevron.style.transform = 'rotate(0deg)';
+            }
+          });
+
+          contentButton.insertAdjacentElement('afterend', container);
+          return true;
+        };
+
+        const timer = window.setInterval(() => {
+          if (buildDropdown()) {
+            window.clearInterval(timer);
+          }
+        }, 300);
+
+        window.setTimeout(() => window.clearInterval(timer), 6000);
+      });
+    </script>
   </body>
 </html>
