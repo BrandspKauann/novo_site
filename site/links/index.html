@@ -84,19 +84,18 @@
       .avatar {
         width: 104px;
         height: 104px;
-        display: grid;
-        place-items: center;
         border: 2px solid rgba(249, 185, 18, 0.84);
         border-radius: 999px;
-        background:
-          linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02)),
-          linear-gradient(135deg, #052e5c, #0f66ba);
+        background: rgba(255, 255, 255, 0.12);
         box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.04), var(--shadow);
+        overflow: hidden;
       }
 
-      .avatar svg {
-        width: 54px;
-        height: 54px;
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
       }
 
       .profile h1 {
@@ -271,16 +270,11 @@
     <main class="page">
       <section class="phone-shell" aria-label="Links da Hirayama Seguros">
         <header class="profile">
-          <div class="avatar" aria-hidden="true">
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 28V21.5C20 14.596 25.596 9 32.5 9C39.404 9 45 14.596 45 21.5V28" stroke="#F9B912" stroke-width="5.5" stroke-linecap="round"/>
-              <rect x="14" y="26" width="37" height="29" rx="7" fill="#ffffff"/>
-              <path d="M32.5 37V45" stroke="#052E5C" stroke-width="4.5" stroke-linecap="round"/>
-              <circle cx="32.5" cy="36" r="4" fill="#052E5C"/>
-            </svg>
+          <div class="avatar">
+            <img src="/assets/ewerton-hirayama.jpg" alt="Ewerton Hirayama" />
           </div>
           <h1>Hirayama Seguros</h1>
-          <p>Crédito, benefícios, saúde e proteção para empresas.</p>
+          <p>Benefícios corporativos, saúde e decisões que não admitem achismo</p>
         </header>
 
         <nav class="links" aria-label="Links principais">
@@ -326,24 +320,24 @@
         </nav>
 
         <nav class="social-row" aria-label="Redes sociais">
-          <a id="link-linkedin" class="tracked-link social-link linkedin" href="#" data-link-name="LinkedIn" data-analytics="clique_linkedin" data-link-type="social" aria-label="LinkedIn">
+          <a id="link-linkedin" class="tracked-link social-link linkedin" href="https://www.linkedin.com/in/ewertonhirayama/" target="_blank" rel="noopener noreferrer" data-link-name="LinkedIn" data-analytics="clique_linkedin" data-link-type="social" aria-label="LinkedIn">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path fill="#ffffff" d="M20.45 20.45h-3.56v-5.58c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.95v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.32 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.1 20.45H3.53V9H7.1v11.45z"/>
             </svg>
           </a>
-          <a id="link-instagram" class="tracked-link social-link instagram" href="#" data-link-name="Instagram" data-analytics="clique_instagram" data-link-type="social" aria-label="Instagram">
+          <a id="link-instagram" class="tracked-link social-link instagram" href="https://www.instagram.com/hirayamaseguros" target="_blank" rel="noopener noreferrer" data-link-name="Instagram" data-analytics="clique_instagram" data-link-type="social" aria-label="Instagram">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <rect x="5" y="5" width="14" height="14" rx="4" fill="none" stroke="#ffffff" stroke-width="2"/>
               <circle cx="12" cy="12" r="3.2" fill="none" stroke="#ffffff" stroke-width="2"/>
               <circle cx="16.75" cy="7.25" r="1.1" fill="#ffffff"/>
             </svg>
           </a>
-          <a id="link-youtube" class="tracked-link social-link youtube" href="#" data-link-name="YouTube" data-analytics="clique_youtube" data-link-type="social" aria-label="YouTube">
+          <a id="link-youtube" class="tracked-link social-link youtube" href="https://www.youtube.com/@HirayamaCorretora" target="_blank" rel="noopener noreferrer" data-link-name="YouTube" data-analytics="clique_youtube" data-link-type="social" aria-label="YouTube">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path fill="#ffffff" d="M21.58 7.19a2.73 2.73 0 0 0-1.92-1.93C17.96 4.8 12 4.8 12 4.8s-5.96 0-7.66.46a2.73 2.73 0 0 0-1.92 1.93A28.5 28.5 0 0 0 1.96 12c0 1.67.16 3.13.46 4.81.25.94.99 1.68 1.92 1.93 1.7.46 7.66.46 7.66.46s5.96 0 7.66-.46a2.73 2.73 0 0 0 1.92-1.93c.3-1.68.46-3.14.46-4.81 0-1.67-.16-3.13-.46-4.81zM10 15.2V8.8l5.2 3.2L10 15.2z"/>
             </svg>
           </a>
-          <a id="link-tiktok" class="tracked-link social-link tiktok" href="#" data-link-name="TikTok" data-analytics="clique_tiktok" data-link-type="social" aria-label="TikTok">
+          <a id="link-tiktok" class="tracked-link social-link tiktok" href="https://www.tiktok.com/@ewertonhirayama" target="_blank" rel="noopener noreferrer" data-link-name="TikTok" data-analytics="clique_tiktok" data-link-type="social" aria-label="TikTok">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path fill="#25f4ee" d="M16.6 6.3c1 .8 2.1 1.2 3.4 1.3v3.2a7.4 7.4 0 0 1-3.4-.8v4.7a5.6 5.6 0 1 1-5.6-5.6h.7v3.3a2.3 2.3 0 1 0 1.7 2.2V3.7h3.2v2.6z"/>
               <path fill="#fe2c55" d="M17.5 5.4c.8.9 1.9 1.5 3.2 1.7v3.1a7.4 7.4 0 0 1-3.2-.6v4.8a5.6 5.6 0 1 1-6.2-5.6v3.3a2.3 2.3 0 1 0 2.6 2.3V3.4h3.2c.1.7.2 1.4.4 2z"/>
