@@ -4,15 +4,17 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import RouteScrollToTop from "@/components/RouteScrollToTop";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { SpecialistContactProvider } from "@/contexts/SpecialistContactContext";
+import { ExitIntentModal } from "@/components/ExitIntentModal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { HelmetProvider } from "react-helmet-async";
+import { Analytics } from "@vercel/analytics/react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Content from "./pages/Content";
 import ContentDetail from "./pages/ContentDetail";
-import ProductDetail from "./pages/ProductDetail";
-import { ExitIntentContactListener } from "@/components/ExitIntentContactListener";
+import SalaryFits from "./pages/SalaryFits";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,28 +26,31 @@ const queryClient = new QueryClient({
 });
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider storageKey="hirayama-seguros-theme">
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <SpecialistContactProvider>
-            <RouteScrollToTop />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/solucoes/:slug" element={<ProductDetail />} />
-              <Route path="/conteudo" element={<Content />} />
-              <Route path="/conteudo/:slug" element={<ContentDetail />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <WhatsAppButton />
-            <ExitIntentContactListener />
-          </SpecialistContactProvider>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider defaultTheme="light" storageKey="hirayama-seguros-theme">
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <RouteScrollToTop />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/conteudo" element={<Content />} />
+                <Route path="/conteudo/:slug" element={<ContentDetail />} />
+                <Route path="/salaryfits" element={<SalaryFits />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <WhatsAppButton />
+              <ExitIntentModal />
+              <Analytics />
+            </BrowserRouter>
+          </TooltipProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  </ErrorBoundary>
 );
 
 export default App;
