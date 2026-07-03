@@ -118,40 +118,31 @@
       }
 
       .brand {
-        display: inline-flex;
+        display: inline-grid;
         align-items: center;
-        gap: 12px;
-        min-width: 0;
-      }
-
-      .brand-mark {
-        width: 42px;
-        height: 42px;
-        border-radius: 8px;
-        background: var(--navy);
-        display: grid;
-        place-items: center;
-        color: var(--gold);
-        flex: 0 0 auto;
-      }
-
-      .brand-text {
-        display: grid;
         gap: 2px;
-        line-height: 1.1;
+        min-width: 0;
+        line-height: 1;
       }
 
-      .brand-text strong {
+      .brand-logo-main {
         color: var(--navy);
-        font-size: 0.98rem;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        font-size: 1.35rem;
+        font-weight: 850;
+        letter-spacing: 0;
+        line-height: 1.02;
       }
 
-      .brand-text span {
-        color: var(--muted);
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
+      .brand-logo-sub {
+        justify-self: end;
+        color: #667085;
+        font-size: 0.68rem;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 1;
       }
 
       .nav-actions {
@@ -628,16 +619,14 @@
           min-height: 68px;
         }
 
-        .brand-mark {
-          width: 38px;
-          height: 38px;
+        .brand-logo-main {
+          font-size: 1.08rem;
         }
 
-        .brand-text strong {
-          font-size: 0.9rem;
+        .brand-logo-sub {
+          font-size: 0.56rem;
         }
 
-        .brand-text span,
         .nav-link {
           display: none;
         }
@@ -725,17 +714,9 @@
   <body>
     <header class="topbar">
       <div class="shell nav">
-        <a class="brand" href="/" aria-label="Hirayama Seguros">
-          <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none">
-              <path d="M12 3l7 3v5c0 4.8-3.1 8.9-7 10-3.9-1.1-7-5.2-7-10V6l7-3z" stroke="currentColor" stroke-width="1.8" />
-              <path d="M9 12l2 2 4-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </span>
-          <span class="brand-text">
-            <strong>Hirayama Seguros</strong>
-            <span>Crédito B2B</span>
-          </span>
+        <a class="brand" href="/" aria-label="Seguros de Crédito by Hirayama">
+          <span class="brand-logo-main">Seguros de Crédito</span>
+          <span class="brand-logo-sub">by Hirayama</span>
         </a>
         <nav class="nav-actions" aria-label="Navegação principal">
           <a class="nav-link" href="/conteudo/">Conteudos</a>
