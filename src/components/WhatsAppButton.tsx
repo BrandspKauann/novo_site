@@ -11,7 +11,7 @@ import {
 const WhatsAppButton = () => {
   const whatsappUrl =
     "https://api.whatsapp.com/send?phone=5511972896857&text=Ol%C3%A1%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20seguro%20de%20cr%C3%A9ditos";
-  const instagramUrl = "https://www.instagram.com/hirayamaseguros";
+  const instagramUrl = "https://www.instagram.com/ewertonhirayamaoficial";
   const linkedinUrl = "https://www.linkedin.com/in/ewertonhirayama/";
   const youtubeUrl = "https://www.youtube.com/@HirayamaCorretora";
 
