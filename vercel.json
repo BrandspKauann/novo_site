@@ -1,6 +1,13 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/conteudo/seguro-vendas-prazo-proteger-caixa",
+      "destination": "/conteudo/vender-prazo-seguranca-limite-credito",
+      "permanent": true
+    }
+  ],
   "routes": [
     {
       "src": "/ig/?",

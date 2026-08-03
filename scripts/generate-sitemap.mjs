@@ -7,9 +7,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, "..");
 const envPath = path.join(projectRoot, ".env");
-const publicDir = path.join(projectRoot, "public");
-const sitemapPath = path.join(publicDir, "sitemap.xml");
-const robotsPath = path.join(publicDir, "robots.txt");
+const siteDir = path.join(projectRoot, "site");
+const sitemapPath = path.join(siteDir, "sitemap.xml");
+const robotsPath = path.join(siteDir, "robots.txt");
+const localArticlesDir = path.join(projectRoot, "content", "article-source");
 
 function parseEnv(text) {
   const env = {};
@@ -45,6 +46,22 @@ async function loadEnv() {
   return parseEnv(text);
 }
 
+async function loadLocalArticles() {
+  try {
+    const entries = await fs.readdir(localArticlesDir, { withFileTypes: true });
+    const files = entries.filter((entry) => entry.isFile() && entry.name.endsWith(".json"));
+    const articles = await Promise.all(
+      files.map(async (file) => {
+        const source = await fs.readFile(path.join(localArticlesDir, file.name), "utf8");
+        return JSON.parse(source);
+      }),
+    );
+    return articles.filter((article) => article?.published && (article?.slug || article?.id));
+  } catch {
+    return [];
+  }
+}
+
 function toIsoDate(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return new Date().toISOString();
@@ -57,23 +74,31 @@ async function main() {
   const supabaseKey = env.VITE_SUPABASE_PUBLISHABLE_KEY || env.VITE_SUPABASE_ANON_KEY;
   const siteUrl = (env.VITE_SITE_URL || "https://www.segurosdecredito.com.br").replace(/\/$/, "");
   const siteId = env.VITE_SITE_ID || "seguros-de-credito";
+  let articles = [];
 
-  if (!supabaseUrl || !supabaseKey) {
-    throw new Error("VITE_SUPABASE_URL e chave pública do Supabase são obrigatórios para gerar o sitemap.");
+  if (supabaseUrl && supabaseKey) {
+    try {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
+        auth: { persistSession: false, autoRefreshToken: false },
+      });
+
+      const { data, error } = await supabase
+        .from("articles")
+        .select("id, slug, updated_at, created_at, published, site_id")
+        .eq("published", true)
+        .eq("site_id", siteId)
+        .order("updated_at", { ascending: false });
+
+      if (error) throw error;
+      articles = data ?? [];
+    } catch (error) {
+      console.warn("Falha ao carregar artigos do Supabase. Usando fonte local.", error instanceof Error ? error.message : error);
+    }
   }
 
-  const supabase = createClient(supabaseUrl, supabaseKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-
-  const { data: articles, error } = await supabase
-    .from("articles")
-    .select("id, slug, updated_at, created_at, published, site_id")
-    .eq("published", true)
-    .eq("site_id", siteId)
-    .order("updated_at", { ascending: false });
-
-  if (error) throw error;
+  if (articles.length === 0) {
+    articles = await loadLocalArticles();
+  }
 
   const staticPages = [
     { loc: `${siteUrl}/`, lastmod: new Date().toISOString(), changefreq: "weekly", priority: "1.0" },
@@ -118,7 +143,7 @@ async function main() {
     "",
   ].join("\n");
 
-  await fs.mkdir(publicDir, { recursive: true });
+  await fs.mkdir(siteDir, { recursive: true });
   await fs.writeFile(sitemapPath, sitemapXml, "utf8");
   await fs.writeFile(robotsPath, robotsTxt, "utf8");
 
