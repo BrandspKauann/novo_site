@@ -42,8 +42,15 @@ function xmlEscape(value) {
 }
 
 async function loadEnv() {
-  const text = await fs.readFile(envPath, "utf8");
-  return parseEnv(text);
+  try {
+    const text = await fs.readFile(envPath, "utf8");
+    return { ...parseEnv(text), ...process.env };
+  } catch (error) {
+    if (error && typeof error === "object" && "code" in error && error.code === "ENOENT") {
+      return { ...process.env };
+    }
+    throw error;
+  }
 }
 
 async function loadLocalArticles() {
@@ -68,7 +75,7 @@ function toIsoDate(value) {
   return date.toISOString();
 }
 
-async function main() {
+export async function generateSitemap() {
   const env = await loadEnv();
   const supabaseUrl = env.VITE_SUPABASE_URL;
   const supabaseKey = env.VITE_SUPABASE_PUBLISHABLE_KEY || env.VITE_SUPABASE_ANON_KEY;
@@ -150,7 +157,9 @@ async function main() {
   console.log(`Sitemap gerado com ${urls.length} URLs em ${sitemapPath}`);
 }
 
-main().catch((error) => {
-  console.error("Falha ao gerar sitemap:", error);
-  process.exitCode = 1;
-});
+if (import.meta.url === new URL(process.argv[1], "file:").href) {
+  generateSitemap().catch((error) => {
+    console.error("Falha ao gerar sitemap:", error);
+    process.exitCode = 1;
+  });
+}

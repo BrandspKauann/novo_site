@@ -412,7 +412,7 @@ async function loadArticles() {
     .sort((a, b) => new Date(b.updated_at || b.created_at).getTime() - new Date(a.updated_at || a.created_at).getTime());
 }
 
-async function main() {
+export async function generateStaticContent() {
   const articles = await loadArticles();
   await fs.rm(outputDir, { recursive: true, force: true });
   await fs.mkdir(outputDir, { recursive: true });
@@ -429,7 +429,9 @@ async function main() {
   console.log(`Conteúdo estático gerado para ${articles.length} artigos em ${outputDir}`);
 }
 
-main().catch((error) => {
-  console.error("Falha ao gerar conteúdo estático:", error);
-  process.exitCode = 1;
-});
+if (import.meta.url === new URL(process.argv[1], "file:").href) {
+  generateStaticContent().catch((error) => {
+    console.error("Falha ao gerar conteúdo estático:", error);
+    process.exitCode = 1;
+  });
+}

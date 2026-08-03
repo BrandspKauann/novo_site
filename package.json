@@ -9,6 +9,7 @@
     "build": "node scripts/build-static.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.112.0",
     "@vercel/analytics": "^2.0.1"
   }
 }
