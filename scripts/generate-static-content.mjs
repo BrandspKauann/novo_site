@@ -64,7 +64,8 @@ function inlineMarkdownToHtml(text = "") {
   return escapeHtml(text)
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-    .replace(/`([^`]+)`/g, "<code>$1</code>");
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\[([^\]]+)\]\(((?:https?:\/\/|\/)[^\s)]+)\)/g, '<a href="$2">$1</a>');
 }
 
 function renderItemsList(items = [], formatter) {
@@ -260,6 +261,7 @@ function buildArticlePage(article, relatedArticles) {
     author: { "@type": "Organization", name: "Hirayama Seguros" },
     publisher: { "@type": "Organization", name: "Hirayama Seguros" },
     articleSection: article.category,
+    ...(article.image_url ? { image: `${siteUrl}${article.image_url}` } : {}),
   };
 
   return `<!doctype html>
@@ -284,6 +286,7 @@ function buildArticlePage(article, relatedArticles) {
     <meta property="og:description" content="${escapeHtml(description)}" />
     <meta property="og:url" content="${canonical}" />
     <meta property="og:site_name" content="Hirayama Seguros" />
+    ${article.image_url ? `<meta property="og:image" content="${siteUrl}${escapeHtml(article.image_url)}" />` : ''}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
@@ -321,6 +324,7 @@ function buildArticlePage(article, relatedArticles) {
           </div>
           <h1>${escapeHtml(article.title)}</h1>
           <p class="article-lead">${escapeHtml(stripHtmlTags(article.description || ""))}</p>
+          ${article.image_url ? `<figure style="margin:0 0 32px"><img src="${escapeHtml(article.image_url)}" alt="${escapeHtml(article.image_alt || article.title)}" width="1440" height="810" style="display:block;width:100%;height:auto;border-radius:16px" fetchpriority="high"><figcaption style="font-size:.8rem;color:#5c6d88;margin-top:8px">Imagem ilustrativa gerada por IA. Por Hirayama Seguros.</figcaption></figure>` : ''}
           <div class="article-body">
             ${bodyHtml}
           </div>
@@ -395,6 +399,7 @@ function buildContentIndex(articles) {
           ${articles
             .map(
               (article) => `<a class="index-card" href="/conteudo/${article.slug}">
+                ${article.image_url ? `<img src="${escapeHtml(article.image_url)}" alt="${escapeHtml(article.image_alt || article.title)}" width="1440" height="810" loading="lazy" style="width:100%;height:auto;border-radius:12px;margin-bottom:16px">` : ''}
                 <span>${escapeHtml(article.category || "Conteúdo")}</span>
                 <strong>${escapeHtml(article.title)}</strong>
                 <p>${escapeHtml(stripHtmlTags(article.description || "").slice(0, 180))}</p>

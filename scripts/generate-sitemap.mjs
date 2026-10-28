@@ -106,6 +106,9 @@ export async function generateSitemap() {
   if (articles.length === 0) {
     articles = await loadLocalArticles();
   }
+  // Git-managed editorial articles must remain discoverable even when the remote
+  // CMS is available. Local, explicitly published records take precedence.
+  articles = [...new Map([...articles, ...await loadLocalArticles()].map(article => [article.slug || article.id, article])).values()];
 
   const staticPages = [
     { loc: `${siteUrl}/`, lastmod: new Date().toISOString(), changefreq: "weekly", priority: "1.0" },
