@@ -129,6 +129,14 @@ export async function generateSitemap() {
   });
 
   const urls = [...staticPages, ...articlePages];
+  // Rebuilding an article does not change the homepage or solution pages.
+  const previous = await fs.readFile(sitemapPath, 'utf8').catch(() => '');
+  const previousDates = new Map([...previous.matchAll(/<url>\s*<loc>(.*?)<\/loc>\s*<lastmod>(.*?)<\/lastmod>/g)].map(match => [match[1], match[2]]));
+  for (const page of staticPages) {
+    page.lastmod = page.loc === `${siteUrl}/conteudo`
+      ? articlePages.map(article => article.lastmod).sort().at(-1)
+      : previousDates.get(page.loc);
+  }
 
   const sitemapXml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
@@ -136,7 +144,7 @@ export async function generateSitemap() {
     ...urls.map(
       (url) => `  <url>
     <loc>${xmlEscape(url.loc)}</loc>
-    <lastmod>${xmlEscape(url.lastmod)}</lastmod>
+    ${url.lastmod ? `<lastmod>${xmlEscape(url.lastmod)}</lastmod>` : ''}
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>
   </url>`,
