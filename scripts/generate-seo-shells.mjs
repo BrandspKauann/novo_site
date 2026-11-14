@@ -3,10 +3,10 @@ import fs from 'node:fs/promises';
 const root = new URL('../site/', import.meta.url);
 const origin = 'https://www.segurosdecredito.com.br';
 export const seoPages = [
-  { path: '', title: 'Seguro de Crédito Empresarial: proteja suas vendas a prazo',
-    description: 'Sua empresa vende a prazo? Entenda o seguro de crédito empresarial, a análise de compradores e as condições de cobertura. Converse com a Hirayama.',
-    heading: 'Seguro de Crédito Empresarial',
-    intro: 'Proteja suas vendas a prazo com seguro de crédito empresarial. Análise de risco, limite de crédito e indenização em caso de inadimplência — com a Hirayama ao seu lado.',
+  { path: '', title: 'Seguro de crédito: a melhor proteção para seu caixa?',
+    description: 'Qual a melhor proteção para suas vendas B2B? Avalie seguro de crédito com uma análise inicial grátis. Comece gratuitamente e conheça as condições.',
+    heading: 'A melhor proteção começa por entender suas vendas a prazo',
+    intro: 'Sua empresa vende a prazo? Comece com uma análise inicial gratuita para discutir compradores, limites e condições do seguro de crédito empresarial. Seguro e demais serviços dependem de proposta e aceitação.',
     detail: 'Compare as soluções conforme o momento da operação: consulta de dados empresariais antes da venda, seguro de crédito durante a exposição e cobrança de dívida após o atraso.' },
   { path: 'solucoes/seguro-de-credito/', title: 'Seguro de Crédito Empresarial | Seguro para Crédito e Vendas a Prazo B2B | Hirayama Seguros',
     description: 'Seguro para crédito empresarial que protege vendas a prazo, define limites de crédito e cobre inadimplência. Seguro para vendas B2B com cobertura de até 90% e monitoramento contínuo.',
