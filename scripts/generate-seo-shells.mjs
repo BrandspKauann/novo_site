@@ -3,10 +3,10 @@ import fs from 'node:fs/promises';
 const root = new URL('../site/', import.meta.url);
 const origin = 'https://www.segurosdecredito.com.br';
 export const seoPages = [
-  { path: '', title: 'Seguro de crédito: a melhor proteção para seu caixa?',
-    description: 'Qual a melhor proteção para suas vendas B2B? Avalie seguro de crédito com uma análise inicial grátis. Comece gratuitamente e conheça as condições.',
-    heading: 'A melhor proteção começa por entender suas vendas a prazo',
-    intro: 'Sua empresa vende a prazo? Comece com uma análise inicial gratuita para discutir compradores, limites e condições do seguro de crédito empresarial. Seguro e demais serviços dependem de proposta e aceitação.',
+  { path: '', title: 'Seguro de Crédito Empresarial | Proteção e relacionamento B2B',
+    description: 'Conheça seu comprador, avalie a exposição e proteja os recebíveis. Seguro de crédito e cobrança B2B com análise de perfil e acompanhamento próximo da Hirayama.',
+    heading: 'Relações comerciais sólidas começam por decisões bem informadas',
+    intro: 'Experiência Hirayama: relacionamento com mais de 124 CNPJs. Escuta, análise e acompanhamento para decisões empresariais. Conheça o comprador antes de assumir a exposição e avalie a proteção dos recebíveis. Seguro e serviços sujeitos a proposta.',
     detail: 'Compare as soluções conforme o momento da operação: consulta de dados empresariais antes da venda, seguro de crédito durante a exposição e cobrança de dívida após o atraso.' },
   { path: 'solucoes/seguro-de-credito/', title: 'Seguro de Crédito Empresarial | Seguro para Crédito e Vendas a Prazo B2B | Hirayama Seguros',
     description: 'Seguro para crédito empresarial que protege vendas a prazo, define limites de crédito e cobre inadimplência. Seguro para vendas B2B com cobertura de até 90% e monitoramento contínuo.',
@@ -27,6 +27,7 @@ export const seoPages = [
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
 export async function generateSeoShells() {
   for (const page of seoPages) {
+    if(page.path === 'solucoes/cobranca-de-divida/') continue;
     const file = new URL(page.path + 'index.html', root);
     let html = await fs.readFile(file, 'utf8');
     const canonical = origin + (page.path ? '/' + page.path.replace(/\/$/, '') : '/');
