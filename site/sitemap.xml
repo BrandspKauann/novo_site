@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.segurosdecredito.com.br/</loc><lastmod>2026-11-16</lastmod>
+    <loc>https://www.segurosdecredito.com.br/</loc>
+    <lastmod>2026-11-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.segurosdecredito.com.br/conteudo</loc>
-    <lastmod>2026-11-14T14:59:02.347Z</lastmod>
+    <lastmod>2026-11-18T12:00:00.000Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -24,7 +25,8 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.segurosdecredito.com.br/solucoes/cobranca-de-divida</loc><lastmod>2026-11-16</lastmod>
+    <loc>https://www.segurosdecredito.com.br/solucoes/cobranca-de-divida</loc>
+    <lastmod>2026-11-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -43,6 +45,12 @@
   <url>
     <loc>https://www.segurosdecredito.com.br/conteudo/cobranca-internacional-devedor-exterior</loc>
     <lastmod>2026-04-18T01:57:22.532Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.segurosdecredito.com.br/conteudo/desconto-vista-venda-prazo-margem-risco-b2b</loc>
+    <lastmod>2026-11-18T12:00:00.000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
