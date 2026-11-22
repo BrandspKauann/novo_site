@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 const root = new URL('../site/', import.meta.url);
 const origin = 'https://www.segurosdecredito.com.br';
 export const seoPages = [
-  { path: '', title: 'Seguro de Crédito Empresarial | Proteção e relacionamento B2B',
+  { path: '', title: 'Faça cotação agora | Seguro de crédito empresarial',
     description: 'Conheça seu comprador, avalie a exposição e proteja os recebíveis. Seguro de crédito e cobrança B2B com análise de perfil e acompanhamento próximo da Hirayama.',
     heading: 'Relações comerciais sólidas começam por decisões bem informadas',
     intro: 'Experiência Hirayama: relacionamento com mais de 124 CNPJs. Escuta, análise e acompanhamento para decisões empresariais. Conheça o comprador antes de assumir a exposição e avalie a proteção dos recebíveis. Seguro e serviços sujeitos a proposta.',

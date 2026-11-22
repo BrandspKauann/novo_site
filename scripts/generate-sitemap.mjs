@@ -133,7 +133,7 @@ export async function generateSitemap() {
   const previous = await fs.readFile(sitemapPath, 'utf8').catch(() => '');
   const previousDates = new Map([...previous.matchAll(/<url>\s*<loc>(.*?)<\/loc>\s*<lastmod>(.*?)<\/lastmod>/g)].map(match => [match[1], match[2]]));
   for (const page of staticPages) {
-    page.lastmod = page.loc === `${siteUrl}/conteudo`
+    page.lastmod = page.loc === `${siteUrl}/` ? "2026-11-22" : page.loc === `${siteUrl}/conteudo`
       ? articlePages.map(article => article.lastmod).sort().at(-1)
       : previousDates.get(page.loc);
   }
